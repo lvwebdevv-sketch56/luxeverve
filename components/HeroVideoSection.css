@@ -1,6 +1,7 @@
 .hero-video-wrapper {
   position: relative;
   width: 100%;
+  background-color: #000; /* Prevent white flash */
 }
 
 .hero-video-sticky {

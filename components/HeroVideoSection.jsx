@@ -66,7 +66,7 @@ const HeroVideoSection = () => {
           muted
           loop
           playsInline
-          poster="/images/luxury_doors_full_page_1776845254783.png"
+          style={{ background: '#000' }} /* Simple black background while loading */
         >
           <source src="/videos/banner.mp4" type="video/mp4" />
         </video>
