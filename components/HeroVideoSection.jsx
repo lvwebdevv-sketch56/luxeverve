@@ -6,6 +6,8 @@ const HeroVideoSection = () => {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,6 +30,11 @@ const HeroVideoSection = () => {
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
+    }
+
+    // Immediate check for cached video
+    if (videoRef.current && videoRef.current.readyState >= 3) {
+      setVideoLoaded(true);
     }
 
     return () => {
@@ -60,13 +67,21 @@ const HeroVideoSection = () => {
     <div className="hero-video-wrapper">
       {/* Sticky video background */}
       <div className="hero-video-sticky">
+        {/* 'First Frame' Static Image Loader */}
+        <div 
+          className="hero-video-poster-layer"
+          style={{ backgroundImage: 'url("/images/banner1img.jpeg")' }}
+        ></div>
+
         <video
-          className="hero-video"
+          ref={videoRef}
+          className={`hero-video ${videoLoaded ? 'loaded' : ''}`}
           autoPlay
           muted
           loop
           playsInline
-          style={{ background: '#000' }} /* Simple black background while loading */
+          onLoadedData={() => setVideoLoaded(true)}
+          onCanPlay={() => setVideoLoaded(true)}
         >
           <source src="/videos/banner.mp4" type="video/mp4" />
         </video>
