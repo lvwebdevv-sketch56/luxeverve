@@ -1,0 +1,210 @@
+.hero-video-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.hero-video-sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 120vh;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content-scroll {
+  position: relative;
+  z-index: 1;
+  margin-top: -120vh;
+  /* Start exactly over the sticky video */
+}
+
+.hero-text-section {
+  height: 120vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* Text overlays the video but scrolls naturally up as page scrolls */
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: 8px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+/* The cards section slides up to cover the video */
+.hero-cards-section {
+  background: transparent;
+  padding: 100px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.rolex-card {
+  background: transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.rolex-card.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.rolex-card-img-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
+
+.rolex-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rolex-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 40px 20px 30px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+  text-align: center;
+}
+
+.rolex-card-subtitle {
+  font-family: var(--font-sans);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.rolex-card-title {
+  font-family: var(--font-serif);
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.cards-slider-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.slider-arrow {
+  display: none;
+}
+
+@media screen and (max-width: 900px) {
+  .hero-cards-section .container {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .cards-slider-wrapper {
+    width: 100vw !important;
+  }
+
+  .hero-cards-section .cards-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 16px !important;
+    padding: 0 15px 40px 15px !important;
+    /* Peek padding */
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    /* Firefox */
+  }
+
+  .hero-cards-section .cards-grid::-webkit-scrollbar {
+    display: none !important;
+    /* Chrome/Safari/Webkit */
+  }
+
+  .hero-cards-section .rolex-card {
+    min-width: 75vw !important;
+    width: 75vw !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+    transform: translateY(50px);
+  }
+
+  .hero-cards-section .rolex-card.visible {
+    transform: translateY(0);
+  }
+
+  .hero-cards-section .rolex-card-img-wrapper {
+    aspect-ratio: 9/14 !important;
+  }
+
+  .hero-cards-section .rolex-card-title {
+    font-size: 1.5rem !important;
+  }
+
+  .hero-cards-section .slider-arrow {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: absolute !important;
+    right: 15px !important;
+    top: calc(50% - 20px) !important;
+    transform: translateY(-50%) !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    z-index: 10 !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  }
+}

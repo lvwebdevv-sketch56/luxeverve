@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Serif+Display:ital@0;1&display=swap');
+
+:root {
+  --primary-color: #773344;
+  --bg-dark: rgba(245, 233, 226, 0.85); /* transparent #F5E9E2 */
+  --bg-dark-solid: #F5E9E2;
+  --accent-color: #773344;
+  --text-main: #0B0014;
+  --text-muted: rgba(11, 0, 20, 0.7);
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-nav: 'Cinzel', serif;
+  --transition-fast: 0.3s ease;
+  --transition-slow: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark-solid);
+  color: var(--text-main);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6, .serif-font {
+  font-family: var(--font-serif);
+  color: #773344;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--transition-fast);
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  cursor: pointer;
+  background-color: transparent;
+  color: var(--text-main);
+  border: 2px solid var(--text-main);
+  border-radius: 9999px;
+  padding: 4.2px 32px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all var(--transition-fast);
+}
+
+button:hover {
+  background-color: #773344;
+  color: #ffffff;
+  border-color: #773344;
+}
+
+/* Base button resets for icon buttons */
+.hamburger-btn, .close-menu-btn, .slider-btn, .indicator {
+  border: none;
+  padding: 0;
+  border-radius: initial;
+}
+
+.hamburger-btn:hover, .close-menu-btn:hover, .slider-btn:hover, .indicator:hover {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+/* Reusable Utilities */
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+.slide-up {
+  animation: slideUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+
+/* Reusable 3D Hover Effect */
+.hover-3d-wrapper {
+  perspective: 1000px;
+}
+
+.hover-3d {
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.hover-3d:hover {
+  transform: rotateY(8deg) rotateX(4deg) scale(1.03);
+  box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.hover-3d.reverse:hover {
+  transform: rotateY(-8deg) rotateX(4deg) scale(1.03);
+  box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Scroll Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.reveal.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal.reveal-delay-3 { transition-delay: 0.35s; }
+.reveal.reveal-delay-4 { transition-delay: 0.5s; }
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Section divider ── */
+.section-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+  margin-bottom: 24px;
+}

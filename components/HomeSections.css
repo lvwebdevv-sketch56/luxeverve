@@ -1,0 +1,234 @@
+.home-sections-wrapper {
+  width: 100%;
+  background-color: var(--bg-dark-solid);
+}
+
+.home-section {
+  padding: 100px 0;
+  width: 100%;
+}
+
+.home-section.bg-alt {
+  background-color: rgba(0, 0, 0, 0.02);
+  /* Slight contrast if desired, otherwise transparent */
+}
+
+.home-section-container {
+  display: flex;
+  align-items: stretch;
+  /* Stretch makes columns equal height */
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.home-section-content {
+  flex: 1;
+  /* equal width */
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Center text vertically */
+}
+
+.home-section-media {
+  flex: 1;
+  /* equal width */
+  width: 50%;
+  position: relative;
+  /* Anchor for absolute media */
+}
+
+/* Heading UI */
+.section-heading {
+  font-family: var(--font-serif);
+  color: #773344;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+
+/* Text UI */
+.section-text {
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.section-text p {
+  margin-bottom: 20px;
+}
+
+.section-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Link UI */
+.section-link {
+  display: inline-block;
+  margin-top: 30px;
+  font-family: var(--font-sans);
+  color: #773344;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid #773344;
+  padding-bottom: 4px;
+  transition: all var(--transition-fast);
+}
+
+.section-link:hover {
+  opacity: 0.7;
+}
+
+/* Static Media */
+.static-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Takes exact height of the stretched container */
+  object-fit: cover;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Specifically for video to ensure controls show properly */
+video.static-media {
+  background-color: #000;
+}
+
+/* Mobile View */
+@media (max-width: 900px) {
+  .home-section {
+    padding: 60px 0;
+  }
+
+  .home-section-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .home-section-content {
+    width: 100%;
+  }
+
+  .home-section-media {
+    width: 100%;
+    order: -1;
+  }
+
+  .static-media {
+    position: relative;
+    aspect-ratio: 4/3;
+    /* Set an aspect ratio so it doesn't collapse on mobile */
+    height: auto;
+  }
+}
+
+/* ── Luxe Details Sections ── */
+.luxe-details-header {
+  padding: 100px 0 60px 0;
+  /* Proper padding without breaking theme */
+  background-color: transparent;
+}
+
+.luxe-header-logo {
+  height: 60px;
+  margin-bottom: 30px;
+  /* Removed white invert filter to maintain original logo color */
+}
+
+.luxe-header-title {
+  font-family: var(--font-serif);
+  color: #773344;
+  /* Standard project UI color */
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.luxe-details-grid-section {
+  padding: 80px 0 100px 0;
+}
+
+.luxe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.luxe-grid-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bordered Contact Box */
+.luxe-contact-box {
+  border: 4px solid #773344;
+  /* Bold border */
+  padding: 40px 30px;
+  border-radius: 4px;
+}
+
+.luxe-col-heading {
+  font-family: var(--font-serif);
+  color: #773344;
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.luxe-col-text {
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.luxe-divider {
+  width: 40px;
+  height: 2px;
+  background-color: #773344;
+  margin-bottom: 20px;
+}
+
+.luxe-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.luxe-contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.luxe-contact-list .icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+@media (max-width: 900px) {
+  .luxe-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
