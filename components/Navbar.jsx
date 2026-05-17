@@ -78,7 +78,10 @@ const Navbar = () => {
                 className={`nav-link no-click-sound ${pathname === link.href ? 'active' : ''}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  window.dispatchEvent(new CustomEvent('custom-nav', { detail: link.href }));
+                  if (typeof window !== 'undefined' && window.playPageFlipSound) {
+                    window.playPageFlipSound();
+                  }
+                  window.dispatchEvent(new CustomEvent('custom-nav', { detail: { route: link.href, soundPlayed: true } }));
                 }}
               >
                 {link.label}
@@ -121,7 +124,10 @@ const Navbar = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setMenuOpen(false);
-                  window.dispatchEvent(new CustomEvent('custom-nav', { detail: link.href }));
+                  if (typeof window !== 'undefined' && window.playPageFlipSound) {
+                    window.playPageFlipSound();
+                  }
+                  window.dispatchEvent(new CustomEvent('custom-nav', { detail: { route: link.href, soundPlayed: true } }));
                 }}
               >
                 {link.label}

@@ -72,6 +72,36 @@ export default function PageTransition({ children }) {
     }
   };
 
+  // Expose playPageFlipSound globally and register audio unblocker for mobile
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.playPageFlipSound = playPageFlipSound;
+    }
+
+    const unlockAudio = () => {
+      try {
+        const audio = new Audio('/page-flip.mp3');
+        audio.volume = 0;
+        audio.play().then(() => {
+          // Silent success! Mobile browsers have unblocked future playbacks of this file
+          window.removeEventListener('click', unlockAudio);
+          window.removeEventListener('touchstart', unlockAudio);
+          window.removeEventListener('touchend', unlockAudio);
+        }).catch(err => console.log('Audio unlocking waiting...', err));
+      } catch (e) {}
+    };
+
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('touchstart', unlockAudio);
+    window.addEventListener('touchend', unlockAudio);
+
+    return () => {
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('touchend', unlockAudio);
+    };
+  }, []);
+
   const paginate = (dir) => {
     const normalizedPath = pathname === '/' ? '/home' : pathname;
     const currentIndex = routes.indexOf(normalizedPath);
@@ -100,7 +130,10 @@ export default function PageTransition({ children }) {
   // Listen for global custom events from Navbar links
   useEffect(() => {
     const handleCustomNav = (e) => {
-      const nextRoute = e.detail;
+      const detail = e.detail;
+      const nextRoute = typeof detail === 'string' ? detail : detail.route;
+      const soundPlayed = typeof detail === 'object' && detail.soundPlayed;
+
       if (pathname === nextRoute) return;
       
       const currentIndex = routes.indexOf(pathname === '/' ? '/home' : pathname);
@@ -115,7 +148,9 @@ export default function PageTransition({ children }) {
       
       // Temporarily disable smooth scroll so Next.js instantly snaps to the top without visible scrolling
       document.documentElement.style.scrollBehavior = 'auto';
-      playPageFlipSound();
+      if (!soundPlayed) {
+        playPageFlipSound();
+      }
       router.push(nextRoute);
       setTimeout(() => {
         document.documentElement.style.scrollBehavior = '';
