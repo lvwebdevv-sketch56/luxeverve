@@ -127,12 +127,9 @@ const FlipbookSection = ({ title }) => {
   }, []);
 
   const playPageTurnSound = () => {
-    const audio = document.getElementById('page-flip-audio');
-    if (audio) {
-      audio.currentTime = 0;
-      audio.play().catch(e => {
-        console.error("Could not play page_flip.mpeg", e);
-      });
+    // Use the shared Web Audio API engine (set up by PageTransition) for iOS compatibility
+    if (typeof window !== 'undefined' && typeof window.playPageFlipSound === 'function') {
+      window.playPageFlipSound();
     }
   };
 
@@ -514,11 +511,7 @@ export default function CataloguePage() {
       <div style={{ position: 'absolute', top: '10%', left: '5%', width: '40%', height: '50%', background: 'radial-gradient(circle, rgba(110, 68, 42,0.1) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }}></div>
       <div style={{ position: 'absolute', bottom: '5%', right: '5%', width: '50%', height: '60%', background: 'radial-gradient(circle, rgba(110, 68, 42,0.05) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none' }}></div>
 
-      {/* Audio Element for Page Flip */}
-      <audio id="page-flip-audio" preload="auto">
-        <source src="/page-flip.mp3" type="audio/mpeg" />
-        <source src="/page_flip.mp3" type="audio/mpeg" />
-      </audio>
+      {/* Audio is handled globally by the Web Audio API engine in PageTransition.jsx */}
 
       <FlipbookSection title="Interior Door Catalogue" />
       <FlipbookSection title="Exterior Door Catalogue" />

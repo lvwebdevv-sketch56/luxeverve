@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-// FrozenRoute has been replaced by manual delayed routing logic.
 
 const routes = ['/home', '/collection', '/catalogue', '/about', '/contact', '/blog'];
 
@@ -22,22 +21,80 @@ function FrozenRoute({ children }) {
   );
 }
 
-// Removed duplicate routes definition
+// ─────────────────────────────────────────────
+// Web Audio API sound engine (iOS-safe)
+// ─────────────────────────────────────────────
+let audioCtx = null;
+let flipBuffer = null;
+let isAudioUnlocked = false;
 
-// Removed duplicate FrozenRoute definition
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
+}
 
-// Removed duplicate routes definition
+async function loadFlipBuffer() {
+  if (flipBuffer) return flipBuffer;
+  try {
+    const ctx = getAudioContext();
+    const response = await fetch('/page-flip.mp3');
+    const arrayBuffer = await response.arrayBuffer();
+    flipBuffer = await ctx.decodeAudioData(arrayBuffer);
+    return flipBuffer;
+  } catch (e) {
+    console.warn('Could not load page-flip audio:', e);
+    return null;
+  }
+}
+
+function playFlipBufferNow() {
+  try {
+    if (!audioCtx || !flipBuffer) return;
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    const source = audioCtx.createBufferSource();
+    source.buffer = flipBuffer;
+    const gainNode = audioCtx.createGain();
+    gainNode.gain.value = 0.8;
+    source.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    source.start(0);
+  } catch (e) {
+    console.warn('Flip sound play error:', e);
+  }
+}
+
+async function unlockAndLoadAudio() {
+  if (isAudioUnlocked) return;
+  try {
+    const ctx = getAudioContext();
+    // Resume the AudioContext (required by iOS on first gesture)
+    if (ctx.state === 'suspended') {
+      await ctx.resume();
+    }
+    // Load the audio file in the background
+    await loadFlipBuffer();
+    isAudioUnlocked = true;
+  } catch (e) {
+    console.warn('Audio unlock failed:', e);
+  }
+}
+
+// ─────────────────────────────────────────────
 
 export default function PageTransition({ children }) {
   const pathname = usePathname();
   const router = useRouter();
-  
+
   const [transitionData, setTransitionData] = useState({
     dir: 1,
     scrollY: 0,
     innerHeight: 1000
   });
-  
+
   // Touch tracking for swipe gestures
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
@@ -47,14 +104,14 @@ export default function PageTransition({ children }) {
 
   // Track previous path to conditionally disable animations
   const prevPathRef = useRef(pathname);
-  
+
   useEffect(() => {
     prevPathRef.current = pathname;
   }, [pathname]);
 
   const normalizePath = (p) => p === '/' ? '/home' : p;
   const isMainRoute = (p) => routes.includes(normalizePath(p));
-  
+
   const isInstant = !isMainRoute(pathname) || !isMainRoute(prevPathRef.current);
 
   const currentTransitionData = {
@@ -62,42 +119,32 @@ export default function PageTransition({ children }) {
     isInstant
   };
 
+  // Expose play function globally so Navbar can also call it
   const playPageFlipSound = () => {
-    try {
-      const audioEl = document.getElementById('page-flip-audio');
-      if (audioEl) {
-        audioEl.currentTime = 0;
-        audioEl.volume = 0.8;
-        const playPromise = audioEl.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(e => console.log('Audio playback prevented by browser policy'));
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    playFlipBufferNow();
   };
 
-  // Expose globally so Navbar can call it and add audio unlock logic for mobile
+  // On mount: register unlock listener on first user gesture
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.playPageFlipSound = playPageFlipSound;
-      
-      const unlockAudio = () => {
-        const audioEl = document.getElementById('page-flip-audio');
-        if (audioEl) {
-          audioEl.play().then(() => {
-            audioEl.pause();
-            audioEl.currentTime = 0;
-          }).catch(() => {});
-        }
-        document.removeEventListener('touchstart', unlockAudio);
-        document.removeEventListener('click', unlockAudio);
-      };
-      
-      document.addEventListener('touchstart', unlockAudio, { once: true });
-      document.addEventListener('click', unlockAudio, { once: true });
-    }
+    if (typeof window === 'undefined') return;
+
+    window.playPageFlipSound = playFlipBufferNow;
+
+    // Unlock AudioContext + preload buffer on the very first touch or click
+    const handleFirstGesture = () => {
+      unlockAndLoadAudio();
+    };
+
+    document.addEventListener('touchstart', handleFirstGesture, { once: true, passive: true });
+    document.addEventListener('click', handleFirstGesture, { once: true });
+
+    // Also preload immediately (works on desktop where autoplay is often allowed)
+    unlockAndLoadAudio().catch(() => {});
+
+    return () => {
+      document.removeEventListener('touchstart', handleFirstGesture);
+      document.removeEventListener('click', handleFirstGesture);
+    };
   }, []);
 
   const paginate = (dir) => {
@@ -115,8 +162,7 @@ export default function PageTransition({ children }) {
       scrollY: window.scrollY,
       innerHeight: window.innerHeight
     });
-    
-    // Temporarily disable smooth scroll so Next.js instantly snaps to the top without visible scrolling
+
     document.documentElement.style.scrollBehavior = 'auto';
     playPageFlipSound();
     router.push(nextRoute);
@@ -133,18 +179,17 @@ export default function PageTransition({ children }) {
       const soundPlayed = typeof detail === 'object' && detail.soundPlayed;
 
       if (pathname === nextRoute) return;
-      
+
       const currentIndex = routes.indexOf(pathname === '/' ? '/home' : pathname);
       const nextIndex = routes.indexOf(nextRoute);
       const dir = nextIndex > currentIndex ? 1 : -1;
-      
+
       setTransitionData({
         dir,
         scrollY: window.scrollY,
         innerHeight: window.innerHeight
       });
-      
-      // Temporarily disable smooth scroll so Next.js instantly snaps to the top without visible scrolling
+
       document.documentElement.style.scrollBehavior = 'auto';
       if (!soundPlayed) {
         playPageFlipSound();
@@ -154,7 +199,7 @@ export default function PageTransition({ children }) {
         document.documentElement.style.scrollBehavior = '';
       }, 1500);
     };
-    
+
     window.addEventListener('custom-nav', handleCustomNav);
     return () => window.removeEventListener('custom-nav', handleCustomNav);
   }, [pathname]);
@@ -186,10 +231,10 @@ export default function PageTransition({ children }) {
 
     const onTouchEnd = () => {
       if (!touchStartX.current || !touchEndX.current) return;
-      
+
       const distanceX = touchStartX.current - touchEndX.current;
       const distanceY = touchStartY.current - touchEndY.current;
-      
+
       if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > minSwipeDistance) {
         if (distanceX > 0) paginate(1);
         else paginate(-1);
@@ -208,22 +253,19 @@ export default function PageTransition({ children }) {
   }, [pathname]);
 
   const variants = {
-    // New page appears instantly in the background
     enter: () => ({
       rotateY: 0,
       opacity: 1,
       zIndex: 0,
       position: 'relative',
-      transition: { duration: 0 } // Snap instantly
+      transition: { duration: 0 }
     }),
     center: {
       rotateY: 0,
       opacity: 1,
       zIndex: 1,
       position: 'relative',
-      // Framer Motion automatically clears transform if 0
     },
-    // Old page freezes at current scroll position and flips out over the new page
     exit: ({ dir, scrollY, innerHeight, isInstant }) => {
       if (isInstant) {
         return {
@@ -243,7 +285,7 @@ export default function PageTransition({ children }) {
         left: 0,
         right: 0,
         transformOrigin: dir > 0 ? 'left center' : 'right center',
-        perspectiveOrigin: `50% ${scrollY + (innerHeight / 2)}px`, // Anchor 3D camera to user's viewport
+        perspectiveOrigin: `50% ${scrollY + (innerHeight / 2)}px`,
         transition: {
           rotateY: {
             duration: 1.4,
@@ -252,7 +294,7 @@ export default function PageTransition({ children }) {
           opacity: {
             duration: 1.4,
             times: [0, 0.9, 1],
-            ease: "linear",
+            ease: 'linear',
           },
           position: { duration: 0 },
           top: { duration: 0 },
@@ -263,10 +305,8 @@ export default function PageTransition({ children }) {
     },
   };
 
-  // We move perspective into the motion elements so the idle page loses the transform context
   return (
     <div style={{ display: 'grid', position: 'relative' }} className="w-full">
-      <audio id="page-flip-audio" src="/page-flip.mp3" preload="auto" style={{ display: 'none' }} />
       <AnimatePresence custom={currentTransitionData}>
         <motion.div
           key={pathname}
@@ -275,7 +315,6 @@ export default function PageTransition({ children }) {
           initial="enter"
           animate="center"
           exit="exit"
-          // Adding perspective here forces the 3D effect on the child's own rotation
           style={{ transformStyle: 'preserve-3d', perspective: '2500px', gridArea: '1 / 1 / 2 / 2' }}
           className="w-full origin-center"
         >
