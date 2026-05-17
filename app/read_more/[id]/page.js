@@ -17,12 +17,12 @@ export default function ReadMorePage() {
         justifyContent: 'center', backgroundColor: 'var(--bg-dark-solid)',
         paddingTop: '80px', flexDirection: 'column', gap: '20px',
       }}>
-        <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '2rem', color: '#773344' }}>
+        <p style={{ fontFamily: 'Playfair Display, serif', fontSize: '2rem', color: 'var(--primary-color)' }}>
           Article not found.
         </p>
         <Link href="/blog" style={{
           fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase',
-          color: '#773344', textDecoration: 'none', fontWeight: 600,
+          color: 'var(--primary-color)', textDecoration: 'none', fontWeight: 600,
         }}>
           ← Back to Blog
         </Link>
@@ -59,7 +59,7 @@ export default function ReadMorePage() {
           <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '18px' }}>
             <span style={{
               fontSize: '0.65rem', letterSpacing: '2.5px',
-              color: '#fff', backgroundColor: '#773344',
+              color: '#fff', backgroundColor: 'var(--primary-color)',
               padding: '5px 14px', borderRadius: '2px',
               textTransform: 'uppercase', fontWeight: 600,
             }}>
@@ -82,13 +82,13 @@ export default function ReadMorePage() {
       </div>
 
       {/* ── Article Body ── */}
-      <div style={{ maxWidth: '860px', margin: '0 auto', padding: '60px 24px 80px' }}>
+      <div className="read-themed-wrapper article-body-container">
 
         {/* Back link */}
         <Link href="/blog" style={{
           display: 'inline-flex', alignItems: 'center', gap: '6px',
           fontSize: '0.72rem', letterSpacing: '2px', textTransform: 'uppercase',
-          color: '#773344', textDecoration: 'none', fontWeight: 600,
+          color: 'var(--primary-color)', textDecoration: 'none', fontWeight: 600,
           marginBottom: '48px', fontFamily: 'var(--font-sans)',
         }}>
           ← All Articles
@@ -98,11 +98,11 @@ export default function ReadMorePage() {
         <div style={{
           display: 'flex', alignItems: 'center', gap: '16px',
           marginBottom: '48px', paddingBottom: '32px',
-          borderBottom: '1px solid rgba(11,0,20,0.1)',
+          borderBottom: '1px solid rgba(42, 22, 13,0.1)',
         }}>
           <div style={{
             width: '46px', height: '46px', borderRadius: '50%',
-            backgroundColor: '#773344', display: 'flex',
+            backgroundColor: 'var(--primary-color)', display: 'flex',
             alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
           }}>
@@ -113,11 +113,11 @@ export default function ReadMorePage() {
           <div>
             <p style={{
               fontSize: '0.9rem', fontWeight: 600,
-              color: '#0B0014', marginBottom: '2px',
+              color: '#2A160D', marginBottom: '2px',
             }}>
               {post.author}
             </p>
-            <p style={{ fontSize: '0.78rem', color: 'rgba(11,0,20,0.5)' }}>
+            <p style={{ fontSize: '0.78rem', color: 'rgba(42, 22, 13,0.5)' }}>
               {post.authorRole}
             </p>
           </div>
@@ -130,9 +130,9 @@ export default function ReadMorePage() {
               <p key={i} style={{
                 fontFamily: 'Playfair Display, serif',
                 fontSize: 'clamp(1.1rem, 2.5vw, 1.35rem)',
-                lineHeight: 1.8, color: '#0B0014',
+                lineHeight: 1.8, color: '#2A160D',
                 marginBottom: '36px', fontStyle: 'italic',
-                borderLeft: '3px solid #773344', paddingLeft: '20px',
+                borderLeft: '3px solid var(--primary-color)', paddingLeft: '20px',
               }}>
                 {block.text}
               </p>
@@ -141,7 +141,7 @@ export default function ReadMorePage() {
               <h2 key={i} style={{
                 fontFamily: 'Playfair Display, serif',
                 fontSize: 'clamp(1.25rem, 3vw, 1.7rem)',
-                fontWeight: 400, color: '#773344',
+                fontWeight: 400, color: 'var(--primary-color)',
                 marginTop: '48px', marginBottom: '18px', lineHeight: 1.3,
               }}>
                 {block.text}
@@ -150,7 +150,7 @@ export default function ReadMorePage() {
             if (block.type === 'paragraph') return (
               <p key={i} style={{
                 fontSize: 'clamp(0.9rem, 2vw, 1.02rem)',
-                lineHeight: 1.95, color: 'rgba(11,0,20,0.75)',
+                lineHeight: 1.95, color: 'rgba(42, 22, 13,0.75)',
                 marginBottom: '22px',
                 fontFamily: 'var(--font-sans)', fontWeight: 300,
               }}>
@@ -161,22 +161,22 @@ export default function ReadMorePage() {
               <blockquote key={i} style={{
                 margin: '40px 0',
                 padding: '28px 32px',
-                backgroundColor: '#fff',
-                borderLeft: '4px solid #773344',
-                borderRadius: '0 6px 6px 0',
-                boxShadow: '0 4px 20px rgba(11,0,20,0.06)',
+                backgroundColor: 'var(--bg-dark-solid)',
+                borderLeft: '4px solid var(--primary-color)',
+                borderRadius: '0 12px 12px 0',
+                boxShadow: '0 10px 30px rgba(42, 22, 13, 0.08)',
               }}>
                 <p style={{
                   fontFamily: 'Playfair Display, serif',
                   fontSize: 'clamp(1rem, 2.2vw, 1.2rem)',
                   fontStyle: 'italic', lineHeight: 1.7,
-                  color: '#0B0014', marginBottom: '14px',
+                  color: '#2A160D', marginBottom: '14px',
                 }}>
                   "{block.text}"
                 </p>
                 <p style={{
                   fontSize: '0.78rem', letterSpacing: '1.5px',
-                  textTransform: 'uppercase', color: '#773344',
+                  textTransform: 'uppercase', color: 'var(--primary-color)',
                   fontWeight: 600,
                 }}>
                   — {block.author}
@@ -191,21 +191,21 @@ export default function ReadMorePage() {
         <div style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           marginTop: '64px', paddingTop: '32px',
-          borderTop: '1px solid rgba(11,0,20,0.1)',
+          borderTop: '1px solid rgba(42, 22, 13,0.1)',
           flexWrap: 'wrap', gap: '16px',
         }}>
           <div>
             <span style={{
               display: 'inline-block',
               fontSize: '0.65rem', letterSpacing: '2.5px',
-              color: '#fff', backgroundColor: '#773344',
+              color: '#fff', backgroundColor: 'var(--primary-color)',
               padding: '5px 14px', borderRadius: '2px',
               textTransform: 'uppercase', fontWeight: 600,
             }}>
               {post.tag}
             </span>
           </div>
-          <p style={{ fontSize: '0.8rem', color: 'rgba(11,0,20,0.4)' }}>
+          <p style={{ fontSize: '0.8rem', color: 'rgba(42, 22, 13,0.4)' }}>
             {post.date} · {post.readTime}
           </p>
         </div>
@@ -214,13 +214,12 @@ export default function ReadMorePage() {
       {/* ── Related Articles ── */}
       {otherPosts.length > 0 && (
         <section style={{
-          backgroundColor: 'rgba(189,180,180,0.35)',
-          padding: '70px 24px',
+          padding: '40px 20px',
         }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div className="read-themed-wrapper related-articles-container" style={{ maxWidth: '1440px' }}>
             <p style={{
               fontSize: '0.72rem', letterSpacing: '4px',
-              color: '#773344', textTransform: 'uppercase',
+              color: 'var(--primary-color)', textTransform: 'uppercase',
               marginBottom: '10px', fontWeight: 600,
             }}>
               Continue Reading
@@ -228,7 +227,7 @@ export default function ReadMorePage() {
             <h3 style={{
               fontFamily: 'Playfair Display, serif',
               fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: 400, color: '#0B0014',
+              fontWeight: 400, color: '#2A160D',
               marginBottom: '40px',
             }}>
               More Articles
@@ -253,24 +252,24 @@ export default function ReadMorePage() {
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                         <span style={{
                           fontSize: '0.62rem', letterSpacing: '2px',
-                          color: '#773344', textTransform: 'uppercase', fontWeight: 600,
+                          color: 'var(--primary-color)', textTransform: 'uppercase', fontWeight: 600,
                         }}>
                           {related.tag}
                         </span>
-                        <span style={{ fontSize: '0.7rem', color: 'rgba(11,0,20,0.4)' }}>
+                        <span style={{ fontSize: '0.7rem', color: 'rgba(42, 22, 13,0.4)' }}>
                           {related.readTime}
                         </span>
                       </div>
                       <h4 style={{
                         fontFamily: 'Playfair Display, serif',
                         fontSize: '1.05rem', fontWeight: 400,
-                        color: '#0B0014', lineHeight: 1.4,
+                        color: '#2A160D', lineHeight: 1.4,
                         marginBottom: '10px',
                       }}>
                         {related.title}
                       </h4>
                       <p style={{
-                        fontSize: '0.82rem', color: 'rgba(11,0,20,0.55)',
+                        fontSize: '0.82rem', color: 'rgba(42, 22, 13,0.55)',
                         lineHeight: 1.7, display: '-webkit-box',
                         WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
                         overflow: 'hidden',
@@ -289,21 +288,33 @@ export default function ReadMorePage() {
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
 
+        .read-themed-wrapper {
+          background: var(--bg-sec);
+          border-radius: 40px;
+          padding: 60px;
+          box-shadow: 0 10px 40px rgba(74,42,27,0.05);
+          margin: 40px auto 80px;
+        }
+        .article-body-container {
+          max-width: 1000px;
+          padding: 60px 40px;
+        }
+
         .related-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 28px;
         }
         .related-card {
-          background: #fff;
-          border-radius: 6px;
+          background: var(--bg-dark-solid);
+          border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 6px 24px rgba(11,0,20,0.07);
+          box-shadow: 0 8px 30px rgba(42, 22, 13, 0.08);
           transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
         .related-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 16px 40px rgba(11,0,20,0.13);
+          box-shadow: 0 16px 40px rgba(42, 22, 13, 0.15);
         }
         .related-card:hover .related-img {
           transform: scale(1.06);
@@ -311,6 +322,31 @@ export default function ReadMorePage() {
 
         @media (max-width: 900px) {
           .related-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+          .read-themed-wrapper {
+            padding: 30px 20px !important;
+            border-radius: 24px !important;
+            margin: 20px auto 40px !important;
+          }
+          .related-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+          /* mobile heading sizes and text styling */
+          .read-themed-wrapper h2 {
+            font-size: 1.4rem !important;
+            margin-top: 24px !important;
+            margin-bottom: 12px !important;
+          }
+          .read-themed-wrapper blockquote {
+            padding: 16px 20px !important;
+            margin: 20px 0 !important;
+          }
+          .read-themed-wrapper blockquote p {
+            font-size: 1rem !important;
+          }
         }
         @media (max-width: 580px) {
           .related-grid { grid-template-columns: 1fr; }

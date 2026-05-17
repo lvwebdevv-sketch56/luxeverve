@@ -50,7 +50,7 @@ export default function CollectionPage() {
               fontFamily: 'var(--font-serif)', 
               fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', 
               fontWeight: 400, 
-              color: '#773344', 
+              color: 'var(--primary-color)', 
               margin: 0 
             }}>
               Gives You The Luxury you Deserve
@@ -60,7 +60,7 @@ export default function CollectionPage() {
               fontFamily: 'var(--font-serif)', 
               fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
               fontWeight: 400, 
-              color: '#773344', 
+              color: 'var(--primary-color)', 
               lineHeight: 1.2,
               margin: '10px 0'
             }}>
@@ -84,10 +84,16 @@ export default function CollectionPage() {
       {/* Second Section (Image Left, Text Right) */}
       <section style={{ padding: '80px 5vw', position: 'relative', zIndex: 10, backgroundColor: 'var(--bg-dark-solid)' }} className="collection-second-section">
         <div style={{
+          background: 'var(--bg-sec)',
+          borderRadius: '40px',
+          padding: '60px',
+          maxWidth: '1440px',
+          margin: '0 auto',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '60px',
+          boxShadow: '0 10px 40px rgba(74,42,27,0.05)'
         }} className="collection-flex-container">
           
           {/* Image */}

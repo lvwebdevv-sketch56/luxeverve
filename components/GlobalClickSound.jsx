@@ -21,7 +21,8 @@ export default function GlobalClickSound() {
     const handleClick = (e) => {
       // Check if the click happened on or inside a link or a button
       const target = e.target.closest('a, button');
-      if (target) {
+      // Do not play if the element explicitly opts out via the 'no-click-sound' class
+      if (target && !target.closest('.no-click-sound')) {
         playClick();
       }
     };

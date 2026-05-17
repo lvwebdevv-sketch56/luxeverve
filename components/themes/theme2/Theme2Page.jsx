@@ -36,7 +36,7 @@ export default function Theme2Page() {
       {/* ── Navbar ── */}
       <nav className={`t2-nav${scrolled ? ' scrolled' : ''}`}>
         <Link href="/" className="t2-logo">
-          <Image src="/logo.png" alt="Luxe Verve" width={44} height={35} />
+          <Image src="/images/logo.png" alt="Luxe Verve" width={64} height={50} />
         </Link>
         <ul className="t2-nav-links">
           {NAV.map(l => (

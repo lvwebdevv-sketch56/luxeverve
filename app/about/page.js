@@ -11,8 +11,14 @@ export default function AboutPage() {
       <div style={{ width: '90vw', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '100px', paddingBottom: '100px' }}>
 
         {/* Hero Section */}
-        <section style={{ marginTop: '60px' }}>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '4.5rem', fontWeight: 400, color: '#773344', lineHeight: 1.2, textAlign: 'center', marginBottom: '60px' }}>
+        <section style={{ 
+          marginTop: '60px',
+          background: 'var(--bg-sec)',
+          borderRadius: '40px',
+          padding: '60px',
+          boxShadow: '0 10px 40px rgba(74,42,27,0.05)'
+        }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '4.5rem', fontWeight: 400, color: 'var(--primary-color)', lineHeight: 1.2, textAlign: 'center', marginBottom: '60px' }}>
             ABOUT US
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', textAlign: 'justify', maxWidth: '1200px', margin: '0 auto' }}>
@@ -29,7 +35,16 @@ export default function AboutPage() {
         </section>
 
         {/* Section 2: Image Left, Text Right */}
-        <section style={{ display: 'flex', gap: '80px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <section style={{ 
+          display: 'flex', 
+          gap: '80px', 
+          alignItems: 'center', 
+          flexWrap: 'wrap',
+          background: 'var(--bg-sec)',
+          borderRadius: '40px',
+          padding: '60px',
+          boxShadow: '0 10px 40px rgba(74,42,27,0.05)'
+        }}>
           <div className="hover-3d-wrapper" style={{ flex: '1 1 400px', maxWidth: '600px' }}>
             <div className="hover-3d" style={{ borderRadius: '8px', overflow: 'hidden' }}>
               <img
@@ -41,7 +56,7 @@ export default function AboutPage() {
           </div>
           <div style={{ flex: '2 1 500px' }}>
             <div style={{ width: '80px', height: '2px', backgroundColor: '#cfa052', marginBottom: '24px' }}></div>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '3rem', fontWeight: 400, marginBottom: '30px', color: '#773344' }}>
+            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '3rem', fontWeight: 400, marginBottom: '30px', color: 'var(--primary-color)' }}>
               Once Upon a Time
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', textAlign: 'justify' }}>
@@ -62,10 +77,19 @@ export default function AboutPage() {
         </section>
 
         {/* Section 3: Text Left, Image Right */}
-        <section style={{ display: 'flex', gap: '80px', alignItems: 'center', flexWrap: 'wrap-reverse' }}>
+        <section style={{ 
+          display: 'flex', 
+          gap: '80px', 
+          alignItems: 'center', 
+          flexWrap: 'wrap-reverse',
+          background: 'var(--bg-sec)',
+          borderRadius: '40px',
+          padding: '60px',
+          boxShadow: '0 10px 40px rgba(74,42,27,0.05)'
+        }}>
           <div style={{ flex: '2 1 500px' }}>
             <div style={{ width: '80px', height: '2px', backgroundColor: '#cfa052', marginBottom: '24px' }}></div>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '3rem', fontWeight: 400, marginBottom: '30px', color: '#773344' }}>
+            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '3rem', fontWeight: 400, marginBottom: '30px', color: 'var(--primary-color)' }}>
               A Logo That Represents the Story of Luxe-Verve
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', textAlign: 'justify' }}>
@@ -87,18 +111,23 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="hover-3d-wrapper" style={{ flex: '1 1 400px', maxWidth: '600px' }}>
-            <div className="hover-3d" style={{ borderRadius: '8px', overflow: 'hidden' }}>
+            <div className="hover-3d" style={{ borderRadius: '8px', overflow: 'hidden', backgroundColor: '#2A160D', border: '1px solid rgba(207, 160, 82, 0.3)', padding: '60px', display: 'flex', justifyContent: 'center', alignItems: 'center', aspectRatio: '4/5' }}>
               <img
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+                src="/images/logo.png"
                 alt="Luxe Verve Logo Story"
-                style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover', aspectRatio: '4/5' }}
+                style={{ maxWidth: '80%', maxHeight: '80%', objectFit: 'contain' }}
               />
             </div>
           </div>
         </section>
 
         {/* Stats Section */}
-        <section style={{ backgroundColor: '#0B0014', padding: '60px 20px', borderRadius: '4px' }}>
+        <section style={{ 
+          background: 'var(--bg-sec)', 
+          padding: '60px 20px', 
+          borderRadius: '40px',
+          boxShadow: '0 10px 40px rgba(74,42,27,0.05)'
+        }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px', textAlign: 'center' }}>
             {[
               { number: '500+', label: 'Projects Delivered' },
@@ -107,8 +136,8 @@ export default function AboutPage() {
               { number: '98%', label: 'Client Satisfaction' },
             ].map((stat, i) => (
               <div key={i}>
-                <p style={{ fontFamily: 'var(--font-serif)', fontSize: '4.5rem', fontWeight: 400, color: '#F5E9E2', lineHeight: 1 }}>{stat.number}</p>
-                <p style={{ marginTop: '16px', color: 'rgba(245, 233, 226, 0.7)', fontSize: '1rem', letterSpacing: '2px', textTransform: 'uppercase' }}>{stat.label}</p>
+                <p style={{ fontFamily: 'var(--font-serif)', fontSize: '4.5rem', fontWeight: 400, color: 'var(--primary-color)', lineHeight: 1 }}>{stat.number}</p>
+                <p style={{ marginTop: '16px', color: 'var(--text-main)', fontSize: '1rem', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 500 }}>{stat.label}</p>
               </div>
             ))}
           </div>

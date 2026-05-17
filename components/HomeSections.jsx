@@ -6,7 +6,7 @@ const HomeSections = () => {
 
       {/* Section 1: Text Left, Video Right */}
       <section className="home-section">
-        <div className="container home-section-container">
+        <div className="home-section-container">
           <div className="home-section-content left-content">
             <h2 className="section-heading">An Expression of Luxury Door Design, Quality, and Craftsmanship</h2>
             <div className="section-text">
@@ -20,7 +20,6 @@ const HomeSections = () => {
                 Through meaningful industry engagement, we continue to refine our vision and deliver timeless, performance-driven solutions shaped by quality, innovation, and design excellence.
               </p>
             </div>
-            <a href="/about" className="section-link">GET TO KNOW MORE ABOUT PREMIUM CRAFTSMANSHIP</a>
           </div>
           <div className="home-section-media right-media">
             <video className="static-media" controls poster="/images/luxury_doors_landing_page_scrolled_1776845139099.png">
@@ -33,7 +32,7 @@ const HomeSections = () => {
 
       {/* Section 2: Image Left, Text Right */}
       <section className="home-section bg-alt">
-        <div className="container home-section-container reverse-mobile">
+        <div className="home-section-container">
           <div className="home-section-media left-media hover-3d-wrapper">
             <img src="/images/luxury_storefront_1776848163085.png" alt="Luxe Verve Storefront" className="static-media hover-3d" />
           </div>
@@ -53,7 +52,7 @@ const HomeSections = () => {
 
       {/* Section 3: Text Left, Video Right */}
       <section className="home-section">
-        <div className="container home-section-container">
+        <div className="home-section-container">
           <div className="home-section-content left-content">
             <h2 className="section-heading">The Art of Luxury Entrance Doors</h2>
             <div className="section-text">
@@ -80,14 +79,14 @@ const HomeSections = () => {
       {/* Section 4: Luxe Details Header */}
       <section className="home-section luxe-details-header">
         <div className="container" style={{ textAlign: 'center' }}>
-          <img src="/logo.png" alt="Luxe Verve Logo" className="luxe-header-logo" />
-          <h2 className="luxe-header-title">The Luxe Details</h2>
+          <img src="/images/logo.png" alt="Luxe Verve Logo" className="luxe-header-logo" />
+          <h1 className="luxe-header-title">The Luxe Details</h1>
         </div>
       </section>
 
       {/* Section 5: Luxe Details Grid */}
       <section className="home-section luxe-details-grid-section">
-        <div className="container luxe-grid">
+        <div className="luxe-grid">
 
           {/* Column 1: Bordered Contact Box */}
           <div className="luxe-grid-col luxe-contact-box">

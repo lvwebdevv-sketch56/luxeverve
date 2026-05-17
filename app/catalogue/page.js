@@ -210,8 +210,8 @@ const FlipbookSection = ({ title }) => {
       if (data.type === 'intro') {
         content = (
           <div style={{ padding: isMobileMode ? '5% 5% 5% 12%' : (isLeft ? '12% 15% 12% 6%' : '12% 6% 12% 15%'), display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', flex: 1 }}>
-            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: isMobileMode ? '4vw' : '2.5vw', color: '#773344', marginBottom: '15px' }}>{data.title}</h3>
-            <hr style={{ border: 'none', borderBottom: '1px solid #773344', marginBottom: '25px', width: '100%' }} />
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: isMobileMode ? '4vw' : '2.5vw', color: 'var(--primary-color)', marginBottom: '15px' }}>{data.title}</h3>
+            <hr style={{ border: 'none', borderBottom: '1px solid var(--primary-color)', marginBottom: '25px', width: '100%' }} />
             <div style={{ fontSize: isMobileMode ? '2vw' : '1vw', lineHeight: 2.2, color: '#444', whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)', textAlign: 'justify' }}>{data.text}</div>
           </div>
         );
@@ -222,7 +222,7 @@ const FlipbookSection = ({ title }) => {
               <img src={data.img} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '1px solid #e0e0e0', boxShadow: '0 8px 20px rgba(0,0,0,0.08)' }} alt={data.title} />
             </div>
             <div style={{ width: '55%', height: '100%', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: isMobileMode ? '4.5vw' : '1.8vw', marginBottom: '10px', color: '#773344', lineHeight: 1.2 }}>{data.title}</h3>
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: isMobileMode ? '4.5vw' : '1.8vw', marginBottom: '10px', color: 'var(--primary-color)', lineHeight: 1.2 }}>{data.title}</h3>
               <p style={{ fontSize: isMobileMode ? '2.2vw' : '0.9vw', lineHeight: isMobileMode ? 1.5 : 1.8, color: '#555', whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)', textAlign: 'justify' }}>{data.text}</p>
             </div>
           </div>
@@ -252,33 +252,45 @@ const FlipbookSection = ({ title }) => {
   };
 
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '100px' }}>
-      <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '3rem', fontWeight: 600, color: '#773344', marginBottom: '40px', textAlign: 'center', zIndex: 1 }}>
+    <div style={{ 
+      width: '90%', 
+      maxWidth: '1440px', 
+      margin: '0 auto 100px auto', 
+      background: 'var(--bg-sec)',
+      borderRadius: '40px',
+      padding: '60px 40px',
+      boxShadow: '0 10px 40px rgba(74,42,27,0.05)',
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      overflowX: 'hidden' 
+    }}>
+      <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: 600, color: 'var(--primary-color)', marginBottom: '40px', textAlign: 'center', zIndex: 1, padding: '0 20px', wordWrap: 'break-word', maxWidth: '100%' }}>
         {title}
       </h2>
 
       {isMobile ? (
         <>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '5px', width: '100%', justifyContent: 'center', zIndex: 1, perspective: '2500px', position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', maxWidth: '100vw', padding: '0 10px', boxSizing: 'border-box', justifyContent: 'center', zIndex: 1, perspective: '2500px', position: 'relative' }}>
             
             {/* External Prev Arrow Slider (Mobile) */}
             <button
               onClick={(e) => { e.preventDefault(); setCurrentPage(p => p - 1); playPageTurnSound(); }}
               style={{
-                background: 'transparent', border: 'none', color: '#773344', fontSize: '1.2rem', 
+                background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem', 
                 cursor: currentPage === 0 ? 'default' : 'pointer', 
                 opacity: currentPage === 0 ? 0 : 1, transition: 'all 0.4s ease', 
                 display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === 0 ? 'none' : 'auto',
-                position: 'relative', zIndex: 100, transform: 'translateZ(50px)'
+                position: 'relative', zIndex: 100, transform: 'translateZ(50px)', padding: 0
               }}
-              className="external-nav-icon prev"
+              className="external-nav-icon prev no-click-sound"
             >
-              <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '35px', height: '35px', borderRadius: '50%', border: '2px solid rgba(119,51,68,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
+              <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '35px', height: '35px', borderRadius: '50%', border: '2px solid rgba(110, 68, 42,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
                 <PrevPageIcon />
               </div>
             </button>
 
-            <div style={{ width: '80vw', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1 }}>
+            <div style={{ flex: 1, maxWidth: '400px', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1 }}>
               <div style={{ 
                 width: '100%', 
                 aspectRatio: '1 / 1.2', 
@@ -323,21 +335,21 @@ const FlipbookSection = ({ title }) => {
             <button
               onClick={(e) => { e.preventDefault(); setCurrentPage(p => p + 1); playPageTurnSound(); }}
               style={{
-                background: 'transparent', border: 'none', color: '#773344', fontSize: '1.2rem', 
+                background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem', 
                 cursor: currentPage === pagesData.length - 1 ? 'default' : 'pointer', 
                 opacity: currentPage === pagesData.length - 1 ? 0 : 1, transition: 'all 0.4s ease', 
                 display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === pagesData.length - 1 ? 'none' : 'auto',
-                position: 'relative', zIndex: 100, transform: 'translateZ(50px)'
+                position: 'relative', zIndex: 100, transform: 'translateZ(50px)', padding: 0
               }}
-              className="external-nav-icon next"
+              className="external-nav-icon next no-click-sound"
             >
-              <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '35px', height: '35px', borderRadius: '50%', border: '2px solid rgba(119,51,68,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
+              <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '35px', height: '35px', borderRadius: '50%', border: '2px solid rgba(110, 68, 42,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
                 <NextPageIcon />
               </div>
             </button>
           </div>
 
-          <p style={{ marginTop: '15px', color: '#773344', fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
+          <p style={{ marginTop: '15px', color: 'var(--primary-color)', fontSize: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
             Page {currentPage + 1} of {pagesData.length}
           </p>
         </>
@@ -348,14 +360,14 @@ const FlipbookSection = ({ title }) => {
           <button
             onClick={prevLeaf}
             style={{
-              background: 'transparent', border: 'none', color: '#773344', fontSize: '2rem', 
+              background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '2rem', 
               cursor: currentLeaf === 0 ? 'default' : 'pointer', 
               opacity: currentLeaf === 0 ? 0 : 1, transition: 'all 0.4s ease', 
               display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentLeaf === 0 ? 'none' : 'auto'
             }}
-            className="external-nav-icon prev"
+            className="external-nav-icon prev no-click-sound"
           >
-            <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px', borderRadius: '50%', border: '2px solid rgba(119,51,68,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
+            <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px', borderRadius: '50%', border: '2px solid rgba(110, 68, 42,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
               <PrevPageIcon />
             </div>
           </button>
@@ -428,14 +440,14 @@ const FlipbookSection = ({ title }) => {
           <button
             onClick={nextLeaf}
             style={{
-              background: 'transparent', border: 'none', color: '#773344', fontSize: '2rem', 
+              background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '2rem', 
               cursor: currentLeaf === totalLeaves ? 'default' : 'pointer', 
               opacity: currentLeaf === totalLeaves ? 0 : 1, transition: 'all 0.4s ease', 
               display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentLeaf === totalLeaves ? 'none' : 'auto'
             }}
-            className="external-nav-icon next"
+            className="external-nav-icon next no-click-sound"
           >
-            <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px', borderRadius: '50%', border: '2px solid rgba(119,51,68,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
+            <div className="icon-circle" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px', borderRadius: '50%', border: '2px solid rgba(110, 68, 42,0.4)', transition: 'all 0.3s ease', backgroundColor: 'transparent', backdropFilter: 'blur(5px)' }}>
               <NextPageIcon />
             </div>
           </button>
@@ -443,7 +455,7 @@ const FlipbookSection = ({ title }) => {
       )}
 
       {!isMobile && (
-        <p style={{ marginTop: '30px', color: '#773344', fontSize: '0.9rem', letterSpacing: '3px', zIndex: 1, textTransform: 'uppercase' }}>
+        <p style={{ marginTop: '30px', color: 'var(--primary-color)', fontSize: '0.9rem', letterSpacing: '3px', zIndex: 1, textTransform: 'uppercase' }}>
           Use the slider arrows to flip pages
         </p>
       )}
@@ -457,9 +469,9 @@ const FlipbookSection = ({ title }) => {
           marginTop: '20px',
           fontSize: '1rem',
           fontWeight: 600,
-          color: '#0B0014',
+          color: '#2A160D',
           backgroundColor: 'transparent',
-          border: '2px solid #0B0014',
+          border: '2px solid #2A160D',
           padding: '4.2px 32px',
           borderRadius: '9999px',
           transition: 'all 0.3s ease',
@@ -468,14 +480,14 @@ const FlipbookSection = ({ title }) => {
           zIndex: 1
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = '#773344';
+          e.currentTarget.style.backgroundColor = 'var(--primary-color)';
           e.currentTarget.style.color = '#ffffff';
-          e.currentTarget.style.borderColor = '#773344';
+          e.currentTarget.style.borderColor = 'var(--primary-color)';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.backgroundColor = 'transparent';
-          e.currentTarget.style.color = '#0B0014';
-          e.currentTarget.style.borderColor = '#0B0014';
+          e.currentTarget.style.color = '#2A160D';
+          e.currentTarget.style.borderColor = '#2A160D';
         }}
       >
         Download Full Catalogue
@@ -499,8 +511,8 @@ export default function CataloguePage() {
     }}>
 
       {/* 3D Modern Background Elements */}
-      <div style={{ position: 'absolute', top: '10%', left: '5%', width: '40%', height: '50%', background: 'radial-gradient(circle, rgba(119,51,68,0.1) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }}></div>
-      <div style={{ position: 'absolute', bottom: '5%', right: '5%', width: '50%', height: '60%', background: 'radial-gradient(circle, rgba(119,51,68,0.05) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', top: '10%', left: '5%', width: '40%', height: '50%', background: 'radial-gradient(circle, rgba(110, 68, 42,0.1) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', bottom: '5%', right: '5%', width: '50%', height: '60%', background: 'radial-gradient(circle, rgba(110, 68, 42,0.05) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none' }}></div>
 
       {/* Audio Element for Page Flip */}
       <audio id="page-flip-audio" preload="auto">
@@ -529,9 +541,9 @@ export default function CataloguePage() {
         
         /* External Navigation Icon Hover Effects */
         .external-nav-icon:hover .icon-circle {
-          background-color: rgba(119,51,68,0.1) !important;
-          border-color: #773344 !important;
-          box-shadow: 0 0 20px rgba(119,51,68,0.2);
+          background-color: rgba(110, 68, 42,0.1) !important;
+          border-color: var(--primary-color) !important;
+          box-shadow: 0 0 20px rgba(110, 68, 42,0.2);
         }
         .external-nav-icon.prev:hover {
           transform: translateX(-5px);

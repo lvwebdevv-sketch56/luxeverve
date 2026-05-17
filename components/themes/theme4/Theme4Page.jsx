@@ -36,7 +36,7 @@ export default function Theme4Page() {
       {/* ── Navbar ── */}
       <nav className={`t4-nav${scrolled ? ' scrolled' : ''}`}>
         <Link href="/" className="t4-logo">
-          Luxe Verve<span>.</span>
+          <Image src="/images/logo.png" alt="Luxe Verve" width={64} height={50} />
         </Link>
         <ul className="t4-nav-links">
           {NAV.map(l => (

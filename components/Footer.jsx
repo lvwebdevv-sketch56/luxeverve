@@ -43,8 +43,8 @@ const Footer = () => {
 
           {/* Column 1 — Brand */}
           <div className="footer-col footer-col--brand">
-            <Link href="/home" aria-label="Luxe Verve Home" className="footer-logo-link">
-              <Image src="/logo.png" alt="Luxe Verve Logo" width={52} height={40} />
+            <Link href="/home" aria-label="Luxe Verve Home" className="footer-logo-link" style={{ textDecoration: 'none' }}>
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', color: '#E9D7C3', margin: 0, letterSpacing: '2px', fontWeight: 500 }}>Luxe Verve.</h3>
             </Link>
             <p className="footer-brand-desc">
               We design exclusive luxury architect doors that move beyond conventional solutions —

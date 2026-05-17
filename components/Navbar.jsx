@@ -65,7 +65,7 @@ const Navbar = () => {
       {/* ── Desktop Layout ── */}
       <div className="nav-area nav-left">
         <Link href="/" className="nav-logo" aria-label="Luxe Verve Home">
-          <Image src="/logo.png" alt="Logo" width={44.7} height={35} />
+          <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
         </Link>
       </div>
 
@@ -73,9 +73,16 @@ const Navbar = () => {
         <ul className="nav-links">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} className={`nav-link ${pathname === link.href ? 'active' : ''}`}>
+              <a 
+                href={link.href} 
+                className={`nav-link no-click-sound ${pathname === link.href ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent('custom-nav', { detail: link.href }));
+                }}
+              >
                 {link.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
@@ -84,10 +91,10 @@ const Navbar = () => {
       {/* ── Mobile Layout ── */}
       <div className="mobile-bar">
         <Link href="/" className="nav-logo mobile-logo" aria-label="Luxe Verve Home">
-          <Image src="/logo.png" alt="Logo" width={44.7} height={35} />
+          <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
         </Link>
         <button
-          className="hamburger-btn"
+          className="hamburger-btn no-click-sound"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
@@ -99,7 +106,7 @@ const Navbar = () => {
       {/* ── Mobile Dropdown Menu ── */}
       <div className={`mobile-menu ${menuOpen ? 'mobile-menu--open' : ''}`}>
         <button
-          className="close-menu-btn"
+          className="close-menu-btn no-click-sound"
           onClick={() => setMenuOpen(false)}
           aria-label="Close menu"
         >
@@ -108,13 +115,17 @@ const Navbar = () => {
         <ul className="mobile-nav-links">
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link
+              <a
                 href={link.href}
-                className={`mobile-nav-link ${pathname === link.href ? 'active' : ''}`}
-                onClick={() => setMenuOpen(false)}
+                className={`mobile-nav-link no-click-sound ${pathname === link.href ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('custom-nav', { detail: link.href }));
+                }}
               >
                 {link.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>

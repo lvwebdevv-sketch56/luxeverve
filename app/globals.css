@@ -1,17 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Serif+Display:ital@0;1&display=swap');
 
 :root {
-  --primary-color: #773344;
-  --bg-dark: rgba(245, 233, 226, 0.85); /* transparent #F5E9E2 */
-  --bg-dark-solid: #F5E9E2;
-  --accent-color: #773344;
-  --text-main: #0B0014;
-  --text-muted: rgba(11, 0, 20, 0.7);
-  --font-serif: 'DM Serif Display', Georgia, serif;
-  --font-sans: 'DM Sans', sans-serif;
-  --font-nav: 'Cinzel', serif;
+  --primary-color: #6E442A;
+  --bg-dark: rgba(245, 239, 231, 0.9); /* transparent --nav-bg */
+  --bg-dark-solid: #F8F4EE; /* --bg-main */
+  --accent-color: #8B5E3C; /* --nav-active */
+  --text-main: #4A2A1B; /* --h1-color */
+  --text-muted: #5E5A56; /* --p-color */
+  --font-serif: 'Cormorant Garamond', 'Bodoni Moda', 'DM Serif Display', serif; /* --fh */
+  --font-sans: 'Inter', 'DM Sans', sans-serif; /* --fb */
+  --font-nav: 'Inter', sans-serif;
   --transition-fast: 0.3s ease;
   --transition-slow: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  
+  --bg-sec: #EFE4D6;
+  --nav-text: #3D2314;
+  --nav-hover: #B07A52;
+  --h2-color: #7A5230;
+  --border: #D8C7B4;
 }
 
 * {
@@ -35,7 +41,7 @@ body {
 
 h1, h2, h3, h4, h5, h6, .serif-font {
   font-family: var(--font-serif);
-  color: #773344;
+  color: var(--text-main);
 }
 
 a {
@@ -62,9 +68,9 @@ button {
 }
 
 button:hover {
-  background-color: #773344;
+  background-color: var(--primary-color);
   color: #ffffff;
-  border-color: #773344;
+  border-color: var(--primary-color);
 }
 
 /* Base button resets for icon buttons */
@@ -159,4 +165,20 @@ button:hover {
   height: 2px;
   background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
   margin-bottom: 24px;
+}
+
+/* ── Mobile Responsive Typography ── */
+@media (max-width: 768px) {
+  h1 {
+    font-size: clamp(2rem, 7vw, 2.8rem) !important;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+  }
+  h3 {
+    font-size: clamp(1.25rem, 5vw, 1.6rem) !important;
+  }
+  h4 {
+    font-size: clamp(1.1rem, 4vw, 1.3rem) !important;
+  }
 }

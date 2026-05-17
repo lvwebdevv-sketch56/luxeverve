@@ -36,7 +36,7 @@ export default function Theme6Page() {
       {/* ── Navbar ── */}
       <nav className={`t6-nav${scrolled ? ' scrolled' : ''}`}>
         <Link href="/" className="t6-logo">
-          <Image src="/logo.png" alt="Luxe Verve" width={44} height={35} style={{ filter: 'brightness(0.3) sepia(1) hue-rotate(-20deg) saturate(2)' }}/>
+          <Image src="/images/logo.png" alt="Luxe Verve" width={64} height={50} style={{ filter: 'brightness(0.3) sepia(1) hue-rotate(-20deg) saturate(2)' }}/>
         </Link>
         <ul className="t6-nav-links">
           {NAV.map(l => (
