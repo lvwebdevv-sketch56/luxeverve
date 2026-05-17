@@ -64,42 +64,25 @@ export default function PageTransition({ children }) {
 
   const playPageFlipSound = () => {
     try {
-      const audio = new Audio('/page-flip.mp3');
-      audio.volume = 0.8;
-      audio.play().catch(e => console.error("Could not play page flip sound", e));
+      const audioEl = document.getElementById('page-flip-audio');
+      if (audioEl) {
+        audioEl.currentTime = 0;
+        audioEl.volume = 0.8;
+        const playPromise = audioEl.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(e => console.log('Audio playback prevented by browser policy'));
+        }
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
-  // Expose playPageFlipSound globally and register audio unblocker for mobile
+  // Expose globally so Navbar can call it
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.playPageFlipSound = playPageFlipSound;
     }
-
-    const unlockAudio = () => {
-      try {
-        const audio = new Audio('/page-flip.mp3');
-        audio.volume = 0;
-        audio.play().then(() => {
-          // Silent success! Mobile browsers have unblocked future playbacks of this file
-          window.removeEventListener('click', unlockAudio);
-          window.removeEventListener('touchstart', unlockAudio);
-          window.removeEventListener('touchend', unlockAudio);
-        }).catch(err => console.log('Audio unlocking waiting...', err));
-      } catch (e) {}
-    };
-
-    window.addEventListener('click', unlockAudio);
-    window.addEventListener('touchstart', unlockAudio);
-    window.addEventListener('touchend', unlockAudio);
-
-    return () => {
-      window.removeEventListener('click', unlockAudio);
-      window.removeEventListener('touchstart', unlockAudio);
-      window.removeEventListener('touchend', unlockAudio);
-    };
   }, []);
 
   const paginate = (dir) => {
@@ -268,6 +251,7 @@ export default function PageTransition({ children }) {
   // We move perspective into the motion elements so the idle page loses the transform context
   return (
     <div style={{ display: 'grid', position: 'relative' }} className="w-full">
+      <audio id="page-flip-audio" src="/page-flip.mp3" preload="auto" style={{ display: 'none' }} />
       <AnimatePresence custom={currentTransitionData}>
         <motion.div
           key={pathname}
