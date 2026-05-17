@@ -78,10 +78,25 @@ export default function PageTransition({ children }) {
     }
   };
 
-  // Expose globally so Navbar can call it
+  // Expose globally so Navbar can call it and add audio unlock logic for mobile
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.playPageFlipSound = playPageFlipSound;
+      
+      const unlockAudio = () => {
+        const audioEl = document.getElementById('page-flip-audio');
+        if (audioEl) {
+          audioEl.play().then(() => {
+            audioEl.pause();
+            audioEl.currentTime = 0;
+          }).catch(() => {});
+        }
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+      };
+      
+      document.addEventListener('touchstart', unlockAudio, { once: true });
+      document.addEventListener('click', unlockAudio, { once: true });
     }
   }, []);
 
