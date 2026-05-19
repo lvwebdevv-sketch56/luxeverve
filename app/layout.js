@@ -2,6 +2,7 @@ import './globals.css';
 import ScrollReveal from '@/components/ScrollReveal';
 import GlobalClickSound from '@/components/GlobalClickSound';
 import LayoutShell from '@/components/LayoutShell';
+import { Toaster } from 'sonner';
 
 export const metadata = {
   title: 'Luxe Verve – Luxury Designer Doors',
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
       <body>
         <GlobalClickSound />
         <ScrollReveal />
+        <Toaster richColors position="top-right" />
         <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
