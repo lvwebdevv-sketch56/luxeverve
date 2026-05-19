@@ -48,7 +48,7 @@ const SpiralBinding = ({ isMobile, isClosedBack = false }) => {
         boxShadow: 'inset 0 0 8px rgba(0,0,0,1), 0 0 15px rgba(0,0,0,0.6)',
         borderRadius: '2px'
       }}></div>
-      
+
       {Array.from({ length: ringCount }).map((_, i) => (
         <div key={i} style={{
           width: ringWidth,
@@ -89,28 +89,7 @@ const PrevPageIcon = () => (
 );
 
 const pagesData = Array.from({ length: 20 }, (_, i) => {
-  if (i === 0 || i === 19) {
-    return { type: 'cover', title: 'LUXE VERVE', subtitle: 'Premium Crafted Doors', img: '/images/catalogue_bg.jpg' };
-  } else if (i === 1) {
-    return { type: 'intro', title: 'LUXE VERVE', text: 'At Luxe Verve, we understand that every space has a story—and every story deserves a door that feels personal.\n\nWe collaborate closely with architects and interior designers, turning their concepts into bespoke door solutions crafted with precision and purpose.\n\nFor us, a door is never just a product. It is the first impression, the warmth of a home, and a connection that lasts.' };
-  } else {
-    // Pages 2 to 19 (index 2 to 18)
-    const doorImages = [
-      'https://images.unsplash.com/photo-1541888049187-217822d64a06?q=80&w=800',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800',
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800',
-      'https://images.unsplash.com/photo-1506434304575-ccc45564ab1a?q=80&w=800',
-      'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800'
-    ];
-    const img = doorImages[i % doorImages.length];
-    
-    return { 
-      type: 'door_display', 
-      title: `DOOR MODEL 0${i}`, 
-      text: 'Inspired by the idea of continuous transition. Soft sculpted lines introduce rhythm and depth.\n\nMaterials: High-performance architectural core.\nCrafted with precision.', 
-      img: img 
-    };
-  }
+  return { type: 'full_image', img: '/images/catalogue_bg.jpg' };
 });
 
 const FlipbookSection = ({ title }) => {
@@ -152,115 +131,35 @@ const FlipbookSection = ({ title }) => {
   const renderPageContent = (data, pageNum, isMobileMode = false) => {
     const isLeft = pageNum % 2 !== 0;
 
-    let content;
-    let pageStyle;
-
-    if (data.type === 'cover') {
-      pageStyle = { 
-        width: '100%', height: '100%', position: 'relative', 
-        backgroundColor: '#161616', color: '#d4af37', 
-        display: 'flex', flexDirection: 'column', 
-        justifyContent: 'center', alignItems: 'center', 
-        boxShadow: 'inset 0 0 50px rgba(0,0,0,0.9)',
-        overflow: 'hidden'
-      };
-
-      let coverPadding = '40px';
-      if (isMobileMode) {
-         if (pageNum === pagesData.length - 1) {
-            coverPadding = '10% 15% 10% 10%'; // spiral on right
-         } else {
-            coverPadding = '10% 10% 10% 15%'; // spiral on left
-         }
-      } else {
-         if (pageNum === 0) {
-            coverPadding = '10% 10% 10% 15%'; // right page, spiral on left
-         } else {
-            coverPadding = '10% 15% 10% 10%'; // left page, spiral on right
-         }
-      }
-
-      content = (
-        <div style={{ width: '100%', height: '100%', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: coverPadding }}>
-          <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-            <img src={data.img} alt="Cover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-
-          <div style={{ 
-            position: 'relative', zIndex: 1, textAlign: 'center', 
-            padding: isMobileMode ? '30px 15px' : '60px 40px', 
-            width: isMobileMode ? '90%' : '80%',
-          }}>
-            <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: isMobileMode ? '8vw' : '4vw', letterSpacing: '8px', margin: 0, textShadow: '2px 2px 12px rgba(0,0,0,0.9), 0 0 30px rgba(0,0,0,0.6)', color: '#ffffff' }}>{data.title}</h1>
-            <p style={{ fontSize: isMobileMode ? '3vw' : '1.2vw', letterSpacing: '5px', textTransform: 'uppercase', margin: '15px 0 0 0', textShadow: '1px 1px 8px rgba(0,0,0,0.9)', color: '#eaeaea' }}>{data.subtitle}</p>
-          </div>
-        </div>
-      );
-    } else {
-      pageStyle = {
-        width: '100%', height: '100%', backgroundColor: '#fdfbf7', color: '#222', position: 'relative',
-        backgroundImage: 'url("https://www.transparenttextures.com/patterns/cream-paper.png")',
-        boxShadow: isMobileMode ? 'inset 0 0 20px rgba(0,0,0,0.05)' : (isLeft ? 'inset -20px 0 30px -15px rgba(0,0,0,0.15)' : 'inset 20px 0 30px -15px rgba(0,0,0,0.15)'),
-        display: 'flex', flexDirection: 'column'
-      };
-
-      if (data.type === 'intro') {
-        content = (
-          <div style={{ padding: isMobileMode ? '5% 5% 5% 12%' : (isLeft ? '12% 15% 12% 6%' : '12% 6% 12% 15%'), display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', flex: 1 }}>
-            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: isMobileMode ? '4vw' : '2.5vw', color: 'var(--primary-color)', marginBottom: '15px' }}>{data.title}</h3>
-            <hr style={{ border: 'none', borderBottom: '1px solid var(--primary-color)', marginBottom: '25px', width: '100%' }} />
-            <div style={{ fontSize: isMobileMode ? '2vw' : '1vw', lineHeight: 2.2, color: '#444', whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)', textAlign: 'justify' }}>{data.text}</div>
-          </div>
-        );
-      } else if (data.type === 'door_display') {
-        content = (
-          <div style={{ width: '100%', height: '100%', padding: isMobileMode ? '5% 5% 5% 10%' : (isLeft ? '8% 12% 8% 4%' : '8% 4% 8% 12%'), display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, gap: isMobileMode ? '10px' : '0' }}>
-            <div style={{ width: '40%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img src={data.img} style={{ width: '100%', height: '100%', objectFit: 'cover', border: '1px solid #e0e0e0', boxShadow: '0 8px 20px rgba(0,0,0,0.08)' }} alt={data.title} />
-            </div>
-            <div style={{ width: '55%', height: '100%', textAlign: 'left', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: isMobileMode ? '4.5vw' : '1.8vw', marginBottom: '10px', color: 'var(--primary-color)', lineHeight: 1.2 }}>{data.title}</h3>
-              <p style={{ fontSize: isMobileMode ? '2.2vw' : '0.9vw', lineHeight: isMobileMode ? 1.5 : 1.8, color: '#555', whiteSpace: 'pre-wrap', fontFamily: 'var(--font-sans)', textAlign: 'justify' }}>{data.text}</p>
-            </div>
-          </div>
-        );
-      }
-    }
+    const pageStyle = {
+      width: '100%', height: '100%', position: 'relative',
+      backgroundColor: '#161616',
+      display: 'flex', flexDirection: 'column',
+      justifyContent: 'center', alignItems: 'center',
+      boxShadow: isMobileMode ? 'inset 0 0 20px rgba(0,0,0,0.3)' : (isLeft ? 'inset -20px 0 30px -15px rgba(0,0,0,0.5)' : 'inset 20px 0 30px -15px rgba(0,0,0,0.5)'),
+      overflow: 'hidden'
+    };
 
     return (
       <div style={pageStyle}>
-        {content}
-        {data.type !== 'cover' && (
-          <div style={{ 
-            position: 'absolute', 
-            bottom: isMobileMode ? '10px' : '25px', 
-            left: isMobileMode ? '0' : (isLeft ? '40px' : 'auto'), 
-            right: isMobileMode ? '0' : (isLeft ? 'auto' : '40px'), 
-            color: '#999', 
-            fontSize: isMobileMode ? '0.7rem' : '0.9rem', 
-            fontFamily: 'var(--font-serif)', 
-            fontStyle: 'italic', 
-            textAlign: 'center', 
-            width: isMobileMode ? '100%' : 'auto' 
-          }}>{pageNum}</div>
-        )}
+        <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, zIndex: 0 }} />
       </div>
     );
   };
 
   return (
-    <div style={{ 
-      width: '90%', 
-      maxWidth: '1440px', 
-      margin: '0 auto 100px auto', 
-      background: 'var(--bg-sec)',
-      borderRadius: '40px',
-      padding: '60px 40px',
-      boxShadow: '0 10px 40px rgba(74,42,27,0.05)',
-      display: 'flex', 
-      flexDirection: 'column', 
-      alignItems: 'center', 
-      overflowX: 'hidden' 
+    <div style={{
+      width: isMobile ? '100%' : '90%',
+      maxWidth: isMobile ? '100vw' : '1440px',
+      margin: '0 auto 100px auto',
+      background: isMobile ? 'transparent' : 'var(--bg-sec)',
+      borderRadius: isMobile ? '0' : '40px',
+      padding: isMobile ? '10px 0' : '60px 40px',
+      boxShadow: isMobile ? 'none' : '0 10px 40px rgba(74,42,27,0.05)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      overflowX: 'hidden'
     }}>
       <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: 600, color: 'var(--primary-color)', marginBottom: '40px', textAlign: 'center', zIndex: 1, padding: '0 20px', wordWrap: 'break-word', maxWidth: '100%' }}>
         {title}
@@ -269,14 +168,14 @@ const FlipbookSection = ({ title }) => {
       {isMobile ? (
         <>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', maxWidth: '100vw', padding: '0 10px', boxSizing: 'border-box', justifyContent: 'center', zIndex: 1, perspective: '2500px', position: 'relative' }}>
-            
+
             {/* External Prev Arrow Slider (Mobile) */}
             <button
               onClick={(e) => { e.preventDefault(); setCurrentPage(p => p - 1); playPageTurnSound(); }}
               style={{
-                background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem', 
-                cursor: currentPage === 0 ? 'default' : 'pointer', 
-                opacity: currentPage === 0 ? 0 : 1, transition: 'all 0.4s ease', 
+                background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem',
+                cursor: currentPage === 0 ? 'default' : 'pointer',
+                opacity: currentPage === 0 ? 0 : 1, transition: 'all 0.4s ease',
                 display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === 0 ? 'none' : 'auto',
                 position: 'relative', zIndex: 100, transform: 'translateZ(50px)', padding: 0
               }}
@@ -287,18 +186,18 @@ const FlipbookSection = ({ title }) => {
               </div>
             </button>
 
-            <div style={{ flex: 1, maxWidth: '400px', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1 }}>
-              <div style={{ 
-                width: '100%', 
-                aspectRatio: '1 / 1.2', 
-                position: 'relative', 
+            <div style={{ flex: 1, width: '100vw', maxWidth: '100vw', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1 }}>
+              <div style={{
+                width: '100%',
+                aspectRatio: '1 / 1.3',
+                position: 'relative',
                 perspective: '3000px',
               }}>
                 <SpiralBinding isMobile={true} isClosedBack={currentPage === pagesData.length - 1} />
                 {pagesData.map((data, index) => {
                   const isFlipped = currentPage > index;
                   const isCurrent = currentPage === index;
-                  
+
                   if (index < currentPage - 1 || index > currentPage + 2) return null;
 
                   return (
@@ -308,8 +207,8 @@ const FlipbookSection = ({ title }) => {
                         position: 'absolute',
                         top: 0, left: 0, width: '100%', height: '100%',
                         transformOrigin: 'left center',
-                        transition: isFlipped 
-                          ? 'transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s ease 0.9s' 
+                        transition: isFlipped
+                          ? 'transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s ease 0.9s'
                           : 'transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0s linear 0s',
                         transformStyle: 'preserve-3d',
                         zIndex: pagesData.length - index,
@@ -332,9 +231,9 @@ const FlipbookSection = ({ title }) => {
             <button
               onClick={(e) => { e.preventDefault(); setCurrentPage(p => p + 1); playPageTurnSound(); }}
               style={{
-                background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem', 
-                cursor: currentPage === pagesData.length - 1 ? 'default' : 'pointer', 
-                opacity: currentPage === pagesData.length - 1 ? 0 : 1, transition: 'all 0.4s ease', 
+                background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem',
+                cursor: currentPage === pagesData.length - 1 ? 'default' : 'pointer',
+                opacity: currentPage === pagesData.length - 1 ? 0 : 1, transition: 'all 0.4s ease',
                 display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === pagesData.length - 1 ? 'none' : 'auto',
                 position: 'relative', zIndex: 100, transform: 'translateZ(50px)', padding: 0
               }}
@@ -352,14 +251,14 @@ const FlipbookSection = ({ title }) => {
         </>
       ) : (
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px', width: '100%', justifyContent: 'center', zIndex: 1, perspective: '2500px', position: 'relative' }}>
-          
+
           {/* External Prev Arrow Slider */}
           <button
             onClick={prevLeaf}
             style={{
-              background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '2rem', 
-              cursor: currentLeaf === 0 ? 'default' : 'pointer', 
-              opacity: currentLeaf === 0 ? 0 : 1, transition: 'all 0.4s ease', 
+              background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '2rem',
+              cursor: currentLeaf === 0 ? 'default' : 'pointer',
+              opacity: currentLeaf === 0 ? 0 : 1, transition: 'all 0.4s ease',
               display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentLeaf === 0 ? 'none' : 'auto'
             }}
             className="external-nav-icon prev no-click-sound"
@@ -378,10 +277,10 @@ const FlipbookSection = ({ title }) => {
             maxWidth: '1200px',
             position: 'relative'
           }}>
-            <div className="flipbook-container" style={{ 
-              width: '100%', 
-              aspectRatio: '2 / 1.3', 
-              position: 'relative', 
+            <div className="flipbook-container" style={{
+              width: '100%',
+              aspectRatio: '2 / 1.3',
+              position: 'relative',
               perspective: '3000px',
             }}>
               <SpiralBinding isMobile={false} />
@@ -402,8 +301,8 @@ const FlipbookSection = ({ title }) => {
                       transformStyle: 'preserve-3d',
                       zIndex: zIndex,
                       transform: isFlipped ? 'rotateY(-180deg)' : 'rotateY(0deg)',
-                      boxShadow: isFlipped 
-                        ? '5px 5px 15px rgba(0,0,0,0.4), 8px 0 20px rgba(0,0,0,0.2) inset' 
+                      boxShadow: isFlipped
+                        ? '5px 5px 15px rgba(0,0,0,0.4), 8px 0 20px rgba(0,0,0,0.2) inset'
                         : '-5px 5px 15px rgba(0,0,0,0.4), -8px 0 20px rgba(0,0,0,0.2) inset',
                       borderRadius: isFlipped ? '4px 0 0 4px' : '0 4px 4px 0'
                     }}
@@ -419,12 +318,12 @@ const FlipbookSection = ({ title }) => {
               })}
 
               {currentLeaf > 0 && currentLeaf < totalLeaves && (
-                <div style={{ 
-                  position: 'absolute', 
-                  top: 0, left: 'calc(50% - 15px)', 
-                  width: '30px', height: '100%', 
-                  background: 'linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(255,255,255,0.05) 15%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.05) 85%, rgba(0,0,0,0.5) 100%)', 
-                  zIndex: 100, 
+                <div style={{
+                  position: 'absolute',
+                  top: 0, left: 'calc(50% - 15px)',
+                  width: '30px', height: '100%',
+                  background: 'linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(255,255,255,0.05) 15%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.05) 85%, rgba(0,0,0,0.5) 100%)',
+                  zIndex: 100,
                   pointerEvents: 'none',
                   opacity: (currentLeaf === 0 || currentLeaf === totalLeaves) ? 0 : 1,
                   transition: 'opacity 0.5s ease'
@@ -437,9 +336,9 @@ const FlipbookSection = ({ title }) => {
           <button
             onClick={nextLeaf}
             style={{
-              background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '2rem', 
-              cursor: currentLeaf === totalLeaves ? 'default' : 'pointer', 
-              opacity: currentLeaf === totalLeaves ? 0 : 1, transition: 'all 0.4s ease', 
+              background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '2rem',
+              cursor: currentLeaf === totalLeaves ? 'default' : 'pointer',
+              opacity: currentLeaf === totalLeaves ? 0 : 1, transition: 'all 0.4s ease',
               display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentLeaf === totalLeaves ? 'none' : 'auto'
             }}
             className="external-nav-icon next no-click-sound"
@@ -493,18 +392,17 @@ const FlipbookSection = ({ title }) => {
   );
 };
 
-export default function CataloguePage() {
+export default function CatalogueFlipbooks() {
   return (
-    <div style={{ 
+    <div style={{
       paddingTop: '60px',
-      paddingBottom: '60px', 
-      minHeight: '100vh', 
-      backgroundColor: 'var(--bg-dark-solid)', 
-      display: 'flex', 
-      flexDirection: 'column', 
+      paddingBottom: '60px',
+      display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      width: '100%'
     }}>
 
       {/* 3D Modern Background Elements */}

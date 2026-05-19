@@ -12,7 +12,12 @@ export default function LayoutShell({ children }) {
   const isThemePage = THEME_ROUTES.includes(pathname);
 
   if (isThemePage) {
-    return <main style={{ minHeight: '100vh' }}>{children}</main>;
+    return (
+      <>
+        <main style={{ minHeight: '100vh' }}>{children}</main>
+        <WhatsAppButton />
+      </>
+    );
   }
 
   return (
@@ -21,8 +26,8 @@ export default function LayoutShell({ children }) {
       <PageTransition>
         <main>{children}</main>
         <Footer />
-        <WhatsAppButton />
       </PageTransition>
+      <WhatsAppButton />
     </>
   );
 }

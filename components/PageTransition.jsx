@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const routes = ['/home', '/collection', '/catalogue', '/about', '/contact', '/blog'];
+const routes = ['/home', '/collection', '/about', '/contact', '/blog'];
 
 import { LayoutRouterContext } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
@@ -215,42 +215,7 @@ export default function PageTransition({ children }) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [pathname]);
 
-  // Swipe navigation
-  useEffect(() => {
-    const onTouchStart = (e) => {
-      touchEndX.current = null;
-      touchEndY.current = null;
-      touchStartX.current = e.targetTouches[0].clientX;
-      touchStartY.current = e.targetTouches[0].clientY;
-    };
-
-    const onTouchMove = (e) => {
-      touchEndX.current = e.targetTouches[0].clientX;
-      touchEndY.current = e.targetTouches[0].clientY;
-    };
-
-    const onTouchEnd = () => {
-      if (!touchStartX.current || !touchEndX.current) return;
-
-      const distanceX = touchStartX.current - touchEndX.current;
-      const distanceY = touchStartY.current - touchEndY.current;
-
-      if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > minSwipeDistance) {
-        if (distanceX > 0) paginate(1);
-        else paginate(-1);
-      }
-    };
-
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-    window.addEventListener('touchend', onTouchEnd);
-
-    return () => {
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchend', onTouchEnd);
-    };
-  }, [pathname]);
+  // Swipe navigation removed per user request
 
   const variants = {
     enter: () => ({

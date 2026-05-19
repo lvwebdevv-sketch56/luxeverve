@@ -3,6 +3,8 @@ export const metadata = {
   description: 'Explore our curated collection of luxury designer doors.',
 };
 
+import CatalogueFlipbooks from '../../components/CatalogueFlipbooks';
+
 export default function CollectionPage() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)' }}>
@@ -117,6 +119,8 @@ export default function CollectionPage() {
 
         </div>
       </section>
+
+      <CatalogueFlipbooks />
 
       <style dangerouslySetInnerHTML={{
         __html: `

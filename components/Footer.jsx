@@ -5,7 +5,6 @@ import './Footer.css';
 const navLinks = [
   { href: '/home',       label: 'Home' },
   { href: '/collection', label: 'Collection' },
-  { href: '/catalogue',  label: 'Catalogue' },
   { href: '/about',      label: 'About Us' },
   { href: '/contact',    label: 'Contact Us' },
   { href: '/blog',       label: 'Blog' },

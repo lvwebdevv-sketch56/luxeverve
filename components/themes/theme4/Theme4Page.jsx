@@ -93,17 +93,17 @@ export default function Theme4Page() {
           </div>
           
           <div className="t4-product-list">
-            <Link href="/catalogue" className="t4-product-card">
+            <Link href="/collection" className="t4-product-card">
               <img src="/images/door_sculpted_wood_1776844667211.png" alt="Nordic Door" />
               <h3 className="t4-product-title">Nordic Door</h3>
               <p className="t4-product-price">$500.00</p>
             </Link>
-            <Link href="/catalogue" className="t4-product-card">
+            <Link href="/collection" className="t4-product-card">
               <img src="/images/door_minimal_metal_1776844703459.png" alt="Aero Door" />
               <h3 className="t4-product-title">Kruzo Aero Door</h3>
               <p className="t4-product-price">$780.00</p>
             </Link>
-            <Link href="/catalogue" className="t4-product-card">
+            <Link href="/collection" className="t4-product-card">
               <img src="/images/luxury_doors_landing_page_scrolled_1776845139099.png" alt="Ergonomic Door" />
               <h3 className="t4-product-title">Ergonomic Pivot</h3>
               <p className="t4-product-price">$430.00</p>

@@ -7,7 +7,6 @@ import './theme6.css';
 const NAV = [
   { href: '/home', label: 'Home' },
   { href: '/collection', label: 'Collection' },
-  { href: '/catalogue', label: 'Catalogue' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact Us' },
   { href: '/blog', label: 'Blog' },
@@ -84,7 +83,7 @@ export default function Theme6Page() {
             { img: '/images/door_minimal_metal_1776844703459.png', label: 'Collection II', title: 'Minimal Metal' },
             { img: '/images/door_grand_pivot_1776844794720.png',   label: 'Collection III', title: 'Grand Pivot' },
           ].map((c, i) => (
-            <Link href="/catalogue" className="t6-card" key={i}>
+            <Link href="/collection" className="t6-card" key={i}>
               <img src={c.img} alt={c.title} className="t6-card-img" />
               <h3 className="t6-card-title">{c.title}</h3>
               <p className="t6-card-desc">Discover our {c.title.toLowerCase()} collection, designed with uncompromising precision and premium materials.</p>
