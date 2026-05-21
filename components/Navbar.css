@@ -116,7 +116,7 @@
 .mobile-logo { display: flex; align-items: center; }
 
 .mobile-brand-name {
-  font-family: var(--font-serif);
+  font-family: var(--font-knockout);
   font-size: 1.4rem;
   font-weight: 500;
   color: var(--text-main);

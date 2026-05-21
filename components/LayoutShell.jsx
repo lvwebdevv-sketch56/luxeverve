@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import PageTransition from '@/components/PageTransition';
 
-const THEME_ROUTES = ['/home1', '/home2', '/home3', '/home4', '/home5', '/home6'];
+const THEME_ROUTES = ['/home4'];
 
 export default function LayoutShell({ children }) {
   const pathname = usePathname();

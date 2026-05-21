@@ -61,7 +61,7 @@
 }
 
 .hero-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-knockout);
   font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 400;
   color: #fff;
@@ -141,7 +141,7 @@
 }
 
 .rolex-card-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-knockout);
   color: #ffffff;
   font-size: 1.8rem;
   font-weight: 500;

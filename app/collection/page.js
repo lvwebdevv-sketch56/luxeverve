@@ -4,8 +4,49 @@ export const metadata = {
 };
 
 import CatalogueFlipbooks from '../../components/CatalogueFlipbooks';
+import CollectionSlider from '../../components/CollectionSlider';
+import { db } from '../../lib/firebaseAdmin';
 
-export default function CollectionPage() {
+export default async function CollectionPage() {
+  const snapshot = await db.collection('content').get();
+  const content = snapshot.docs.map(doc => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      title: data.title || null,
+      url: data.url || null,
+      description: data.description || null,
+      text: data.text || null,
+      order: data.order || 0
+    };
+  });
+
+  const banner = content.find(i => i.title === 'coll_banner') || { description: "The Art of Architectural\nDoors", text: "Gives You The Luxury you Deserve", url: "/images/collection_1.png" };
+  const sec2 = content.find(i => i.title === 'coll_sec2') || { description: "Our Philosophy of Bespoke Entrance Architecture", text: "Every designer door we construct represents an intensive dialogue between technical engineering and pure aesthetics..." };
+
+  const getSlider = (id, defaultTitle, defaultText) => {
+    const data = content.find(i => i.title === id);
+    if (data) {
+      let imgs = ["", "", "", "", "", ""];
+      try { imgs = JSON.parse(data.url); } catch(e) {}
+      return { title: data.description || defaultTitle, text: data.text || defaultText, images: imgs };
+    }
+    // Default placeholders
+    const defaultImages = [
+      "/images/door_sculpted_wood_1776844667211.png",
+      "/images/door_minimal_metal_1776844703459.png",
+      "/images/door_grand_pivot_1776844794720.png",
+      "/images/door_classic_glass_1776844734600.png",
+      "/images/door_stone_texture_1776844837858.png",
+      "/images/collection_2.png"
+    ];
+    return { title: defaultTitle, text: defaultText, images: defaultImages };
+  };
+
+  const slider1 = getSlider('coll_slider1', "Thread Line Door", "The THREADLINE DOOR is a bold expression of contemporary luxury door design...");
+  const slider2 = getSlider('coll_slider2', "MORPHIC DOOR", "The MORPHIC DOOR is a sculptural interpretation of modern luxury entrance door design...");
+  const slider3 = getSlider('coll_slider3', "CUBIX DOOR", "The CUBIX DOOR is a bold luxury architectural door statement defined by structure, rhythm, and precision...");
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)' }}>
       {/* First Section (Hero) */}
@@ -13,20 +54,20 @@ export default function CollectionPage() {
         position: 'relative',
         height: '130vh',
         width: '100%',
-      }}>
+      }} className="collection-hero-wrapper">
         <div style={{
           position: 'sticky',
           top: 0,
           height: '100vh',
           width: '100%',
-          backgroundImage: 'url(/images/collection_1.png)',
+          backgroundImage: `url(${banner.url})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start', // Align content to the left
           overflow: 'hidden'
-        }}>
+        }} className="collection-hero-bg">
           {/* Left Half Transparent Shadow */}
           <div style={{
             position: 'absolute',
@@ -36,7 +77,7 @@ export default function CollectionPage() {
             width: '50vw',
             background: 'rgba(0, 0, 0, 0.65)',
             zIndex: 1
-          }}></div>
+          }} className="collection-hero-shadow"></div>
 
           {/* Content */}
           <div style={{
@@ -49,34 +90,38 @@ export default function CollectionPage() {
             gap: '20px'
           }} className="collection-hero-content">
             <h3 style={{ 
-              fontFamily: 'var(--font-serif)', 
-              fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', 
+              fontFamily: 'var(--font-knockout)', 
+              fontSize: 'clamp(1rem, 3vw, 2.5rem)', 
               fontWeight: 400, 
               color: 'var(--primary-color)', 
               margin: 0 
-            }}>
-              Gives You The Luxury you Deserve
+            }} className="collection-h3">
+              {banner.text}
             </h3>
             
             <h1 style={{ 
-              fontFamily: 'var(--font-serif)', 
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+              fontFamily: 'var(--font-knockout)', 
+              fontSize: 'clamp(1.8rem, 5vw, 4rem)', 
               fontWeight: 400, 
               color: 'var(--primary-color)', 
               lineHeight: 1.2,
               margin: '10px 0'
-            }}>
-              The Art of Architectural<br />Doors
+            }} className="collection-h1">
+              {banner.description.split('\\n').map((line, i) => (
+                <span key={i}>
+                  {line}<br />
+                </span>
+              ))}
             </h1>
             
             <p style={{ 
               marginTop: '16px', 
               color: '#F5E9E2', 
-              fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', 
+              fontSize: 'clamp(0.9rem, 1.5vw, 1.25rem)', 
               lineHeight: 1.6,
               fontWeight: 300,
               fontStyle: 'italic'
-            }}>
+            }} className="collection-p">
               "At Luxe Verve, we design doors as architectural statements where form, material, and craftsmanship come together to create entrances that feel refined, timeless, and unmistakably luxurious."
             </p>
           </div>
@@ -101,40 +146,70 @@ export default function CollectionPage() {
           {/* Image */}
           <div style={{ flex: '1', width: '100%' }} className="collection-image-wrapper">
             <img 
-              src="/images/collection_2.png" 
+              src={sec2.url || "/images/collection_2.png"} 
               alt="Engineered Wood" 
               style={{ width: '100%', height: 'auto', borderRadius: '4px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }} 
             />
           </div>
 
           {/* Text */}
-          <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '20px' }} className="collection-text-wrapper">
-            <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--text-main)' }}>
-              Engineered wood is a premium, high-performance material designed for exceptional strength, stability, and long-term durability. Manufactured by bonding multiple layers using advanced technology, it offers superior resistance to warping, moisture, and termite damage. Its refined, uniform structure ensures flawless surfaces and consistent quality ideal for luxury door finishes and precise detailing.
-            </p>
-            <p style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--text-main)' }}>
-              Engineered wood allows designers to achieve bold, elegant forms with confidence. As an eco-conscious, low-maintenance choice, it delivers the timeless beauty of solid wood while offering enhanced reliability, sophistication, and performance for high-end architectural doors and refined interior spaces.
-            </p>
+            <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '20px' }} className="collection-text-wrapper">
+              <h2 style={{ fontSize: '2rem', color: 'var(--primary-color)', fontFamily: 'var(--font-knockout)' }}>{sec2.description}</h2>
+              {sec2.text.split('\\n').map((para, i) => (
+                <p key={i} style={{ fontSize: '1.05rem', lineHeight: 1.8, color: 'var(--text-muted)', textAlign: 'justify' }}>
+                  {para}
+                </p>
+              ))}
+            </div>
           </div>
+        </section>
 
-        </div>
-      </section>
+        <CollectionSlider title={slider1.title} text={slider1.text} images={slider1.images} />
+        <CollectionSlider title={slider2.title} text={slider2.text} images={slider2.images} />
+        <CollectionSlider title={slider3.title} text={slider3.text} images={slider3.images} />
 
-      <CatalogueFlipbooks />
+        <CatalogueFlipbooks content={content} />
 
       <style dangerouslySetInnerHTML={{
         __html: `
         @media (max-width: 900px) {
-          .collection-hero-content {
-            max-width: 90vw !important;
-            padding: 0 5vw !important;
+          .collection-hero-wrapper {
+            height: 50vh !important;
           }
+          .collection-hero-bg {
+            height: 50vh !important;
+          }
+          .collection-hero-content {
+            max-width: 50vw !important;
+            padding: 0 4vw !important;
+          }
+          .collection-hero-shadow {
+            width: 50vw !important;
+            background: rgba(0, 0, 0, 0.65) !important;
+          }
+          .collection-h3 {
+            font-size: clamp(0.75rem, 2.5vw, 1rem) !important;
+          }
+          .collection-h1 {
+            font-size: clamp(1.2rem, 4.5vw, 2rem) !important;
+            margin: 5px 0 !important;
+          }
+          .collection-p {
+            font-size: clamp(0.65rem, 2vw, 0.9rem) !important;
+            line-height: 1.4 !important;
+            margin-top: 8px !important;
+          }
+
           .collection-flex-container {
             flex-direction: column !important;
             gap: 40px !important;
+            padding: 30px !important;
           }
           .collection-image-wrapper {
             order: -1;
+          }
+          .collection-second-section {
+            padding: 40px 5vw !important;
           }
         }
       `}} />

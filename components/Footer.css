@@ -61,8 +61,8 @@
 }
 
 .footer-hero-wordmark {
-  font-family: var(--font-serif);
-  font-size: clamp(3rem, 9vw, 7rem);
+  font-family: var(--font-knockout);
+  font-size: clamp(4.5rem, 12vw, 7rem);
   font-weight: 400;
   font-style: italic;
   color: rgba(255, 255, 255, 0.08);
@@ -430,5 +430,7 @@
 
   .footer-hero-wordmark {
     letter-spacing: 6px;
+    font-size: 5rem;
+    line-height: 0.9;
   }
 }

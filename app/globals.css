@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Serif+Display:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Serif+Display:ital@0;1&family=Oswald:wght@500;600;700&display=swap');
 
 :root {
   --primary-color: #6E442A;
@@ -10,6 +10,7 @@
   --font-serif: 'Cormorant Garamond', 'Bodoni Moda', 'DM Serif Display', serif; /* --fh */
   --font-sans: 'Inter', 'DM Sans', sans-serif; /* --fb */
   --font-nav: 'Inter', sans-serif;
+  --font-knockout: 'Knockout Cruiserweight', 'Anton', 'Oswald', sans-serif;
   --transition-fast: 0.3s ease;
   --transition-slow: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   
@@ -40,8 +41,13 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, .serif-font {
-  font-family: var(--font-serif);
+  font-family: var(--font-knockout);
   color: var(--text-main);
+}
+
+p {
+  color: var(--text-muted);
+  text-align: justify;
 }
 
 a {

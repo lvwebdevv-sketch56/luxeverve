@@ -2,12 +2,39 @@
 import './HeroVideoSection.css';
 import { useEffect, useRef, useState } from 'react';
 
-const HeroVideoSection = () => {
+const HeroVideoSection = ({ content = [] }) => {
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef(null);
+
+  // Initialize state directly from server-provided content
+  const heroBanner = content.find(i => i.title === 'hero_banner');
+  const [banner, setBanner] = useState({
+    title: heroBanner?.text || 'LUXE VERVE',
+    subtitle: heroBanner?.description || 'Beyond the Threshold',
+    videoUrl: heroBanner?.url || '/videos/banner.mp4',
+    posterUrl: heroBanner?.thumbnailUrl || '/images/banner1img.jpeg'
+  });
+
+  const heroCards = content.filter(i => i.title && i.title.startsWith('hero_card_')).sort((a,b) => a.order - b.order);
+  const defaultCards = [
+    { id: "def1", title: "hero_card_1", text: "Sculpted Wood", description: "Masterpieces in timber.", url: "/images/door_sculpted_wood_1776844667211.png" },
+    { id: "def2", title: "hero_card_2", text: "Minimal Metal", description: "Sleek, modern entrances.", url: "/images/door_minimal_metal_1776844703459.png" },
+    { id: "def3", title: "hero_card_3", text: "Grand Pivot", description: "Architectural statements.", url: "/images/door_grand_pivot_1776844794720.png" }
+  ];
+
+  const mergedCards = defaultCards.map(defCard => {
+    const found = heroCards.find(c => c.title === defCard.title);
+    return found || defCard;
+  });
+
+  const [cards, setCards] = useState(mergedCards.map(c => ({
+    img: c.url || '/images/door_sculpted_wood_1776844667211.png',
+    title: c.text,
+    desc: c.description
+  })));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -45,23 +72,9 @@ const HeroVideoSection = () => {
     };
   }, []);
 
-  const cards = [
-    {
-      img: '/images/door_sculpted_wood_1776844667211.png',
-      title: 'Sculpted Wood',
-      desc: 'Masterpieces in timber.'
-    },
-    {
-      img: '/images/door_minimal_metal_1776844703459.png',
-      title: 'Minimal Metal',
-      desc: 'Sleek, modern entrances.'
-    },
-    {
-      img: '/images/door_grand_pivot_1776844794720.png',
-      title: 'Grand Pivot',
-      desc: 'Architectural statements.'
-    }
-  ];
+
+
+
 
   return (
     <div className="hero-video-wrapper">
@@ -70,20 +83,22 @@ const HeroVideoSection = () => {
         {/* 'First Frame' Static Image Loader */}
         <div 
           className="hero-video-poster-layer"
-          style={{ backgroundImage: 'url("/images/banner1img.jpeg")' }}
+          style={{ backgroundImage: `url("${banner.posterUrl}")` }}
         ></div>
 
         <video
+          key={banner.videoUrl}
           ref={videoRef}
           className={`hero-video ${videoLoaded ? 'loaded' : ''}`}
           autoPlay
           muted
           loop
           playsInline
+          poster={banner.posterUrl}
           onLoadedData={() => setVideoLoaded(true)}
           onCanPlay={() => setVideoLoaded(true)}
         >
-          <source src="/videos/banner.mp4" type="video/mp4" />
+          <source src={banner.videoUrl} type="video/mp4" />
         </video>
         <div className="hero-video-overlay"></div>
       </div>
@@ -100,8 +115,8 @@ const HeroVideoSection = () => {
             transition: 'opacity 0.1s ease-out, transform 0.1s ease-out'
           }}
         >
-          <h1 className="hero-title fade-in delay-1">LUXE VERVE</h1>
-          <p className="hero-subtitle fade-in delay-2">Beyond the Threshold</p>
+          <h1 className="hero-title fade-in delay-1">{banner.title}</h1>
+          <p className="hero-subtitle fade-in delay-2">{banner.subtitle}</p>
         </div>
 
         {/* Cards slide up and cover the video as you scroll further down */}

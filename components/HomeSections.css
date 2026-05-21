@@ -43,7 +43,7 @@
 
 /* Heading UI */
 .section-heading {
-  font-family: var(--font-serif);
+  font-family: var(--font-knockout);
   color: var(--text-main);
   font-size: clamp(2.5rem, 4vw, 3.5rem);
   font-weight: 400;
@@ -154,7 +154,7 @@ video.static-media {
 }
 
 .luxe-header-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-knockout);
   color: var(--primary-color);
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 400;
@@ -193,7 +193,7 @@ video.static-media {
 }
 
 .luxe-col-heading {
-  font-family: var(--font-serif);
+  font-family: var(--font-knockout);
   color: var(--text-main);
   font-size: 1.4rem;
   font-weight: 500;

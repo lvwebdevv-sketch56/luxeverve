@@ -1,14 +1,37 @@
-'use client';
-import { useParams, useRouter } from 'next/navigation';
-import { posts } from '@/lib/blogData';
+import { db } from '@/lib/firebaseAdmin';
+import { posts as fallbackPosts } from '@/lib/blogData';
 import Link from 'next/link';
 
-export default function ReadMorePage() {
-  const params = useParams();
-  const router = useRouter();
-  const id = parseInt(params.id, 10);
-  const post = posts.find(p => p.id === id);
-  const otherPosts = posts.filter(p => p.id !== id).slice(0, 3);
+export default async function ReadMorePage({ params }) {
+  const { id } = params;
+
+  let dynamicPosts = [];
+  try {
+    const snapshot = await db.collection('content').where('type', '==', 'blog_post').get();
+    dynamicPosts = snapshot.docs.map(doc => {
+      let extra = {};
+      const data = doc.data();
+      try {
+        if (data.text) extra = JSON.parse(data.text);
+      } catch (e) {}
+      return {
+        id: doc.id,
+        title: data.description || data.title,
+        img: data.url,
+        tag: extra.tag || 'Design Trends',
+        excerpt: extra.excerpt || '',
+        date: extra.date || '',
+        readTime: extra.readTime || '',
+        author: extra.author || '',
+        authorRole: extra.authorRole || '',
+        content: extra.content || [],
+      };
+    });
+  } catch(e) {}
+
+  const allPosts = dynamicPosts.length > 0 ? dynamicPosts : fallbackPosts;
+  const post = allPosts.find(p => p.id === id || String(p.id) === id);
+  const otherPosts = allPosts.filter(p => p.id !== id && String(p.id) !== id).slice(0, 3);
 
   if (!post) {
     return (
@@ -150,9 +173,10 @@ export default function ReadMorePage() {
             if (block.type === 'paragraph') return (
               <p key={i} style={{
                 fontSize: 'clamp(0.9rem, 2vw, 1.02rem)',
-                lineHeight: 1.95, color: 'rgba(42, 22, 13,0.75)',
+                lineHeight: 1.95, color: 'var(--text-muted)',
                 marginBottom: '22px',
                 fontFamily: 'var(--font-sans)', fontWeight: 300,
+                textAlign: 'justify'
               }}>
                 {block.text}
               </p>

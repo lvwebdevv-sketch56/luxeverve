@@ -1,6 +1,25 @@
+"use client";
 import './HomeSections.css';
+import MediaGrid from './MediaGrid';
+import { useState, useEffect } from 'react';
 
-const HomeSections = () => {
+const HomeSections = ({ content = [] }) => {
+  const sec1 = content.find(i => i.title === 'home_section1');
+  const [section1, setSection1] = useState({
+    title: sec1?.text || "An Expression of Luxury Door Design, Quality, and Craftsmanship",
+    text: sec1?.description || "Our presence at a leading industry event reflects a convergence of craftsmanship, innovation, and modern design. Engaging with architects, designers, and industry experts, we explored contemporary design trends, premium materials, and refined finishes that define high-quality architectural solutions.\n\nOur participation in curated trade shows and design exhibitions reflects our commitment to engineered wood solutions, durable materials, and precision craftsmanship for both residential and commercial spaces. Staying closely aligned with evolving design sensibilities allows us to create architectural products that balance elegance, performance, and longevity.\n\nThrough meaningful industry engagement, we continue to refine our vision and deliver timeless, performance-driven solutions shaped by quality, innovation, and design excellence.",
+    url: sec1?.url || "/videos/demo.mp4",
+    thumbnailUrl: sec1?.thumbnailUrl || "/images/luxury_doors_landing_page_scrolled_1776845139099.png"
+  });
+
+  const sec3 = content.find(i => i.title === 'home_section3');
+  const [section3, setSection3] = useState({
+    title: sec3?.text || "The Art of Luxury Entrance Doors",
+    text: sec3?.description || "Discover doors conceived for those who value distinction, precision, and enduring design. Crafted with meticulous attention to detail, each luxury entrance door is thoughtfully engineered to balance strength, elegance, and performance. From refined proportions to flawless finishes, every element is designed to elevate architectural character while ensuring lasting durability.\n\nRooted in modern design sensibilities, our designer doors are created using premium materials and advanced engineered wood solutions, ensuring stability, resilience, and timeless appeal. Carefully curated surfaces, textures, and finishes allow our doors to complement both contemporary and classic interiors, making them ideal for high-end residential and sophisticated commercial spaces.\n\nMore than architectural products, our doors serve as defining statements—enhancing entrances with quiet luxury and purposeful design. Each piece reflects superior craftsmanship, structural integrity, and a deep understanding of architectural form and function.",
+    url: sec3?.url || "/videos/demo.mp4",
+    thumbnailUrl: sec3?.thumbnailUrl || "/images/door_grand_pivot_1776844794720.png"
+  });
+
   return (
     <div className="home-sections-wrapper">
 
@@ -8,22 +27,16 @@ const HomeSections = () => {
       <section className="home-section">
         <div className="home-section-container">
           <div className="home-section-content left-content">
-            <h2 className="section-heading">An Expression of Luxury Door Design, Quality, and Craftsmanship</h2>
+            <h2 className="section-heading">{section1.title}</h2>
             <div className="section-text">
-              <p>
-                Our presence at a leading industry event reflects a convergence of craftsmanship, innovation, and modern design. Engaging with architects, designers, and industry experts, we explored contemporary design trends, premium materials, and refined finishes that define high-quality architectural solutions.
-              </p>
-              <p>
-                Our participation in curated trade shows and design exhibitions reflects our commitment to engineered wood solutions, durable materials, and precision craftsmanship for both residential and commercial spaces. Staying closely aligned with evolving design sensibilities allows us to create architectural products that balance elegance, performance, and longevity.
-              </p>
-              <p>
-                Through meaningful industry engagement, we continue to refine our vision and deliver timeless, performance-driven solutions shaped by quality, innovation, and design excellence.
-              </p>
+              {section1.text.split('\n').filter(p => p.trim()).map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
             </div>
           </div>
           <div className="home-section-media right-media">
-            <video className="static-media" controls poster="/images/luxury_doors_landing_page_scrolled_1776845139099.png">
-              <source src="/videos/demo.mp4" type="video/mp4" />
+            <video key={section1.url} className="static-media" controls poster={section1.thumbnailUrl}>
+              <source src={section1.url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -54,22 +67,16 @@ const HomeSections = () => {
       <section className="home-section">
         <div className="home-section-container">
           <div className="home-section-content left-content">
-            <h2 className="section-heading">The Art of Luxury Entrance Doors</h2>
+            <h2 className="section-heading">{section3.title}</h2>
             <div className="section-text">
-              <p>
-                Discover doors conceived for those who value distinction, precision, and enduring design. Crafted with meticulous attention to detail, each luxury entrance door is thoughtfully engineered to balance strength, elegance, and performance. From refined proportions to flawless finishes, every element is designed to elevate architectural character while ensuring lasting durability.
-              </p>
-              <p>
-                Rooted in modern design sensibilities, our designer doors are created using premium materials and advanced engineered wood solutions, ensuring stability, resilience, and timeless appeal. Carefully curated surfaces, textures, and finishes allow our doors to complement both contemporary and classic interiors, making them ideal for high-end residential and sophisticated commercial spaces.
-              </p>
-              <p>
-                More than architectural products, our doors serve as defining statements—enhancing entrances with quiet luxury and purposeful design. Each piece reflects superior craftsmanship, structural integrity, and a deep understanding of architectural form and function.
-              </p>
+              {section3.text.split('\n').filter(p => p.trim()).map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
             </div>
           </div>
           <div className="home-section-media right-media">
-            <video className="static-media" controls poster="/images/door_grand_pivot_1776844794720.png">
-              <source src="/videos/demo.mp4" type="video/mp4" />
+            <video key={section3.url} className="static-media" controls poster={section3.thumbnailUrl}>
+              <source src={section3.url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
@@ -80,7 +87,7 @@ const HomeSections = () => {
       <section className="home-section luxe-details-header">
         <div className="container" style={{ textAlign: 'center' }}>
           <img src="/images/logo.png" alt="Luxe Verve Logo" className="luxe-header-logo" />
-          <h1 className="luxe-header-title">The Luxe Details</h1>
+
         </div>
       </section>
 
@@ -131,6 +138,7 @@ const HomeSections = () => {
         </div>
       </section>
 
+    <MediaGrid />
     </div>
   );
 };

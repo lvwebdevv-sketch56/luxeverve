@@ -88,15 +88,17 @@ const PrevPageIcon = () => (
   </svg>
 );
 
-const pagesData = Array.from({ length: 20 }, (_, i) => {
-  return { type: 'full_image', img: '/images/catalogue_bg.jpg' };
-});
-
-const FlipbookSection = ({ title }) => {
+const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
   const [currentLeaf, setCurrentLeaf] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const totalLeaves = 10;
+  
+  // Pad pages for desktop so we have an even number of pages
+  const paddedPages = [...pagesData];
+  if (paddedPages.length % 2 !== 0) {
+    paddedPages.push({ type: 'blank', img: '' });
+  }
+  const totalLeaves = paddedPages.length / 2;
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 900);
@@ -142,7 +144,7 @@ const FlipbookSection = ({ title }) => {
 
     return (
       <div style={pageStyle}>
-        <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, zIndex: 0 }} />
+        {data?.img && <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, zIndex: 0 }} />}
       </div>
     );
   };
@@ -161,7 +163,7 @@ const FlipbookSection = ({ title }) => {
       alignItems: 'center',
       overflowX: 'hidden'
     }}>
-      <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: 600, color: 'var(--primary-color)', marginBottom: '40px', textAlign: 'center', zIndex: 1, padding: '0 20px', wordWrap: 'break-word', maxWidth: '100%' }}>
+      <h2 style={{ fontFamily: 'var(--font-knockout)', fontSize: 'clamp(1.8rem, 5vw, 3rem)', fontWeight: 600, color: 'var(--primary-color)', marginBottom: '40px', textAlign: 'center', zIndex: 1, padding: '0 20px', wordWrap: 'break-word', maxWidth: '100%' }}>
         {title}
       </h2>
 
@@ -308,10 +310,10 @@ const FlipbookSection = ({ title }) => {
                     }}
                   >
                     <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: '#fdfbf7', borderLeft: '1px solid rgba(0,0,0,0.1)', borderRadius: '0 4px 4px 0', overflow: 'hidden' }}>
-                      {renderPageContent(pagesData[index * 2], index * 2)}
+                      {paddedPages[index * 2] && renderPageContent(paddedPages[index * 2], index * 2)}
                     </div>
                     <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: '#fdfbf7', transform: 'rotateY(180deg)', borderRight: '1px solid rgba(0,0,0,0.1)', borderRadius: '4px 0 0 4px', overflow: 'hidden' }}>
-                      {renderPageContent(pagesData[index * 2 + 1], index * 2 + 1)}
+                      {paddedPages[index * 2 + 1] && renderPageContent(paddedPages[index * 2 + 1], index * 2 + 1)}
                     </div>
                   </div>
                 );
@@ -358,8 +360,10 @@ const FlipbookSection = ({ title }) => {
 
       {/* Download Button */}
       <a
-        href="data:application/pdf;base64,JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAvTWVkaWFCb3ggWyAwIDAgNDAwIDYwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0KPj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAgL1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSCj4+Cj4+CiAgL0NvbnRlbnRzIDUgMCBSCj4+CmVuZG9iagoKNCAwIG9iago8PAogIC9UeXBlIC9Gb250CiAgL1N1YnR5cGUgL1R5cGUxCiAgL0Jhc2VGb250IC9UaW1lcy1Sb21hbgo+PgplbmRvYmoKCjUgMCBvYmoKPDwgL0xlbmd0aCA4OCA+PgpzdHJlYW0KQlQKMDAlMEE1NTAgVGQKbackslashnL0YxIDI0IFRmCihMeXhlIFZlcnZlIENhdGFsb2d1ZSkgVGoKMCAtNDAgVGQKbackslashnL0YxIDE0IFRmCihUaGlzIGlzIGEgZHVtbXkgUERGIGZpbGUuKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCgp4cmVmCjAgNgowMDAwMDAwMDAwIDY1MzUzIGYgCjAwMDAwMDAwMTAgMDAwMDAgbiAKMDAwMDAwMDA3OSAwMDAwMCBuIAowMDAwMDAwMTczIDAwMDAwIG4gCjAwMDAwMDAzMDEgMDAwMDAgbiAKMDAwMDAwMDM4MCAwMDAwMCBuIAp0cmFpbGVyCjw8CiAgL1NpemUgNgogIC9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo1MjEKJSVFT0YK"
-        download="Luxe_Verve_Catalogue.pdf"
+        href={pdfUrl || "data:application/pdf;base64,JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAvTWVkaWFCb3ggWyAwIDAgNDAwIDYwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0KPj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAgL1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSCj4+Cj4+CiAgL0NvbnRlbnRzIDUgMCBSCj4+CmVuZG9iagoKNCAwIG9iago8PAogIC9UeXBlIC9Gb250CiAgL1N1YnR5cGUgL1R5cGUxCiAgL0Jhc2VGb250IC9UaW1lcy1Sb21hbgo+PgplbmRvYmoKCjUgMCBvYmoKPDwgL0xlbmd0aCA4OCA+PgpzdHJlYW0KQlQKMDAlMEE1NTAgVGQKbackslashnL0YxIDI0IFRmCihMeXhlIFZlcnZlIENhdGFsb2d1ZSkgVGoKMCAtNDAgVGQKbackslashnL0YxIDE0IFRmCihUaGlzIGlzIGEgZHVtbXkgUERGIGZpbGUuKSBUagpFVAplbmRzdHJlYW0KZW5kb2JqCgp4cmVmCjAgNgowMDAwMDAwMDAwIDY1MzUzIGYgCjAwMDAwMDAwMTAgMDAwMDAgbiAKMDAwMDAwMDA3OSAwMDAwMCBuIAowMDAwMDAwMTczIDAwMDAwIG4gCjAwMDAwMDAzMDEgMDAwMDAgbiAKMDAwMDAwMDM4MCAwMDAwMCBuIAp0cmFpbGVyCjw8CiAgL1NpemUgNgogIC9Sb290IDEgMCBSCj4+CnN0YXJ0eHJlZgo1MjEKJSVFT0YK"}
+        target="_blank"
+        rel="noopener noreferrer"
+        download={pdfUrl ? undefined : "Luxe_Verve_Catalogue.pdf"}
         style={{
           display: 'inline-block',
           marginTop: '20px',
@@ -392,7 +396,32 @@ const FlipbookSection = ({ title }) => {
   );
 };
 
-export default function CatalogueFlipbooks() {
+export default function CatalogueFlipbooks({ content = [] }) {
+  const processFlipbook = (id) => {
+    const cover = content.find(i => i.title === `${id}_cover`);
+    const back = content.find(i => i.title === `${id}_back`);
+    const pdf = content.find(i => i.title === `${id}_pdf`);
+    const pages = content.filter(i => i.title && i.title.startsWith(`${id}_page_`)).sort((a,b) => a.order - b.order);
+    
+    let allPages = [];
+    if (cover) allPages.push({ type: 'full_image', img: cover.url });
+    pages.forEach(p => allPages.push({ type: 'full_image', img: p.url }));
+    if (back) allPages.push({ type: 'full_image', img: back.url });
+
+    if (allPages.length === 0) {
+      allPages = Array.from({ length: 10 }, () => ({ type: 'full_image', img: '/images/catalogue_bg.jpg' }));
+    }
+    
+    return {
+      title: cover?.description || (id === 'coll_flip1' ? "Interior Door Catalogue" : "Exterior Door Catalogue"),
+      pagesData: allPages,
+      pdfUrl: pdf?.url || null
+    };
+  };
+
+  const flip1 = processFlipbook('coll_flip1');
+  const flip2 = processFlipbook('coll_flip2');
+
   return (
     <div style={{
       paddingTop: '60px',
@@ -411,8 +440,8 @@ export default function CatalogueFlipbooks() {
 
       {/* Audio is handled globally by the Web Audio API engine in PageTransition.jsx */}
 
-      <FlipbookSection title="Interior Door Catalogue" />
-      <FlipbookSection title="Exterior Door Catalogue" />
+      <FlipbookSection title={flip1.title} pagesData={flip1.pagesData} pdfUrl={flip1.pdfUrl} />
+      <FlipbookSection title={flip2.title} pagesData={flip2.pagesData} pdfUrl={flip2.pdfUrl} />
 
       <style dangerouslySetInnerHTML={{
         __html: `

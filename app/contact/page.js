@@ -3,19 +3,115 @@ export const metadata = {
   description: 'Get in touch with Luxe Verve for bespoke luxury door consultations.',
 };
 
-export default function ContactPage() {
+import { db } from '@/lib/firebaseAdmin';
+import ContactForm from '@/components/ContactForm';
+
+export default async function ContactPage() {
+  const snapshot = await db.collection('content').get();
+  const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+  const banner = items.find(i => i.title === 'contact_banner') || {};
+  const detailsItem = items.find(i => i.title === 'contact_details') || {};
+  const mapItem = items.find(i => i.title === 'contact_map') || {};
+
+  // Parse Contact Details
+  let contactDetails = [
+    { icon: '📞', label: 'Phone', value: '+91 98714 71161' },
+    { icon: '✉️', label: 'Email', value: 'INFO@LUXE-VERVE.COM' },
+    { icon: '📍', label: 'Showroom', value: 'New Delhi, India' },
+    { icon: '🕐', label: 'Hours', value: 'Mon–Sat: 10am – 7pm' },
+  ];
+  if (detailsItem.text) {
+    try { contactDetails = JSON.parse(detailsItem.text); } catch(e) {}
+  }
+
+  // Parse Map Subheading and Link
+  let mapSubheading = "HQ & STUDIO";
+  let mapLink = "https://maps.app.goo.gl/KmV96fgGTrLg3n3V6?g_st=aw";
+  if (mapItem.text) {
+    try {
+      const parsed = JSON.parse(mapItem.text);
+      if (parsed.subheading) mapSubheading = parsed.subheading;
+      if (parsed.link) mapLink = parsed.link;
+    } catch(e) {
+      mapSubheading = mapItem.text;
+    }
+  }
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '40px' }}>
       
-      {/* Map Hero Section */}
+      {/* Ultra Luxury Hero Banner */}
+      <section style={{
+        position: 'relative',
+        width: '100vw',
+        height: '80vh',
+        minHeight: '600px',
+        marginTop: '-40px', // Compensate for the parent's 40px padding
+        backgroundImage: `url(${banner.url || '/images/contact_banner.png'})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed', // Parallax effect
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+        marginBottom: '80px'
+      }}>
+        {/* Dark Gradient Overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%)',
+          zIndex: 1
+        }}></div>
+
+        {/* Banner Content */}
+        <div style={{
+          position: 'relative',
+          zIndex: 2,
+          textAlign: 'center',
+          maxWidth: '800px',
+          padding: '0 20px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '24px'
+        }}>
+          <h1 style={{ 
+            fontFamily: 'var(--font-knockout)', 
+            fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
+            fontWeight: 400, 
+            color: '#fff', 
+            letterSpacing: '6px',
+            textTransform: 'uppercase',
+            margin: 0,
+            textShadow: '0 10px 30px rgba(0,0,0,0.5)'
+          }}>
+            {banner.text || 'Contact Us'}
+          </h1>
+          <div style={{ width: '60px', height: '2px', backgroundColor: 'var(--primary-color)' }}></div>
+          <p style={{ 
+            fontSize: 'clamp(1rem, 2vw, 1.3rem)', 
+            lineHeight: 1.8, 
+            color: 'rgba(255,255,255,0.85)', 
+            fontWeight: 300,
+            letterSpacing: '1px'
+          }}>
+            {banner.description || 'Connect with our design team to begin crafting your bespoke luxury entryway.'}
+          </p>
+        </div>
+      </section>
+
+      {/* Map Section */}
       <a 
-        href="https://maps.app.goo.gl/KmV96fgGTrLg3n3V6?g_st=aw" 
+        href={mapLink}
         target="_blank" 
         rel="noopener noreferrer" 
         className="contact-hero-map"
         style={{ 
           display: 'block', 
-          width: '90%', 
+          width: '90vw', 
           height: '60vh', 
           margin: '0 auto 60px auto',
           position: 'relative', 
@@ -26,11 +122,11 @@ export default function ContactPage() {
         }}
       >
         <div style={{ position: 'absolute', inset: 0, zIndex: 10, cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingLeft: '10%', backgroundColor: 'rgba(0,0,0,0.15)' }}>
-          <p style={{ fontSize: '1rem', letterSpacing: '4px', color: '#fff', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 600 }}>HOME</p>
-          <h1 className="contact-hero-title" style={{ fontFamily: 'var(--font-serif)', fontSize: '4.5rem', fontWeight: 400, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>Contact Us</h1>
+          <p style={{ fontSize: '1rem', letterSpacing: '4px', color: '#fff', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 600 }}>{mapSubheading}</p>
+          <h2 className="contact-hero-title" style={{ fontFamily: 'var(--font-knockout)', fontSize: '3.5rem', fontWeight: 400, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>{mapItem.description || 'Luxe Verve, New Delhi'}</h2>
         </div>
         <iframe 
-          src="https://maps.google.com/maps?q=Luxe%20verve,%20New%20Delhi&t=&z=11&ie=UTF8&iwloc=&output=embed" 
+          src={mapItem.url || "https://maps.google.com/maps?q=Luxe%20verve,%20New%20Delhi&t=&z=11&ie=UTF8&iwloc=&output=embed"}
           width="100%" 
           height="100%" 
           style={{ border: 0, filter: 'grayscale(100%) opacity(0.9)', pointerEvents: 'none' }} 
@@ -44,13 +140,8 @@ export default function ContactPage() {
       <section className="container" style={{ padding: '40px 5vw' }}>
         <div className="contact-themed-container">
           <div style={{ flex: 1, minWidth: '280px' }}>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', fontWeight: 400, marginBottom: '40px', color: 'var(--primary-color)' }}>Get In Touch</h2>
-            {[
-              { icon: '📞', label: 'Phone', value: '+91 98714 71161' },
-              { icon: '✉️', label: 'Email', value: 'INFO@LUXE-VERVE.COM' },
-              { icon: '📍', label: 'Showroom', value: 'New Delhi, India' },
-              { icon: '🕐', label: 'Hours', value: 'Mon–Sat: 10am – 7pm' },
-            ].map((item, i) => (
+            <h2 style={{ fontFamily: 'var(--font-knockout)', fontSize: '2rem', fontWeight: 400, marginBottom: '40px', color: 'var(--primary-color)' }}>{detailsItem.description || 'Get In Touch'}</h2>
+            {contactDetails.map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '20px', marginBottom: '32px' }}>
                 <span style={{ fontSize: '1.5rem' }}>{item.icon}</span>
                 <div>
@@ -59,7 +150,7 @@ export default function ContactPage() {
                 </div>
               </div>
             ))}
-            <a href="https://wa.me/919871471161" target="_blank" rel="noopener noreferrer" className="whatsapp-link-btn"
+            <a href={detailsItem.url || "https://wa.me/919871471161"} target="_blank" rel="noopener noreferrer" className="whatsapp-link-btn"
               style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', color: '#2A160D', border: '2px solid #2A160D', padding: '4.2px 32px', borderRadius: '9999px', fontWeight: 'bold', fontSize: '1rem', transition: 'all 0.3s ease', textDecoration: 'none', marginTop: '16px' }}
             >
               Chat on WhatsApp
@@ -67,28 +158,8 @@ export default function ContactPage() {
           </div>
 
           <div style={{ flex: 1, minWidth: '280px' }}>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', fontWeight: 400, marginBottom: '40px', color: 'var(--primary-color)' }}>Send a Message</h2>
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              {[
-                { id: 'contact-name', label: 'Full Name', type: 'text', placeholder: 'Your Name' },
-                { id: 'contact-email', label: 'Email Address', type: 'email', placeholder: 'your@email.com' },
-                { id: 'contact-phone', label: 'Phone Number', type: 'tel', placeholder: '+91 00000 00000' },
-              ].map((field) => (
-                <div key={field.id}>
-                  <label htmlFor={field.id} style={{ display: 'block', fontSize: '0.8rem', letterSpacing: '1px', color: 'var(--primary-color)', textTransform: 'uppercase', marginBottom: '8px', fontWeight: 'bold' }}>{field.label}</label>
-                  <input id={field.id} type={field.type} placeholder={field.placeholder}
-                    style={{ width: '100%', background: 'transparent', border: '1px solid var(--primary-color)', borderRadius: '4px', padding: '14px 18px', color: 'var(--text-main)', fontSize: '1rem', fontFamily: 'var(--font-sans)', outline: 'none' }} />
-                </div>
-              ))}
-              <div>
-                <label htmlFor="contact-message" style={{ display: 'block', fontSize: '0.8rem', letterSpacing: '1px', color: 'var(--primary-color)', textTransform: 'uppercase', marginBottom: '8px', fontWeight: 'bold' }}>Message</label>
-                <textarea id="contact-message" rows={5} placeholder="Describe your dream door..."
-                  style={{ width: '100%', background: 'transparent', border: '1px solid var(--primary-color)', borderRadius: '4px', padding: '14px 18px', color: 'var(--text-main)', fontSize: '1rem', fontFamily: 'var(--font-sans)', outline: 'none', resize: 'vertical' }} />
-              </div>
-              <button type="submit" style={{ alignSelf: 'flex-start' }}>
-                Send Message
-              </button>
-            </form>
+            <h2 style={{ fontFamily: 'var(--font-knockout)', fontSize: '2rem', fontWeight: 400, marginBottom: '40px', color: 'var(--primary-color)' }}>Send a Message</h2>
+            <ContactForm />
           </div>
         </div>
       </section>
