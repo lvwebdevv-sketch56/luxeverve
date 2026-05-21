@@ -6,6 +6,8 @@ export const metadata = {
 import { db } from '@/lib/firebaseAdmin';
 import ContactForm from '@/components/ContactForm';
 
+export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+
 export default async function ContactPage() {
   const snapshot = await db.collection('content').get();
   const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

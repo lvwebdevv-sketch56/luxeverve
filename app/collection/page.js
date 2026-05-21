@@ -3,6 +3,8 @@ export const metadata = {
   description: 'Explore our curated collection of luxury designer doors.',
 };
 
+export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+
 import CatalogueFlipbooks from '../../components/CatalogueFlipbooks';
 import CollectionSlider from '../../components/CollectionSlider';
 import { db } from '../../lib/firebaseAdmin';

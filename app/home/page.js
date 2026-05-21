@@ -7,6 +7,9 @@ export const metadata = {
   description: 'Luxury Designer Doors crafted as architectural statements.',
 };
 
+export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+
+
 export default async function HomePage() {
   const snapshot = await db.collection('content').get();
   const content = snapshot.docs.map(doc => {

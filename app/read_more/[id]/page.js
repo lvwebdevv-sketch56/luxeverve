@@ -2,6 +2,7 @@ import { db } from '@/lib/firebaseAdmin';
 import { posts as fallbackPosts } from '@/lib/blogData';
 import Link from 'next/link';
 
+export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
 export default async function ReadMorePage({ params }) {
   const { id } = params;
 

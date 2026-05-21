@@ -7,6 +7,8 @@ export const metadata = {
   description: 'Explore the world of luxury architectural design, material innovation, and bespoke craftsmanship.',
 };
 
+export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+
 export default async function BlogPage() {
   let content = [];
   try {
