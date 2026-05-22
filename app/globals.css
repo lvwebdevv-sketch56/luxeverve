@@ -7,10 +7,10 @@
   --accent-color: #8B5E3C; /* --nav-active */
   --text-main: #4A2A1B; /* --h1-color */
   --text-muted: #5E5A56; /* --p-color */
-  --font-serif: 'Cormorant Garamond', 'Bodoni Moda', 'DM Serif Display', serif; /* --fh */
-  --font-sans: 'Inter', 'DM Sans', sans-serif; /* --fb */
-  --font-nav: 'Inter', sans-serif;
-  --font-knockout: 'Knockout Cruiserweight', 'Anton', 'Oswald', sans-serif;
+  --font-serif: 'Cormorant Garamond', Georgia, serif; /* --fh */
+  --font-sans: 'Jost', sans-serif; /* --fb */
+  --font-nav: 'Montserrat', sans-serif;
+  --font-knockout: 'Cormorant Garamond', Georgia, serif;
   --transition-fast: 0.3s ease;
   --transition-slow: 0.8s cubic-bezier(0.25, 1, 0.5, 1);
   
@@ -41,7 +41,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, .serif-font {
-  font-family: var(--font-knockout);
+  font-family: var(--font-serif);
   color: var(--text-main);
 }
 
