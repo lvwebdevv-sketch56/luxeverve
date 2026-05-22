@@ -33,7 +33,7 @@ export default function MediaGrid() {
   }, []);
 
   if (!media.length) {
-    return <p className="media-grid-empty">No media assets available.</p>;
+    return null;
   }
 
   return (
