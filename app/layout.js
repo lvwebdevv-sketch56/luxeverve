@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400;500;600&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Raleway:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=Cinzel:wght@400;500;600&family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Tenor+Sans&family=Lato:wght@300;400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:wght@300;400;600&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Josefin+Sans:wght@300;400;600&family=Inter:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Jost:wght@200;300;400;500;600&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Anton&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&family=Oswald:wght@500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>

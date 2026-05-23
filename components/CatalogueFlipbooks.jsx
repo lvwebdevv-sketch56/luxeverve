@@ -70,9 +70,18 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
       overflow: 'hidden'
     };
 
+    // Function to inject Cloudinary optimization flags (WebP/AVIF, quality auto)
+    const getOptimizedUrl = (url) => {
+      if (typeof url === 'string' && url.includes('res.cloudinary.com') && !url.includes('f_auto')) {
+        // Find the /upload/ part and append f_auto,q_auto/ to it
+        return url.replace('/upload/', '/upload/f_auto,q_auto/');
+      }
+      return url;
+    };
+
     return (
       <div style={pageStyle}>
-        {data?.img && <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'fill', position: 'absolute', inset: 0, zIndex: 0 }} />}
+        {data?.img && <img src={getOptimizedUrl(data.img)} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'fill', position: 'absolute', inset: 0, zIndex: 0 }} />}
         
         {/* Dark grey strip effect for realistic book spine (only on inner pages) */}
         {!isMobileMode && !isCover && (
