@@ -60,19 +60,49 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
 
   const renderPageContent = (data, pageNum, isMobileMode = false) => {
     const isLeft = pageNum % 2 !== 0;
+    const isCover = pageNum === 0 || pageNum === paddedPages.length - 1;
 
     const pageStyle = {
       width: '100%', height: '100%', position: 'relative',
-      backgroundColor: 'transparent',
+      backgroundColor: '#ffffff',
       display: 'flex', flexDirection: 'column',
       justifyContent: 'center', alignItems: 'center',
-      boxShadow: isMobileMode ? 'inset 0 0 20px rgba(0,0,0,0.3)' : (isLeft ? 'inset -20px 0 30px -15px rgba(0,0,0,0.5)' : 'inset 20px 0 30px -15px rgba(0,0,0,0.5)'),
       overflow: 'hidden'
     };
 
     return (
       <div style={pageStyle}>
-        {data?.img && <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'contain', position: 'absolute', inset: 0, zIndex: 0 }} />}
+        {data?.img && <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'fill', position: 'absolute', inset: 0, zIndex: 0 }} />}
+        
+        {/* Dark grey strip effect for realistic book spine (only on inner pages) */}
+        {!isMobileMode && !isCover && (
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: isLeft ? 'auto' : 0,
+            right: isLeft ? 0 : 'auto',
+            width: '8%', // slightly narrower for a sharper strip effect
+            background: isLeft 
+              ? 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.4) 95%, rgba(0,0,0,0.8) 100%)' 
+              : 'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.4) 95%, rgba(0,0,0,0.8) 100%)',
+            borderRight: isLeft ? '1px solid rgba(0,0,0,0.5)' : 'none',
+            borderLeft: !isLeft ? '1px solid rgba(0,0,0,0.5)' : 'none',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }}></div>
+        )}
+        
+        {/* Mobile shadow overlay */}
+        {isMobileMode && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.3)',
+            zIndex: 1,
+            pointerEvents: 'none'
+          }}></div>
+        )}
       </div>
     );
   };
@@ -360,20 +390,6 @@ export default function CatalogueFlipbooks({ content = [] }) {
 
       <style dangerouslySetInnerHTML={{
         __html: `
-        .flipbook-container {
-          height: 90vh;
-        }
-        @media (max-width: 1024px) {
-          .flipbook-container {
-            height: 70vh;
-          }
-        }
-        @media (max-width: 768px) {
-          .flipbook-container {
-            height: 55vh;
-          }
-        }
-        
         /* External Navigation Icon Hover Effects */
         .external-nav-icon:hover .icon-circle {
           background-color: rgba(110, 68, 42,0.1) !important;
@@ -387,6 +403,7 @@ export default function CatalogueFlipbooks({ content = [] }) {
           transform: translateX(5px);
         }
       `}} />
+
     </div>
   );
 }
