@@ -1,6 +1,35 @@
 export const metadata = {
-  title: 'Collection – Luxe Verve',
-  description: 'Explore our curated collection of luxury designer doors.',
+  title: 'Luxury CNC & Wooden Doors Collection | Noida & Delhi NCR',
+  description: 'Discover the Luxe Verve collection of bespoke CNC doors, modern pivot doors, and premium wooden entrance doors. Elevate your architecture.',
+};
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Luxe Verve Luxury Door Collection',
+  description: 'Premium collection of modern luxury wooden doors, CNC doors, and pivot doors.',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      item: {
+        '@type': 'Product',
+        name: 'Modern Pivot Doors',
+        description: 'Sculptural interpretation of modern luxury entrance door design.',
+        brand: { '@type': 'Brand', name: 'Luxe Verve' }
+      }
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      item: {
+        '@type': 'Product',
+        name: 'Custom CNC Wooden Doors',
+        description: 'High-end CNC carved panel doors and decorative entrance doors.',
+        brand: { '@type': 'Brand', name: 'Luxe Verve' }
+      }
+    }
+  ]
 };
 
 export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
@@ -51,6 +80,10 @@ export default async function CollectionPage() {
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* First Section (Hero) */}
       <section style={{
         position: 'relative',

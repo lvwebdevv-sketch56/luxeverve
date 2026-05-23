@@ -3,8 +3,8 @@ import HomeSections from '@/components/HomeSections';
 import { db } from '@/lib/firebaseAdmin';
 
 export const metadata = {
-  title: 'Home – Luxe Verve',
-  description: 'Luxury Designer Doors crafted as architectural statements.',
+  title: 'Luxury Designer Doors in Noida | Premium Wooden Doors',
+  description: 'Explore premium luxury wooden doors by Luxe Verve. Customized designer entrance, interior, and CNC doors for villas, apartments, and luxury spaces in Noida & Delhi NCR.',
 };
 
 export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore

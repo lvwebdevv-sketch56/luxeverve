@@ -3,6 +3,37 @@ import { posts as fallbackPosts } from '@/lib/blogData';
 import Link from 'next/link';
 
 export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+
+export async function generateMetadata({ params }) {
+  const { id } = params;
+  let dynamicPosts = [];
+  try {
+    const snapshot = await db.collection('content').where('type', '==', 'blog_post').get();
+    dynamicPosts = snapshot.docs.map(doc => {
+      const data = doc.data();
+      let extra = {};
+      try { if (data.text) extra = JSON.parse(data.text); } catch (e) {}
+      return { id: doc.id, title: data.description || data.title, img: data.url, excerpt: extra.excerpt || '' };
+    });
+  } catch(e) {}
+  
+  const allPosts = dynamicPosts.length > 0 ? dynamicPosts : fallbackPosts;
+  const post = allPosts.find(p => p.id === id || String(p.id) === id);
+  
+  if (!post) return { title: 'Article Not Found | Luxe Verve' };
+  
+  return {
+    title: `${post.title} | Luxe Verve`,
+    description: post.excerpt || `Read about ${post.title} at The Luxe Journal by Luxe Verve. Premium insights into luxury doors and architectural design.`,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: [post.img],
+      type: 'article',
+    }
+  };
+}
+
 export default async function ReadMorePage({ params }) {
   const { id } = params;
 
@@ -54,9 +85,25 @@ export default async function ReadMorePage({ params }) {
     );
   }
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    image: [post.img],
+    datePublished: post.date || new Date().toISOString(),
+    author: [{
+      '@type': 'Person',
+      name: post.author || 'Luxe Verve',
+      jobTitle: post.authorRole || ''
+    }]
+  };
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '72px' }}>
-
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       {/* ── Hero Banner ── */}
       <div style={{
         position: 'relative', height: '65vh', minHeight: '380px',

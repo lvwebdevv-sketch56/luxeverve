@@ -3,8 +3,8 @@ import BlogContent from '@/components/BlogContent';
 import { posts as fallbackPosts } from '@/lib/blogData';
 
 export const metadata = {
-  title: 'The Luxe Journal – Luxe Verve',
-  description: 'Explore the world of luxury architectural design, material innovation, and bespoke craftsmanship.',
+  title: 'The Luxe Journal | Luxury Architectural Door Trends & Ideas',
+  description: 'Explore the latest trends in luxury home entrances, modern wooden doors, and premium architectural design inspiration at The Luxe Journal by Luxe Verve.',
 };
 
 export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
