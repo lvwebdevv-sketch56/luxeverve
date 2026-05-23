@@ -20,11 +20,11 @@ export default async function ContactPage() {
   let contactDetails = [
     { icon: '📞', label: 'Phone', value: '+91 98714 71161' },
     { icon: '✉️', label: 'Email', value: 'INFO@LUXE-VERVE.COM' },
-    { icon: '📍', label: 'Showroom', value: 'New Delhi, India' },
+    { icon: '📍', label: 'Showroom', value: 'Block A, 22 Sector-9 Noida, Uttar Pradesh' },
     { icon: '🕐', label: 'Hours', value: 'Mon–Sat: 10am – 7pm' },
   ];
   if (detailsItem.text) {
-    try { contactDetails = JSON.parse(detailsItem.text); } catch(e) {}
+    try { contactDetails = JSON.parse(detailsItem.text); } catch (e) { }
   }
 
   // Parse Map Subheading and Link
@@ -35,14 +35,14 @@ export default async function ContactPage() {
       const parsed = JSON.parse(mapItem.text);
       if (parsed.subheading) mapSubheading = parsed.subheading;
       if (parsed.link) mapLink = parsed.link;
-    } catch(e) {
+    } catch (e) {
       mapSubheading = mapItem.text;
     }
   }
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '40px' }}>
-      
+
       {/* Ultra Luxury Hero Banner */}
       <section style={{
         position: 'relative',
@@ -80,11 +80,11 @@ export default async function ContactPage() {
           alignItems: 'center',
           gap: '24px'
         }}>
-          <h1 style={{ 
-            fontFamily: 'var(--font-knockout)', 
-            fontSize: 'clamp(3rem, 6vw, 5.5rem)', 
-            fontWeight: 400, 
-            color: '#fff', 
+          <h1 style={{
+            fontFamily: 'var(--font-knockout)',
+            fontSize: 'clamp(3rem, 6vw, 5.5rem)',
+            fontWeight: 400,
+            color: '#fff',
             letterSpacing: '6px',
             textTransform: 'uppercase',
             margin: 0,
@@ -93,10 +93,10 @@ export default async function ContactPage() {
             {banner.text || 'Contact Us'}
           </h1>
           <div style={{ width: '60px', height: '2px', backgroundColor: 'var(--primary-color)' }}></div>
-          <p style={{ 
-            fontSize: 'clamp(1rem, 2vw, 1.3rem)', 
-            lineHeight: 1.8, 
-            color: 'rgba(255,255,255,0.85)', 
+          <p style={{
+            fontSize: 'clamp(1rem, 2vw, 1.3rem)',
+            lineHeight: 1.8,
+            color: 'rgba(255,255,255,0.85)',
             fontWeight: 300,
             letterSpacing: '1px'
           }}>
@@ -106,17 +106,17 @@ export default async function ContactPage() {
       </section>
 
       {/* Map Section */}
-      <a 
+      <a
         href={mapLink}
-        target="_blank" 
-        rel="noopener noreferrer" 
+        target="_blank"
+        rel="noopener noreferrer"
         className="contact-hero-map"
-        style={{ 
-          display: 'block', 
-          width: '90vw', 
-          height: '60vh', 
+        style={{
+          display: 'block',
+          width: '90vw',
+          height: '60vh',
           margin: '0 auto 60px auto',
-          position: 'relative', 
+          position: 'relative',
           borderRadius: '16px',
           overflow: 'hidden',
           boxShadow: '0 4px 30px rgba(0,0,0,0.3)',
@@ -127,13 +127,13 @@ export default async function ContactPage() {
           <p style={{ fontSize: '1rem', letterSpacing: '4px', color: '#fff', marginBottom: '8px', textTransform: 'uppercase', fontWeight: 600 }}>{mapSubheading}</p>
           <h2 className="contact-hero-title" style={{ fontFamily: 'var(--font-knockout)', fontSize: '3.5rem', fontWeight: 400, color: '#fff', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>{mapItem.description || 'Luxe Verve, New Delhi'}</h2>
         </div>
-        <iframe 
+        <iframe
           src={mapItem.url || "https://maps.google.com/maps?q=Luxe%20verve,%20New%20Delhi&t=&z=11&ie=UTF8&iwloc=&output=embed"}
-          width="100%" 
-          height="100%" 
-          style={{ border: 0, filter: 'grayscale(100%) opacity(0.9)', pointerEvents: 'none' }} 
-          allowFullScreen="" 
-          loading="lazy" 
+          width="100%"
+          height="100%"
+          style={{ border: 0, filter: 'grayscale(100%) opacity(0.9)', pointerEvents: 'none' }}
+          allowFullScreen=""
+          loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </a>

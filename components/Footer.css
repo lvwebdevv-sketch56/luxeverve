@@ -61,10 +61,10 @@
 }
 
 .footer-hero-wordmark {
-  font-family: var(--font-knockout);
-  font-size: clamp(4.5rem, 12vw, 7rem);
-  font-weight: 400;
-  font-style: italic;
+  font-family: 'Knockout Cruiserweight', var(--font-knockout), sans-serif !important;
+  font-size: clamp(4.5rem, 12vw, 7rem) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
   color: rgba(255, 255, 255, 0.08);
   letter-spacing: clamp(12px, 3vw, 28px);
   text-transform: uppercase;
@@ -429,8 +429,9 @@
   }
 
   .footer-hero-wordmark {
-    letter-spacing: 6px;
-    font-size: 5rem;
-    line-height: 0.9;
+    letter-spacing: 2px !important;
+    font-size: clamp(2rem, 10vw, 3.5rem) !important;
+    line-height: 0.9 !important;
+    white-space: nowrap !important;
   }
 }

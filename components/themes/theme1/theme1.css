@@ -370,7 +370,8 @@
   content: 'LUXE VERVE';
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  font-family: var(--fh);
+  font-family: 'Knockout Cruiserweight', var(--fh), sans-serif !important;
+  font-style: normal !important;
   font-size: clamp(5rem, 14vw, 14rem);
   font-weight: 700; letter-spacing: 0.05em;
   color: rgba(201,168,76,0.04);
@@ -384,7 +385,8 @@
   margin-bottom: 16px; position: relative; z-index: 1;
 }
 .t1-footer-wordmark {
-  font-family: var(--fh);
+  font-family: 'Knockout Cruiserweight', var(--fh), sans-serif !important;
+  font-style: normal !important;
   font-size: clamp(2.5rem, 6vw, 5rem);
   font-weight: 300; letter-spacing: 0.2em;
   color: var(--text-muted); position: relative; z-index: 1;
@@ -479,6 +481,11 @@
   .t1-details-grid { grid-template-columns: 1fr; padding: 0 24px 60px; }
   .t1-footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 24px; }
   .t1-footer-hero { padding: 60px 24px; }
+  .t1-footer-wordmark {
+    white-space: nowrap !important;
+    font-size: clamp(2rem, 11vw, 3.5rem) !important;
+    letter-spacing: 2px !important;
+  }
   .t1-cards-section { padding: 60px 24px; }
   .t1-footer-bottom { padding: 20px 24px; flex-direction: column; gap: 8px; }
 }

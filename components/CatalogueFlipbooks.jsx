@@ -1,78 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-const SpiralBinding = ({ isMobile, isClosedBack = false }) => {
-  const ringCount = isMobile ? 12 : 16;
-  const spineWidth = isMobile ? '12px' : '20px';
-  const ringWidth = isMobile ? '30px' : '44px';
-  const ringHeight = isMobile ? '6px' : '8px';
-
-  let leftPos = '50%';
-  let transformStr = 'translateX(-50%) translateZ(5px)';
-
-  if (isMobile) {
-    if (isClosedBack) {
-      leftPos = '100%';
-      transformStr = 'translateX(-70%) translateZ(5px)';
-    } else {
-      leftPos = '0';
-      transformStr = 'translateX(-30%) translateZ(5px)';
-    }
-  }
-
-  return (
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: leftPos,
-      transform: transformStr,
-      width: spineWidth,
-      height: '100%',
-      zIndex: 200,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
-      pointerEvents: 'none',
-      padding: '2% 0',
-      transition: 'all 0.6s ease'
-    }}>
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '100%',
-        height: '100%',
-        background: 'linear-gradient(to right, #050505 0%, #1a1a1a 30%, #0a0a0a 50%, #1a1a1a 70%, #050505 100%)',
-        boxShadow: 'inset 0 0 8px rgba(0,0,0,1), 0 0 15px rgba(0,0,0,0.6)',
-        borderRadius: '2px'
-      }}></div>
-
-      {Array.from({ length: ringCount }).map((_, i) => (
-        <div key={i} style={{
-          width: ringWidth,
-          height: ringHeight,
-          background: 'linear-gradient(to bottom, #f5f7fa 0%, #9ca3af 25%, #4b5563 50%, #9ca3af 75%, #f5f7fa 100%)',
-          borderRadius: '4px',
-          boxShadow: '0 4px 6px rgba(0,0,0,0.8), inset 0 1px 2px rgba(255,255,255,0.9), inset 0 -1px 2px rgba(0,0,0,0.5)',
-          position: 'relative',
-          zIndex: 2,
-          transform: 'rotate(-3deg)'
-        }}>
-          <div style={{
-            position: 'absolute', top: 0, right: '3px', bottom: 0, width: '4px',
-            background: 'linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.6))', borderRadius: '0 2px 2px 0'
-          }}></div>
-          <div style={{
-            position: 'absolute', top: 0, left: '3px', bottom: 0, width: '4px',
-            background: 'linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.6))', borderRadius: '2px 0 0 2px'
-          }}></div>
-        </div>
-      ))}
-    </div>
-  );
-};
 
 const NextPageIcon = () => (
   <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(2px 3px 3px rgba(0,0,0,0.3))' }}>
@@ -135,7 +63,7 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
 
     const pageStyle = {
       width: '100%', height: '100%', position: 'relative',
-      backgroundColor: '#161616',
+      backgroundColor: 'transparent',
       display: 'flex', flexDirection: 'column',
       justifyContent: 'center', alignItems: 'center',
       boxShadow: isMobileMode ? 'inset 0 0 20px rgba(0,0,0,0.3)' : (isLeft ? 'inset -20px 0 30px -15px rgba(0,0,0,0.5)' : 'inset 20px 0 30px -15px rgba(0,0,0,0.5)'),
@@ -144,7 +72,7 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
 
     return (
       <div style={pageStyle}>
-        {data?.img && <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0, zIndex: 0 }} />}
+        {data?.img && <img src={data.img} alt={`Page ${pageNum + 1}`} style={{ width: '100%', height: '100%', objectFit: 'contain', position: 'absolute', inset: 0, zIndex: 0 }} />}
       </div>
     );
   };
@@ -191,11 +119,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
             <div style={{ flex: 1, width: '100vw', maxWidth: '100vw', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 1 }}>
               <div style={{
                 width: '100%',
-                aspectRatio: '1 / 1.3',
+                aspectRatio: '1 / 1.414',
                 position: 'relative',
                 perspective: '3000px',
               }}>
-                <SpiralBinding isMobile={true} isClosedBack={currentPage === pagesData.length - 1} />
                 {pagesData.map((data, index) => {
                   const isFlipped = currentPage > index;
                   const isCurrent = currentPage === index;
@@ -219,7 +146,7 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
                         opacity: isFlipped ? 0 : 1,
                       }}
                     >
-                      <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: '#fdfbf7', borderRadius: '4px', boxShadow: isFlipped ? 'none' : '2px 5px 15px rgba(0,0,0,0.15)', overflow: 'hidden' }}>
+                      <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: 'transparent', borderRadius: '4px', boxShadow: isFlipped ? 'none' : '2px 5px 15px rgba(0,0,0,0.15)', overflow: 'hidden' }}>
                         {renderPageContent(data, index, true)}
                       </div>
                       <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', backgroundColor: 'transparent', borderRadius: '4px' }}></div>
@@ -281,11 +208,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
           }}>
             <div className="flipbook-container" style={{
               width: '100%',
-              aspectRatio: '2 / 1.3',
+              aspectRatio: '2 / 1.414',
               position: 'relative',
               perspective: '3000px',
             }}>
-              <SpiralBinding isMobile={false} />
 
               {Array.from({ length: totalLeaves }).map((_, index) => {
                 const isFlipped = currentLeaf > index;
@@ -309,28 +235,17 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
                       borderRadius: isFlipped ? '4px 0 0 4px' : '0 4px 4px 0'
                     }}
                   >
-                    <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: '#fdfbf7', borderLeft: '1px solid rgba(0,0,0,0.1)', borderRadius: '0 4px 4px 0', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: 'transparent', borderRadius: '0 4px 4px 0', overflow: 'hidden' }}>
                       {paddedPages[index * 2] && renderPageContent(paddedPages[index * 2], index * 2)}
                     </div>
-                    <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: '#fdfbf7', transform: 'rotateY(180deg)', borderRight: '1px solid rgba(0,0,0,0.1)', borderRadius: '4px 0 0 4px', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: 'transparent', transform: 'rotateY(180deg)', borderRadius: '4px 0 0 4px', overflow: 'hidden' }}>
                       {paddedPages[index * 2 + 1] && renderPageContent(paddedPages[index * 2 + 1], index * 2 + 1)}
                     </div>
                   </div>
                 );
               })}
 
-              {currentLeaf > 0 && currentLeaf < totalLeaves && (
-                <div style={{
-                  position: 'absolute',
-                  top: 0, left: 'calc(50% - 15px)',
-                  width: '30px', height: '100%',
-                  background: 'linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(255,255,255,0.05) 15%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.05) 85%, rgba(0,0,0,0.5) 100%)',
-                  zIndex: 100,
-                  pointerEvents: 'none',
-                  opacity: (currentLeaf === 0 || currentLeaf === totalLeaves) ? 0 : 1,
-                  transition: 'opacity 0.5s ease'
-                }}></div>
-              )}
+
             </div>
           </div>
 

@@ -22,6 +22,7 @@ import AdminBlogNewsletter from "./AdminBlogNewsletter";
 import AdminBlogPosts from "./AdminBlogPosts";
 import AdminInquiries from "./AdminInquiries";
 import AdminSubscribers from "./AdminSubscribers";
+import AdminFooter from "./AdminFooter";
 
 export default function AdminDashboard({ user, handleSignOutAction }) {
   const [activeTab, setActiveTab] = useState("home");
@@ -66,6 +67,8 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
     // Users subsections
     "user_inquiries": true,
     "user_subscribers": false,
+    // Footer subsection
+    "footer_config": true,
   });
 
   const toggleSubsection = (id) => {
@@ -82,6 +85,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
     { id: "blog", label: "Blog Editorial", icon: "✍️" },
     { id: "contact", label: "Contact Info", icon: "✉️" },
     { id: "users", label: "User Inquiries", icon: "👥" },
+    { id: "footer", label: "Global Footer", icon: "⬇️" },
   ];
 
   return (
@@ -1001,6 +1005,16 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
               onToggle={() => toggleSubsection("user_subscribers")}
             />
 
+          </div>
+        )}
+
+        {/* Tab 7: Global Footer */}
+        {activeTab === "footer" && (
+          <div className="subsections-list">
+            <AdminFooter 
+              expanded={expandedSubsections.footer_config} 
+              onToggle={() => toggleSubsection("footer_config")} 
+            />
           </div>
         )}
 
