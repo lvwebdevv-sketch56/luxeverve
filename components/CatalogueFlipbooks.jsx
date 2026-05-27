@@ -209,9 +209,9 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
               onClick={(e) => { e.preventDefault(); setCurrentPage(p => p + 1); playPageTurnSound(); }}
               style={{
                 background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem',
-                cursor: currentPage === pagesData.length ? 'default' : 'pointer',
-                opacity: currentPage === pagesData.length ? 0 : 1, transition: 'all 0.4s ease',
-                display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === pagesData.length ? 'none' : 'auto',
+                cursor: currentPage === pagesData.length - 1 ? 'default' : 'pointer',
+                opacity: currentPage === pagesData.length - 1 ? 0 : 1, transition: 'all 0.4s ease',
+                display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === pagesData.length - 1 ? 'none' : 'auto',
                 position: 'relative', zIndex: 100, transform: 'translateZ(50px)', padding: 0
               }}
               className="external-nav-icon next no-click-sound"
