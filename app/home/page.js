@@ -11,19 +11,24 @@ export const revalidate = 0; // Force Next.js to always fetch fresh data from Fi
 
 
 export default async function HomePage() {
-  const snapshot = await db.collection('content').get();
-  const content = snapshot.docs.map(doc => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      title: data.title || null,
-      url: data.url || null,
-      thumbnailUrl: data.thumbnailUrl || null,
-      description: data.description || null,
-      text: data.text || null,
-      order: data.order || 0
-    };
-  });
+  let content = [];
+  try {
+    const snapshot = await db.collection('content').get();
+    content = snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title || null,
+        url: data.url || null,
+        thumbnailUrl: data.thumbnailUrl || null,
+        description: data.description || null,
+        text: data.text || null,
+        order: data.order || 0
+      };
+    });
+  } catch (error) {
+    console.error("Firebase fetch error in HomePage:", error);
+  }
 
   return (
     <>
