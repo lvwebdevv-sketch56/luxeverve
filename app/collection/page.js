@@ -199,9 +199,9 @@ export default async function CollectionPage() {
           </div>
         </section>
 
-        <CollectionSlider title={slider1.title} text={slider1.text} images={slider1.images} />
-        <CollectionSlider title={slider2.title} text={slider2.text} images={slider2.images} />
-        <CollectionSlider title={slider3.title} text={slider3.text} images={slider3.images} />
+        <CollectionSlider id="slider1" title={slider1.title} text={slider1.text} images={slider1.images} />
+        <CollectionSlider id="slider2" title={slider2.title} text={slider2.text} images={slider2.images} />
+        <CollectionSlider id="slider3" title={slider3.title} text={slider3.text} images={slider3.images} />
 
         <CatalogueFlipbooks content={content} />
 

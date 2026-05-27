@@ -8,11 +8,12 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 import './CollectionSlider.css';
 
-export default function CollectionSlider({ title, text, images }) {
+export default function CollectionSlider({ id, title, text, images }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Unique ID for navigation to avoid conflict between multiple sliders
-  const sliderId = title ? title.replace(/\s+/g, '-').toLowerCase() : 'default-slider';
+  // We use the provided id prop, or fallback to a highly sanitized title string
+  const sliderId = id || (title ? title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase() : 'default-slider');
 
   return (
     <section className="collection-slider-section">
@@ -25,7 +26,7 @@ export default function CollectionSlider({ title, text, images }) {
             grabCursor={true}
             centeredSlides={true}
             slidesPerView={'auto'}
-            loop={true}
+            loop={images && images.filter(img => img).length >= 3}
             coverflowEffect={{
               rotate: 0,
               stretch: 50,
