@@ -731,3 +731,180 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
 
           </div>
         )}
+
+        {/* Tab 2: Collection Subsections */}
+        {activeTab === "collection" && (
+          <div className="subsections-list">
+            
+            <AdminCollectionBanner
+              expanded={expandedSubsections.coll_banner}
+              onToggle={() => toggleSubsection("coll_banner")}
+            />
+
+            <AdminCollectionSec2
+              expanded={expandedSubsections.coll_sec2}
+              onToggle={() => toggleSubsection("coll_sec2")}
+            />
+
+            <AdminCollectionSlider
+              sliderId="coll_slider1"
+              sectionTitle="Slider 1 (e.g. Thread Line Door)"
+              subsectionNumber="03"
+              expanded={expandedSubsections.coll_slider1}
+              onToggle={() => toggleSubsection("coll_slider1")}
+            />
+            
+            <AdminCollectionSlider
+              sliderId="coll_slider2"
+              sectionTitle="Slider 2 (e.g. MORPHIC DOOR)"
+              subsectionNumber="04"
+              expanded={expandedSubsections.coll_slider2}
+              onToggle={() => toggleSubsection("coll_slider2")}
+            />
+            
+            <AdminCollectionSlider
+              sliderId="coll_slider3"
+              sectionTitle="Slider 3 (e.g. CUBIX DOOR)"
+              subsectionNumber="05"
+              expanded={expandedSubsections.coll_slider3}
+              onToggle={() => toggleSubsection("coll_slider3")}
+            />
+
+            <AdminCollectionFlipbook
+              flipbookId="coll_flip1"
+              sectionTitle="First Flipbook"
+              subsectionNumber="06"
+              expanded={expandedSubsections.coll_flip1}
+              onToggle={() => toggleSubsection("coll_flip1")}
+            />
+
+            <AdminCollectionFlipbook
+              flipbookId="coll_flip2"
+              sectionTitle="Second Flipbook"
+              subsectionNumber="07"
+              expanded={expandedSubsections.coll_flip2}
+              onToggle={() => toggleSubsection("coll_flip2")}
+            />
+
+          </div>
+        )}
+
+        {/* Tab 3: About Us Subsections */}
+        {activeTab === "about" && (
+          <div className="subsections-list">
+            
+            <AdminAboutBanner
+              expanded={expandedSubsections.about_hero}
+              onToggle={() => toggleSubsection("about_hero")}
+            />
+
+            <AdminAboutMain
+              expanded={expandedSubsections.about_main}
+              onToggle={() => toggleSubsection("about_main")}
+            />
+
+            <AdminAboutImageText
+              sectionId="about_sec2"
+              title="Section 2: Image & Text"
+              subsectionNumber="03"
+              expanded={expandedSubsections.about_sec2}
+              onToggle={() => toggleSubsection("about_sec2")}
+            />
+
+            <AdminAboutImageText
+              sectionId="about_sec3"
+              title="Section 3: Image & Text"
+              subsectionNumber="04"
+              expanded={expandedSubsections.about_sec3}
+              onToggle={() => toggleSubsection("about_sec3")}
+            />
+
+            <AdminAboutStats
+              expanded={expandedSubsections.about_stats}
+              onToggle={() => toggleSubsection("about_stats")}
+            />
+
+          </div>
+        )}
+
+        {/* Tab 4: Blog Editorial Subsections */}
+        {activeTab === "blog" && (
+          <div className="subsections-list">
+            
+            <AdminBlogBanner
+              expanded={expandedSubsections.blog_hero}
+              onToggle={() => toggleSubsection("blog_hero")}
+            />
+
+            <AdminBlogCategories
+              expanded={expandedSubsections.blog_filter}
+              onToggle={() => toggleSubsection("blog_filter")}
+            />
+
+            <AdminBlogPosts
+              expanded={expandedSubsections.blog_grid}
+              onToggle={() => toggleSubsection("blog_grid")}
+            />
+
+            <AdminBlogNewsletter
+              expanded={expandedSubsections.blog_newsletter}
+              onToggle={() => toggleSubsection("blog_newsletter")}
+            />
+
+          </div>
+        )}
+
+        {/* Tab 5: Contact Subsections */}
+        {activeTab === "contact" && (
+          <div className="subsections-list">
+            
+            <AdminContactBanner
+              expanded={expandedSubsections.contact_hero}
+              onToggle={() => toggleSubsection("contact_hero")}
+            />
+
+            <AdminContactDetails
+              expanded={expandedSubsections.contact_details}
+              onToggle={() => toggleSubsection("contact_details")}
+            />
+
+            <AdminContactMap
+              expanded={expandedSubsections.contact_map}
+              onToggle={() => toggleSubsection("contact_map")}
+            />
+
+          </div>
+        )}
+
+        {/* Tab 6: User Inquiries */}
+        {activeTab === "users" && (
+          <div className="subsections-list">
+            
+            <AdminInquiries
+              expanded={expandedSubsections.user_inquiries}
+              onToggle={() => toggleSubsection("user_inquiries")}
+            />
+
+            <AdminSubscribers
+              expanded={expandedSubsections.user_subscribers}
+              onToggle={() => toggleSubsection("user_subscribers")}
+            />
+
+          </div>
+        )}
+
+        {/* Tab 7: Global Footer */}
+        {activeTab === "footer" && (
+          <div className="subsections-list">
+            <AdminFooter 
+              expanded={expandedSubsections.footer_config} 
+              onToggle={() => toggleSubsection("footer_config")} 
+            />
+          </div>
+        )}
+
+      </main>
+    </div>
+  );
+}
+
