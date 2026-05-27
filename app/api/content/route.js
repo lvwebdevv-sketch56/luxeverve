@@ -5,6 +5,8 @@ import { writeFile } from 'fs/promises';
 import { join } from 'path';
 import os from 'os';
 
+export const dynamic = 'force-dynamic';
+
 // Helper to run middleware in App Router (for auth)
 async function runMiddleware(req, res, fn) {
   return new Promise((resolve, reject) => {
