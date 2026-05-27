@@ -54,7 +54,7 @@ export async function POST(req) {
     thumbnailUrl = formData.get('thumbnailUrl') || null,
     publicId = formData.get('publicId') || null;
 
-  if (type !== 'text') {
+  if (type === 'image' || type === 'video' || type === 'pdf') {
     if (!file && !reqUrl) return new Response(JSON.stringify({ error: 'File or URL required for media' }), { status: 400 });
     
     if (file && typeof file !== 'string') {

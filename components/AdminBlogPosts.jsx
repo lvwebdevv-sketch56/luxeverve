@@ -101,7 +101,7 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
       if(editingPost.id) form.append("reqUrl", editingPost.url);
     }
 
-    const method = editingPost.id && (editingPost.file || editingPost.url) ? "PATCH" : "POST";
+    const method = editingPost.id ? "PATCH" : "POST";
     const url = editingPost.id ? `/api/content/${editingPost.id}` : "/api/content";
 
     try {
