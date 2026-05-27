@@ -3,6 +3,8 @@ export const metadata = {
   description: 'Learn about Luxe Verve – our story, vision, and commitment to luxury architectural design.',
 };
 
+export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+
 import { db } from '@/lib/firebaseAdmin';
 
 export default async function AboutPage() {
