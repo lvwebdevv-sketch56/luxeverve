@@ -5,7 +5,7 @@ import Link from 'next/link';
 export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
 
 export async function generateMetadata({ params }) {
-  const { id } = params;
+  const { id } = await params;
   let dynamicPosts = [];
   try {
     const snapshot = await db.collection('content').where('type', '==', 'blog_post').get();
@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
     });
   } catch(e) {}
   
-  const allPosts = dynamicPosts.length > 0 ? dynamicPosts : fallbackPosts;
+  const allPosts = [...dynamicPosts, ...fallbackPosts];
   const post = allPosts.find(p => p.id === id || String(p.id) === id);
   
   if (!post) return { title: 'Article Not Found | Luxe Verve' };
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ReadMorePage({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   let dynamicPosts = [];
   try {
@@ -61,7 +61,7 @@ export default async function ReadMorePage({ params }) {
     });
   } catch(e) {}
 
-  const allPosts = dynamicPosts.length > 0 ? dynamicPosts : fallbackPosts;
+  const allPosts = [...dynamicPosts, ...fallbackPosts];
   const post = allPosts.find(p => p.id === id || String(p.id) === id);
   const otherPosts = allPosts.filter(p => p.id !== id && String(p.id) !== id).slice(0, 3);
 
