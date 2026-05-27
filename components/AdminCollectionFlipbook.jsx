@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect, useRef } from "react";
 
@@ -22,7 +23,7 @@ export default function AdminCollectionFlipbook({ flipbookId, sectionTitle, subs
   const [newPageFile, setNewPageFile] = useState(null);
 
   const fetchData = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       
@@ -67,7 +68,7 @@ export default function AdminCollectionFlipbook({ flipbookId, sectionTitle, subs
     const url = existing ? `/api/content/${existing.id}` : "/api/content";
 
     try {
-      await fetch(url, { method, body: form });
+      await fetchWithCloudinary(url, { method, body: form });
       if (type === "cover") setCoverFile(null);
       if (type === "back") setBackFile(null);
       if (type === "pdf") setPdfFile(null);
@@ -94,7 +95,7 @@ export default function AdminCollectionFlipbook({ flipbookId, sectionTitle, subs
     const url = existing ? `/api/content/${existing.id}` : "/api/content";
 
     try {
-      await fetch(url, { method, body: form });
+      await fetchWithCloudinary(url, { method, body: form });
       await fetchData();
     } catch (e) {
       alert(`Failed to set ${type}`);
@@ -115,7 +116,7 @@ export default function AdminCollectionFlipbook({ flipbookId, sectionTitle, subs
     form.append("file", newPageFile);
 
     try {
-      await fetch("/api/content", { method: "POST", body: form });
+      await fetchWithCloudinary("/api/content", { method: "POST", body: form });
       setNewPageFile(null);
       await fetchData();
     } catch (e) {
@@ -128,7 +129,7 @@ export default function AdminCollectionFlipbook({ flipbookId, sectionTitle, subs
     if (!confirm("Delete this page?")) return;
     setIsUploading(true);
     try {
-      await fetch(`/api/content/${id}`, { method: "DELETE" });
+      await fetchWithCloudinary(`/api/content/${id}`, { method: "DELETE" });
       await fetchData();
     } catch (e) {
       alert("Failed to delete page");
@@ -146,7 +147,7 @@ export default function AdminCollectionFlipbook({ flipbookId, sectionTitle, subs
     form.append("description", title); // Update title
     
     try {
-      await fetch(`/api/content/${coverPage.id}`, { method: "PATCH", body: form });
+      await fetchWithCloudinary(`/api/content/${coverPage.id}`, { method: "PATCH", body: form });
       alert("Title saved!");
       await fetchData();
     } catch (e) {

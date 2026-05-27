@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect, useRef } from "react";
 
@@ -10,7 +11,7 @@ export default function AdminCollectionBanner({ expanded, onToggle }) {
   const fileInputRef = useRef(null);
 
   const fetchBanner = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       const bannerItem = items.find(i => i.title === "coll_banner");
@@ -48,7 +49,7 @@ export default function AdminCollectionBanner({ expanded, onToggle }) {
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
 
     try {
-      const res = await fetch(url, { method, body: form });
+      const res = await fetchWithCloudinary(url, { method, body: form });
       if (res.ok) {
         await fetchBanner();
         setFile(null);

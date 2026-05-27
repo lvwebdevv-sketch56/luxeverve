@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect } from "react";
 
@@ -34,7 +35,7 @@ export default function AdminFooter({ expanded, onToggle }) {
   });
 
   useEffect(() => {
-    fetch('/api/content')
+    fetchWithCloudinary('/api/content')
       .then(res => res.json())
       .then(items => {
         const footerDoc = items.find(i => i.title === 'footer_config');
@@ -79,7 +80,7 @@ export default function AdminFooter({ expanded, onToggle }) {
         return;
       }
 
-      await fetch('/api/content', {
+      await fetchWithCloudinary('/api/content', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

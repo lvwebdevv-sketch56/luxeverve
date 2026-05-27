@@ -1,6 +1,8 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect, useRef } from "react";
+import { uploadToCloudinaryClient } from "@/lib/clientCloudinary";
 
 export default function AdminBannerSection({ expanded, onToggle }) {
   const [data, setData] = useState({ title: "LUXE VERVE", subtitle: "Beyond the Threshold", url: "/videos/banner.mp4", thumbnailUrl: "/images/banner1img.jpeg" });
@@ -10,7 +12,7 @@ export default function AdminBannerSection({ expanded, onToggle }) {
   const fileInputRef = useRef(null);
 
   const fetchBanner = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       const bannerItem = items.find(i => i.title === "hero_banner");
@@ -33,27 +35,39 @@ export default function AdminBannerSection({ expanded, onToggle }) {
 
   const handleSave = async () => {
     setIsUploading(true);
+    
+    let currentUrl = data.url;
+    let currentThumbnailUrl = data.thumbnailUrl;
+    let currentPublicId = null;
+
+    if (file) {
+      try {
+        const result = await uploadToCloudinaryClient(file, "video");
+        currentUrl = result.url;
+        currentThumbnailUrl = result.thumbnailUrl;
+        currentPublicId = result.publicId;
+      } catch (err) {
+        alert(`Cloudinary Upload Failed: ${err.message}`);
+        setIsUploading(false);
+        return;
+      }
+    }
+
     const form = new FormData();
     form.append("type", "video");
     form.append("title", "hero_banner");
     form.append("description", data.subtitle);
-    form.append("text", data.title); // Using 'text' field for the main hero title
-
-    if (file) {
-      form.append("file", file);
-    }
-
-    const method = data.id && file ? "PATCH" : "POST"; 
-    // If no file but updating text, we can use PATCH, but our API PATCH needs file or type="text". 
-    // For video type without file, our current API doesn't handle pure metadata updates well. 
-    // Actually, our API PATCH handles it if req.file is null, it just updates metadata!
+    form.append("text", data.title);
+    form.append("url", currentUrl);
     
+    if (currentThumbnailUrl) form.append("thumbnailUrl", currentThumbnailUrl);
+    if (currentPublicId) form.append("publicId", currentPublicId);
+
+    const method = data.id ? "PATCH" : "POST";
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
     
-    // For PATCH without file, we need to append type=video so API knows.
-    
     try {
-      const res = await fetch(url, { method: method, body: form });
+      const res = await fetchWithCloudinary(url, { method: method, body: form });
       if (res.ok) {
         await fetchBanner();
         setFile(null);
@@ -73,7 +87,7 @@ export default function AdminBannerSection({ expanded, onToggle }) {
     if (!confirm("Are you sure you want to delete the hero banner video?")) return;
     
     setIsUploading(true);
-    const res = await fetch(`/api/content/${data.id}`, { method: "DELETE" });
+    const res = await fetchWithCloudinary(`/api/content/${data.id}`, { method: "DELETE" });
     if (res.ok) {
       setData({ title: "", subtitle: "", url: "", thumbnailUrl: "" });
       alert("Banner deleted");

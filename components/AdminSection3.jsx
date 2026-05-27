@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect, useRef } from "react";
 
@@ -15,7 +16,7 @@ export default function AdminSection3({ expanded, onToggle }) {
   const fileInputRef = useRef(null);
 
   const fetchSection = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       const sectionItem = items.find(i => i.title === "home_section3");
@@ -55,7 +56,7 @@ export default function AdminSection3({ expanded, onToggle }) {
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
     
     try {
-      const res = await fetch(url, { method: method, body: form });
+      const res = await fetchWithCloudinary(url, { method: method, body: form });
       if (res.ok) {
         await fetchSection();
         setFile(null);

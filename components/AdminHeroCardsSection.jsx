@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect, useRef } from "react";
 
@@ -10,7 +11,7 @@ export default function AdminHeroCardsSection({ expanded, onToggle }) {
   const fileInputRef = useRef(null);
 
   const fetchCards = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       const heroCards = items.filter(i => i.title && i.title.startsWith("hero_card_")).sort((a,b) => a.order - b.order);
@@ -65,7 +66,7 @@ export default function AdminHeroCardsSection({ expanded, onToggle }) {
     const url = editingCard.id ? `/api/content/${editingCard.id}` : "/api/content";
 
     try {
-      const res = await fetch(url, { method, body: form });
+      const res = await fetchWithCloudinary(url, { method, body: form });
       if (res.ok) {
         await fetchCards();
         setEditingCard(null);
@@ -84,7 +85,7 @@ export default function AdminHeroCardsSection({ expanded, onToggle }) {
     if (!id) return;
     if (!confirm("Are you sure you want to delete this card?")) return;
     setIsUploading(true);
-    const res = await fetch(`/api/content/${id}`, { method: "DELETE" });
+    const res = await fetchWithCloudinary(`/api/content/${id}`, { method: "DELETE" });
     if (res.ok) {
       await fetchCards();
       setEditingCard(null);

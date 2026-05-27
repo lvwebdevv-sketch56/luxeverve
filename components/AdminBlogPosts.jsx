@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect, useRef } from "react";
 
@@ -9,7 +10,7 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
   const fileInputRef = useRef(null);
 
   const fetchPosts = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       const blogPosts = items.filter(i => i.type === "blog_post");
@@ -62,7 +63,7 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
   const handleDelete = async (id) => {
     if(!confirm("Are you sure you want to delete this article?")) return;
     try {
-      const res = await fetch(`/api/content/${id}`, { method: 'DELETE' });
+      const res = await fetchWithCloudinary(`/api/content/${id}`, { method: 'DELETE' });
       if(res.ok) await fetchPosts();
     } catch(e){}
   };
@@ -104,7 +105,7 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
     const url = editingPost.id ? `/api/content/${editingPost.id}` : "/api/content";
 
     try {
-      const res = await fetch(url, { method, body: form });
+      const res = await fetchWithCloudinary(url, { method, body: form });
       if (res.ok) {
         await fetchPosts();
         setEditingPost(null);

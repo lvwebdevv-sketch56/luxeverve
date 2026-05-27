@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect } from "react";
 
@@ -9,7 +10,7 @@ export default function AdminInquiries({ expanded, onToggle }) {
   const fetchInquiries = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/contact");
+      const res = await fetchWithCloudinary("/api/contact");
       if (res.ok) {
         const data = await res.json();
         setInquiries(data);
@@ -29,7 +30,7 @@ export default function AdminInquiries({ expanded, onToggle }) {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this inquiry?")) return;
     try {
-      const res = await fetch(`/api/contact/${id}`, { method: 'DELETE' });
+      const res = await fetchWithCloudinary(`/api/contact/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setInquiries(inquiries.filter(i => i.id !== id));
       }

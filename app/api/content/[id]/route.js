@@ -37,6 +37,8 @@ export async function PATCH(req, { params }) {
   const order = formData.get('order');
   const type = formData.get('type');
   const reqUrl = formData.get('url');
+  const reqThumbnailUrl = formData.get('thumbnailUrl');
+  const reqPublicId = formData.get('publicId');
   const file = formData.get('file');
 
   const docRef = db.collection('content').doc(id);
@@ -54,7 +56,10 @@ export async function PATCH(req, { params }) {
     updatedAt: new Date(),
   };
 
-  // If a new file is uploaded, replace the old Cloudinary asset
+  if (reqThumbnailUrl) updates.thumbnailUrl = reqThumbnailUrl;
+  if (reqPublicId) updates.publicId = reqPublicId;
+
+  // If a new file is uploaded through the backend (fallback)
   if (file && typeof file !== 'string') {
     // Delete old asset if it exists
     if (existing.publicId) {

@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect } from "react";
 
@@ -14,7 +15,7 @@ export default function AdminAboutStats({ expanded, onToggle }) {
   const [isUploading, setIsUploading] = useState(false);
 
   const fetchData = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       const item = items.find(i => i.title === "about_stats");
@@ -52,7 +53,7 @@ export default function AdminAboutStats({ expanded, onToggle }) {
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
 
     try {
-      const res = await fetch(url, { method, body: form });
+      const res = await fetchWithCloudinary(url, { method, body: form });
       if (res.ok) {
         await fetchData();
         alert("Stats updated successfully!");

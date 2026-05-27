@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect, useRef } from "react";
 
@@ -10,7 +11,7 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
   const fileInputRefs = useRef([null, null, null, null, null, null].map(() => React.createRef()));
 
   const fetchData = async () => {
-    const res = await fetch("/api/content");
+    const res = await fetchWithCloudinary("/api/content");
     if (res.ok) {
       const items = await res.json();
       const sliderItem = items.find(i => i.title === sliderId);
@@ -61,7 +62,7 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
         fileForm.append("file", files[i]);
         
         try {
-          const res = await fetch("/api/content", { method: "POST", body: fileForm });
+          const res = await fetchWithCloudinary("/api/content", { method: "POST", body: fileForm });
           if (res.ok) {
             const result = await res.json();
             finalImages[i] = result.url;
@@ -83,7 +84,7 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
 
     try {
-      const res = await fetch(url, { method, body: form });
+      const res = await fetchWithCloudinary(url, { method, body: form });
       if (res.ok) {
         await fetchData();
         setFiles([null, null, null, null, null, null]);

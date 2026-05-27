@@ -1,4 +1,5 @@
 "use client";
+import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState, useEffect } from "react";
 
@@ -9,7 +10,7 @@ export default function AdminSubscribers({ expanded, onToggle }) {
   const fetchSubscribers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/newsletter");
+      const res = await fetchWithCloudinary("/api/newsletter");
       if (res.ok) {
         const data = await res.json();
         setSubscribers(data);
@@ -29,7 +30,7 @@ export default function AdminSubscribers({ expanded, onToggle }) {
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this subscriber?")) return;
     try {
-      const res = await fetch(`/api/newsletter/${id}`, { method: 'DELETE' });
+      const res = await fetchWithCloudinary(`/api/newsletter/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setSubscribers(subscribers.filter(s => s.id !== id));
       }
