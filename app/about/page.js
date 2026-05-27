@@ -208,16 +208,25 @@ export default async function AboutPage() {
 
         {/* Stats Section */}
         <section style={{ 
-          background: 'var(--bg-sec)', 
-          padding: '60px 20px', 
+          background: '#000000', 
+          padding: '80px 20px', 
           borderRadius: '40px',
-          boxShadow: '0 10px 40px rgba(74,42,27,0.05)'
+          boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px', textAlign: 'center' }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+            gap: '40px', 
+            width: '100%',
+            placeItems: 'center' 
+          }}>
             {stats.map((stat, i) => (
-              <div key={i}>
-                <p style={{ fontFamily: 'var(--font-knockout)', fontSize: '4.5rem', fontWeight: 400, color: 'var(--primary-color)', lineHeight: 1 }}>{stat.number}</p>
-                <p style={{ marginTop: '16px', color: 'var(--text-main)', fontSize: '1rem', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 500 }}>{stat.label}</p>
+              <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+                <p style={{ fontFamily: 'var(--font-knockout)', fontSize: '4.5rem', fontWeight: 400, color: '#ffffff', lineHeight: 1 }}>{stat.number}</p>
+                <p style={{ marginTop: '16px', color: '#ffffff', fontSize: '1rem', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 500 }}>{stat.label}</p>
               </div>
             ))}
           </div>
