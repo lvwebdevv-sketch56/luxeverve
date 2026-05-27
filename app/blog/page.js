@@ -13,7 +13,18 @@ export default async function BlogPage() {
   let content = [];
   try {
     const snapshot = await db.collection('content').get();
-    content = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    content = snapshot.docs.map(doc => {
+      const data = doc.data();
+      // Next.js Server Components cannot pass Firestore Timestamps to Client Components
+      const serializedData = { ...data };
+      if (serializedData.createdAt && typeof serializedData.createdAt.toDate === 'function') {
+        serializedData.createdAt = serializedData.createdAt.toDate().toISOString();
+      }
+      if (serializedData.updatedAt && typeof serializedData.updatedAt.toDate === 'function') {
+        serializedData.updatedAt = serializedData.updatedAt.toDate().toISOString();
+      }
+      return { id: doc.id, ...serializedData };
+    });
   } catch (error) {
     console.error("Error fetching blog content", error);
   }

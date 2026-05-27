@@ -96,7 +96,7 @@ const Navbar = () => {
       </nav>
 
       {/* ── Mobile Bottom Navigation ── */}
-      <div className="mobile-bottom-nav">
+      <div className={`mobile-bottom-nav ${scrolled ? 'scrolled' : ''}`}>
         {navLinks.map((link) => (
           <a
             key={link.href}

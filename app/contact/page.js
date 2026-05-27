@@ -41,15 +41,12 @@ export default async function ContactPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '40px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '0' }}>
 
       {/* Ultra Luxury Hero Banner */}
-      <section style={{
+      <section className="contact-hero-banner" style={{
         position: 'relative',
         width: '100vw',
-        height: '80vh',
-        minHeight: '600px',
-        marginTop: '-40px', // Compensate for the parent's 40px padding
         backgroundImage: `url(${banner.url || '/images/contact_banner.png'})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -167,6 +164,16 @@ export default async function ContactPage() {
       </section>
       <style dangerouslySetInnerHTML={{
         __html: `
+        .contact-hero-banner {
+          height: 85vh;
+          min-height: 600px;
+        }
+        @media (max-width: 768px) {
+          .contact-hero-banner {
+            height: 60vh;
+            min-height: 450px;
+          }
+        }
         .contact-themed-container {
           background: var(--bg-sec);
           border-radius: 40px;

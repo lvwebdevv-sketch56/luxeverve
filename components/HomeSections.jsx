@@ -1,6 +1,5 @@
 "use client";
 import './HomeSections.css';
-import MediaGrid from './MediaGrid';
 import { useState, useEffect } from 'react';
 
 const HomeSections = ({ content = [] }) => {
@@ -91,54 +90,6 @@ const HomeSections = ({ content = [] }) => {
         </div>
       </section>
 
-      {/* Section 5: Luxe Details Grid */}
-      <section className="home-section luxe-details-grid-section">
-        <div className="luxe-grid">
-
-          {/* Column 1: Bordered Contact Box */}
-          <div className="luxe-grid-col luxe-contact-box">
-            <h3 className="luxe-col-heading">Begin Your Luxe-Verve Luxury Door Experience</h3>
-            <p className="luxe-col-text">
-              We invite you to experience refined craftsmanship and personalized design guidance. Our team is dedicated to understanding your vision and delivering bespoke luxury door solutions that reflect elegance, architectural precision, and enduring quality.
-            </p>
-            <ul className="luxe-contact-list">
-              <li>
-                <span className="icon">📍</span>
-                <span>ADDRESS: Block A, 22 Sector-9 Noida, Uttar Pradesh.</span>
-              </li>
-              <li>
-                <span className="icon">📞</span>
-                <span>PHONE: +91-98714 71161</span>
-              </li>
-              <li>
-                <span className="icon">✉️</span>
-                <span>EMAIL: info@luxe-verve.com</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 2: Legacy */}
-          <div className="luxe-grid-col">
-            <h3 className="luxe-col-heading">A Legacy of Luxury Door Craftsmanship</h3>
-            <div className="luxe-divider"></div>
-            <p className="luxe-col-text">
-              Backed by years of industry expertise, Luxe-Verve blends advanced engineering with timeless design principles. Every luxury door reflects our commitment to premium materials, meticulous detailing, and uncompromising quality standards.
-            </p>
-          </div>
-
-          {/* Column 3: Architectural Intelligence */}
-          <div className="luxe-grid-col">
-            <h3 className="luxe-col-heading">Architectural Intelligence in Luxury Door Design</h3>
-            <div className="luxe-divider"></div>
-            <p className="luxe-col-text">
-              Our expertise is shaped by continuous innovation, refined processes, and a deep understanding of architectural design—ensuring our luxury doors perform flawlessly while elevating the character of every space they define.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-    <MediaGrid />
     </div>
   );
 };

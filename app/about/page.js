@@ -53,15 +53,12 @@ export default async function AboutPage() {
   }
 
   return (
-    <div style={{ paddingTop: '40px', minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
       {/* Ultra Luxury Hero Banner */}
-      <section style={{
+      <section className="about-hero-banner" style={{
         position: 'relative',
         width: '100vw',
-        height: '80vh',
-        minHeight: '600px',
-        marginTop: '-40px', // Compensate for the parent's 40px padding
         backgroundImage: `url(${heroBanner.url || '/images/about_us_banner.png'})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -226,9 +223,19 @@ export default async function AboutPage() {
 
       </div>
 
-      {/* Inline styles for 3D hover transition */}
+      {/* Inline styles for 3D hover transition and hero banner */}
       <style dangerouslySetInnerHTML={{
         __html: `
+        .about-hero-banner {
+          height: 85vh;
+          min-height: 600px;
+        }
+        @media (max-width: 768px) {
+          .about-hero-banner {
+            height: 60vh;
+            min-height: 450px;
+          }
+        }
         .hover-3d-wrapper {
           perspective: 1000px;
           cursor: pointer;

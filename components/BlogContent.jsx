@@ -59,13 +59,11 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '80px', overflowX: 'hidden', width: '100%', maxWidth: '100%' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '0px', overflowX: 'hidden', width: '100%', maxWidth: '100%' }}>
 
       {/* ── Hero Header ── */}
-      <section style={{
+      <section className="blog-hero-banner" style={{
         position: 'relative',
-        height: '55vh',
-        minHeight: '380px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -430,6 +428,18 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
 
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap');
+
+        /* ── Hero Banner ── */
+        .blog-hero-banner {
+          height: 85vh;
+          min-height: 600px;
+        }
+        @media (max-width: 768px) {
+          .blog-hero-banner {
+            height: 60vh;
+            min-height: 450px;
+          }
+        }
 
         /* ── Featured card image zoom ── */
         .blog-featured-card:hover .blog-featured-img {

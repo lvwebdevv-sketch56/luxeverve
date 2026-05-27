@@ -51,7 +51,7 @@ const Footer = () => {
               navLinks: parsed.navLinks || prev.navLinks,
               services: parsed.services || prev.services
             }));
-          } catch(e) { console.error(e); }
+          } catch (e) { console.error(e); }
         }
       })
       .catch(e => console.error(e));
@@ -60,17 +60,6 @@ const Footer = () => {
   return (
     <footer className="footer">
 
-      {/* ── Top accent line ── */}
-      <div className="footer-accent-line" />
-
-      {/* ── Large Brand Statement ── */}
-      <div className="footer-hero-band">
-        <div className="container footer-hero-inner">
-          <p className="footer-hero-label">{data.brandStatement}</p>
-          <h2 className="footer-hero-wordmark">{data.wordmark}</h2>
-          <p className="footer-hero-sub">{data.subtitle}</p>
-        </div>
-      </div>
 
       {/* ── Main Grid ── */}
       <div className="footer-main">
@@ -191,7 +180,7 @@ const Footer = () => {
                 </span>
                 <div>
                   <span className="footer-contact-label">Showroom</span>
-                  <span className="footer-contact-value" style={{whiteSpace: 'pre-line'}}>{data.contactShowroom}</span>
+                  <span className="footer-contact-value" style={{ whiteSpace: 'pre-line' }}>{data.contactShowroom}</span>
                 </div>
               </li>
               <li className="footer-contact-item">
