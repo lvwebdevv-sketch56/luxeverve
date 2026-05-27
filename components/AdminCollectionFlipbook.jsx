@@ -204,7 +204,7 @@ export default function AdminCollectionFlipbook({ flipbookId, sectionTitle, subs
               </div>
               {pdfDoc && (
                 <div style={{ marginTop: "10px", padding: "10px", background: "rgba(255,255,255,0.05)", borderRadius: "4px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <a href={pdfDoc.url} target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary-color)", fontSize: "0.85rem" }}>View Current PDF</a>
+                  <a href={`/api/download?url=${encodeURIComponent(pdfDoc.url)}`} target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary-color)", fontSize: "0.85rem" }}>View Current PDF</a>
                   <button onClick={() => handleDeletePage(pdfDoc.id)} style={{ background: "transparent", color: "#e57373", border: "1px solid #e57373", borderRadius: "4px", padding: "2px 8px", fontSize: "0.75rem" }}>Remove</button>
                 </div>
               )}
