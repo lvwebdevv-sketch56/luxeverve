@@ -40,6 +40,10 @@ const Footer = () => {
     fetch('/api/content')
       .then(res => res.json())
       .then(items => {
+        if (!Array.isArray(items)) {
+          console.error("API returned non-array:", items);
+          return;
+        }
         const footerDoc = items.find(i => i.title === 'footer_config');
         if (footerDoc && footerDoc.text) {
           try {
