@@ -74,7 +74,7 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
     }
 
     const form = new FormData();
-    form.append("type", "text"); // Using text type to store JSON array in url field
+    form.append("type", "json"); // Using json type to store JSON array in url field
     form.append("title", sliderId);
     form.append("description", data.title); // Heading
     form.append("text", data.text); // Paragraph
