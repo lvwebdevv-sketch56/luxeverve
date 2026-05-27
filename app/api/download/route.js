@@ -2,12 +2,32 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
-  const url = searchParams.get('url');
+  let url = searchParams.get('url');
   if (!url) return new NextResponse('Missing URL', { status: 400 });
 
+  if (url.includes('res.cloudinary.com')) {
+    // We do NOT add fl_attachment because it causes 401 Unauthorized on accounts with strict transformations.
+    // Our API route will handle the attachment headers instead.
+    
+    // Cloudinary requires .pdf extension for format conversion if not a raw file
+    if (!url.includes('/raw/') && !url.toLowerCase().endsWith('.pdf')) {
+      url += '.pdf';
+    }
+  }
+
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch file');
+    const fetchUrl = new URL(url).href;
+    const response = await fetch(fetchUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+      }
+    });
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Download Proxy Fetch Failed:', response.status, url, errText);
+      throw new Error(`Failed to fetch file (Status: ${response.status})`);
+    }
 
     const buffer = await response.arrayBuffer();
     return new NextResponse(buffer, {
@@ -17,6 +37,7 @@ export async function GET(request) {
       },
     });
   } catch (error) {
-    return new NextResponse('Error downloading file', { status: 500 });
+    console.error('Download Proxy Error:', error);
+    return new NextResponse(`Error downloading file: ${error.message}`, { status: 500 });
   }
 }
