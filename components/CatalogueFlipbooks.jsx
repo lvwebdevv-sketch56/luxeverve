@@ -176,10 +176,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
                         top: 0, left: 0, width: '100%', height: '100%',
                         transformOrigin: 'left center',
                         transition: isFlipped
-                          ? 'transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s ease 0.9s'
-                          : 'transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0s linear 0s',
+                          ? 'transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.3s ease 0.9s, z-index 0s 0.6s'
+                          : 'transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0s linear 0s, z-index 0s 0s',
                         transformStyle: 'preserve-3d',
-                        zIndex: pagesData.length - index,
+                        zIndex: isFlipped ? index : pagesData.length - index + 50,
                         transform: isFlipped ? 'rotateY(-180deg)' : 'rotateY(0deg)',
                         pointerEvents: isCurrent ? 'auto' : 'none',
                         opacity: isFlipped ? 0 : 1,
@@ -187,8 +187,17 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
                     >
                       <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', backgroundColor: 'transparent', borderRadius: '4px', boxShadow: isFlipped ? 'none' : '2px 5px 15px rgba(0,0,0,0.15)', overflow: 'hidden' }}>
                         {renderPageContent(data, index, true)}
+                        {/* 3D Notebook binding strip on mobile */}
+                        <div style={{
+                          position: 'absolute',
+                          top: 0, bottom: 0, left: 0, width: '15px',
+                          background: 'linear-gradient(to right, #3a2318 0%, #6e442a 20%, #8c5a3b 50%, #4a2a1a 80%, #2a160d 100%)',
+                          boxShadow: 'inset -2px 0 5px rgba(0,0,0,0.4)',
+                          borderRight: '1px solid rgba(0,0,0,0.6)',
+                          zIndex: 10
+                        }}></div>
                       </div>
-                      <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', backgroundColor: 'transparent', borderRadius: '4px' }}></div>
+                      <div style={{ position: 'absolute', inset: 0, backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', backgroundColor: '#f0f0f0', borderRadius: '4px' }}></div>
                     </div>
                   );
                 })}
@@ -200,9 +209,9 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
               onClick={(e) => { e.preventDefault(); setCurrentPage(p => p + 1); playPageTurnSound(); }}
               style={{
                 background: 'transparent', border: 'none', color: 'var(--primary-color)', fontSize: '1.2rem',
-                cursor: currentPage === pagesData.length - 1 ? 'default' : 'pointer',
-                opacity: currentPage === pagesData.length - 1 ? 0 : 1, transition: 'all 0.4s ease',
-                display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === pagesData.length - 1 ? 'none' : 'auto',
+                cursor: currentPage === pagesData.length ? 'default' : 'pointer',
+                opacity: currentPage === pagesData.length ? 0 : 1, transition: 'all 0.4s ease',
+                display: 'flex', justifyContent: 'center', alignItems: 'center', pointerEvents: currentPage === pagesData.length ? 'none' : 'auto',
                 position: 'relative', zIndex: 100, transform: 'translateZ(50px)', padding: 0
               }}
               className="external-nav-icon next no-click-sound"
@@ -264,9 +273,9 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
                       top: 0, right: 0,
                       width: '50%', height: '100%',
                       transformOrigin: 'left center',
-                      transition: 'transform 1.4s cubic-bezier(0.645, 0.045, 0.355, 1)',
+                      transition: `transform 1.4s cubic-bezier(0.645, 0.045, 0.355, 1), z-index 0s ${isFlipped ? '0.6s' : '0s'}`,
                       transformStyle: 'preserve-3d',
-                      zIndex: zIndex,
+                      zIndex: isFlipped ? index : totalLeaves - index + 50,
                       transform: isFlipped ? 'rotateY(-180deg)' : 'rotateY(0deg)',
                       boxShadow: isFlipped
                         ? '5px 5px 15px rgba(0,0,0,0.4), 8px 0 20px rgba(0,0,0,0.2) inset'
