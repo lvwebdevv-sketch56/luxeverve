@@ -19,6 +19,18 @@ const HomeSections = ({ content = [] }) => {
     thumbnailUrl: sec3?.thumbnailUrl || "/images/door_grand_pivot_1776844794720.png"
   });
 
+  const sec2 = content.find(i => i.title === 'home_section2');
+  const [section2, setSection2] = useState({
+    title: sec2?.text || "Personal Note",
+    text: sec2?.description || "At Luxe-Verve, we design exclusive luxury architect doors that move beyond conventional or standard door solutions. Each door is conceived with a distinct design philosophy, using carefully selected premium materials that set our work apart from ordinary wooden or mass-produced doors.\n\nEvery Luxe-Verve door is custom-crafted to deliver modern aesthetics, architectural precision, and refined luxury. Designed for high-end residences and premium spaces, our doors ensure your entrance stands apart with a bold, sophisticated identity—reflecting contemporary living, timeless design, and elevated craftsmanship.",
+    url: sec2?.url || "/images/luxury_storefront_1776848163085.png",
+  });
+
+  const sec4 = content.find(i => i.title === 'home_section4');
+  const [section4, setSection4] = useState({
+    url: sec4?.url || "/images/logo.png",
+  });
+
   return (
     <div className="home-sections-wrapper">
 
@@ -46,17 +58,14 @@ const HomeSections = ({ content = [] }) => {
       <section className="home-section bg-alt">
         <div className="home-section-container">
           <div className="home-section-media left-media hover-3d-wrapper">
-            <img src="/images/luxury_storefront_1776848163085.png" alt="Luxe Verve Storefront" className="static-media hover-3d" />
+            <img src={section2.url} alt="Luxe Verve Storefront" className="static-media hover-3d" />
           </div>
           <div className="home-section-content right-content">
-            <h2 className="section-heading">Personal Note</h2>
+            <h2 className="section-heading">{section2.title}</h2>
             <div className="section-text">
-              <p>
-                At Luxe-Verve, we design exclusive luxury architect doors that move beyond conventional or standard door solutions. Each door is conceived with a distinct design philosophy, using carefully selected premium materials that set our work apart from ordinary wooden or mass-produced doors.
-              </p>
-              <p>
-                Every Luxe-Verve door is custom-crafted to deliver modern aesthetics, architectural precision, and refined luxury. Designed for high-end residences and premium spaces, our doors ensure your entrance stands apart with a bold, sophisticated identity—reflecting contemporary living, timeless design, and elevated craftsmanship.
-              </p>
+              {section2.text.split('\n').filter(p => p.trim()).map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -85,7 +94,7 @@ const HomeSections = ({ content = [] }) => {
       {/* Section 4: Luxe Details Header */}
       <section className="home-section luxe-details-header">
         <div className="container" style={{ textAlign: 'center' }}>
-          <img src="/images/logo.png" alt="Luxe Verve Logo" className="luxe-header-logo" />
+          <img src={section4.url} alt="Luxe Verve Logo" className="luxe-header-logo" />
 
         </div>
       </section>
