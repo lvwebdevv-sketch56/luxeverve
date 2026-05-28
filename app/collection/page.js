@@ -102,17 +102,14 @@ export default async function CollectionPage() {
           backgroundPosition: 'center',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-start', // Align content to the left
+          justifyContent: 'center', // Align content to the center
           overflow: 'hidden'
         }} className="collection-hero-bg">
-          {/* Left Half Transparent Shadow */}
+          {/* Subtle full overlay to keep text readable */}
           <div style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            height: '100%',
-            width: '50vw',
-            background: 'rgba(0, 0, 0, 0.65)',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.4)',
             zIndex: 1
           }} className="collection-hero-shadow"></div>
 
@@ -121,9 +118,11 @@ export default async function CollectionPage() {
             position: 'relative',
             zIndex: 2,
             padding: '0 5vw',
-            maxWidth: '50vw', // Restrict text to the shadow area
+            maxWidth: '800px', // Center constrained width
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
             gap: '20px'
           }} className="collection-hero-content">
             <h3 style={{ 
@@ -217,12 +216,12 @@ export default async function CollectionPage() {
             height: 50vh !important;
           }
           .collection-hero-content {
-            max-width: 50vw !important;
+            max-width: 90vw !important;
             padding: 0 4vw !important;
           }
           .collection-hero-shadow {
-            width: 50vw !important;
-            background: rgba(0, 0, 0, 0.65) !important;
+            width: 100% !important;
+            background: rgba(0, 0, 0, 0.4) !important;
           }
           .collection-h3 {
             font-size: clamp(0.75rem, 2.5vw, 1rem) !important;
