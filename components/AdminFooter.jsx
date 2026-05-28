@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 
 export default function AdminFooter({ expanded, onToggle }) {
   const [loading, setLoading] = useState(false);
+  const [docId, setDocId] = useState(null);
   const [data, setData] = useState({
     logoText: "Luxe Verve.",
     brandDescription: "We design exclusive luxury architect doors that move beyond conventional solutions — every piece is a bespoke architectural statement.",
@@ -61,16 +62,19 @@ export default function AdminFooter({ expanded, onToggle }) {
       })
       .then(items => {
         const footerDoc = items.find(i => i.title === 'footer_config');
-        if (footerDoc && footerDoc.text) {
-          try {
-            const parsed = JSON.parse(footerDoc.text);
+        if (footerDoc) {
+          setDocId(footerDoc.id);
+          if (footerDoc.text) {
+            try {
+              const parsed = JSON.parse(footerDoc.text);
             setData(prev => ({
               ...prev,
               ...parsed,
               navLinks: typeof parsed.navLinks === 'string' ? parsed.navLinks : JSON.stringify(parsed.navLinks || prev.navLinks, null, 2),
               services: typeof parsed.services === 'string' ? parsed.services : JSON.stringify(parsed.services || prev.services, null, 2)
             }));
-          } catch(e) { console.error(e); }
+            } catch(e) { console.error(e); }
+          }
         }
       })
       .catch(e => console.warn("Could not load admin footer data:", e.message));
@@ -93,14 +97,21 @@ export default function AdminFooter({ expanded, onToggle }) {
         return;
       }
 
-      await fetchWithCloudinary('/api/content', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: 'footer_config',
-          text: JSON.stringify(payload)
-        })
+      const form = new FormData();
+      form.append("type", "text");
+      form.append("title", "footer_config");
+      form.append("text", JSON.stringify(payload));
+
+      const method = docId ? "PATCH" : "POST";
+      const url = docId ? `/api/content/${docId}` : "/api/content";
+
+      const res = await fetchWithCloudinary(url, {
+        method: method,
+        body: form
       });
+      
+      if (!res.ok) throw new Error("Failed to save");
+
       alert('Footer settings saved!');
     } catch(e) {
       alert('Error saving');
