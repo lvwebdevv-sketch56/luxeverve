@@ -36,7 +36,15 @@ export default function AdminFooter({ expanded, onToggle }) {
 
   useEffect(() => {
     fetchWithCloudinary('/api/content')
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        const text = await res.text();
+        try {
+          return JSON.parse(text);
+        } catch (e) {
+          throw new Error("Invalid JSON returned: " + text.slice(0, 50));
+        }
+      })
       .then(items => {
         const footerDoc = items.find(i => i.title === 'footer_config');
         if (footerDoc && footerDoc.text) {
@@ -60,7 +68,8 @@ export default function AdminFooter({ expanded, onToggle }) {
             });
           } catch(e) { console.error(e); }
         }
-      });
+      })
+      .catch(e => console.warn("Could not load admin footer data:", e.message));
   }, []);
 
   const handleChange = (e) => {

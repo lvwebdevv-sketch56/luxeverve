@@ -1,22 +1,25 @@
 "use server";
 
-import { auth, db } from "@/firebase/admin";
+import clientPromise from "@/lib/mongodb";
 import { cookies } from "next/headers";
+import bcrypt from "bcryptjs";
+import { SignJWT, jwtVerify } from "jose";
+import { v4 as uuidv4 } from "uuid";
 
-// Session duration (1 week)
 const SESSION_DURATION = 60 * 60 * 24 * 7;
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "default_super_secret_key_change_me");
 
 // Set session cookie
-export async function setSessionCookie(idToken: string) {
+export async function setSessionCookie(payload: any) {
   const cookieStore = await cookies();
+  
+  const token = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime(`${SESSION_DURATION}s`)
+    .sign(JWT_SECRET);
 
-  // Create session cookie
-  const sessionCookie = await auth.createSessionCookie(idToken, {
-    expiresIn: SESSION_DURATION * 1000, // milliseconds
-  });
-
-  // Set cookie in the browser
-  cookieStore.set("session", sessionCookie, {
+  cookieStore.set("session", token, {
     maxAge: SESSION_DURATION,
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -26,81 +29,75 @@ export async function setSessionCookie(idToken: string) {
 }
 
 type SignUpParams = {
-  uid: string;
   name: string;
   email: string;
+  password?: string;
 };
 
 export async function signUp(params: SignUpParams) {
-  const { uid, name, email } = params;
+  const { name, email, password } = params;
 
   try {
+    const client = await clientPromise;
+    const mongoDb = client.db();
+
     // check if user exists in db
-    const userRecord = await db.collection("users").doc(uid).get();
-    if (userRecord.exists)
-      return {
-        success: false,
-        message: "User already exists. Please sign in.",
-      };
-
-    // save user to db
-    await db.collection("users").doc(uid).set({
-      name,
-      email,
-    });
-
-    return {
-      success: true,
-      message: "Account created successfully. Please sign in.",
-    };
-  } catch (error: any) {
-    console.error("Error creating user:", error);
-
-    // Handle Firebase specific errors
-    if (error.code === "auth/email-already-exists") {
-      return {
-        success: false,
-        message: "This email is already in use",
-      };
+    const existingUser = await mongoDb.collection("users").findOne({ email });
+    if (existingUser) {
+      return { success: false, message: "This email is already in use" };
     }
 
-    return {
-      success: false,
-      message: "Failed to create account. Please try again.",
-    };
+    const hashedPassword = password ? await bcrypt.hash(password, 10) : "";
+    const uid = uuidv4();
+
+    // save user to db
+    await mongoDb.collection("users").insertOne({
+      uid,
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    return { success: true, message: "Account created successfully. Please sign in." };
+  } catch (error: any) {
+    console.error("Error creating user:", error);
+    return { success: false, message: "Failed to create account. Please try again." };
   }
 }
 
 type SignInParams = {
   email: string;
-  idToken: string;
+  password?: string;
 };
 
 export async function signIn(params: SignInParams) {
-  const { email, idToken } = params;
+  const { email, password } = params;
 
   try {
-    const userRecord = await auth.getUserByEmail(email);
-    if (!userRecord)
-      return {
-        success: false,
-        message: "User does not exist. Create an account.",
-      };
+    const client = await clientPromise;
+    const mongoDb = client.db();
 
-    await setSessionCookie(idToken);
+    const userRecord = await mongoDb.collection("users").findOne({ email });
+    if (!userRecord || !userRecord.password) {
+      return { success: false, message: "Invalid credentials. Please verify your email and password." };
+    }
+
+    if (password) {
+      const isPasswordValid = await bcrypt.compare(password, userRecord.password);
+      if (!isPasswordValid) {
+        return { success: false, message: "Invalid credentials. Please verify your email and password." };
+      }
+    }
+
+    await setSessionCookie({ uid: userRecord.uid, email: userRecord.email });
     
     return { success: true };
   } catch (error: any) {
     console.log(error);
-
-    return {
-      success: false,
-      message: "Failed to log into account. Please try again.",
-    };
+    return { success: false, message: "Failed to log into account. Please try again." };
   }
 }
 
-// Sign out user by clearing the session cookie
 export async function signOut() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
@@ -108,39 +105,38 @@ export async function signOut() {
 
 type User = {
   id: string;
+  uid: string;
   name: string;
   email: string;
 };
 
-// Get current user from session cookie
 export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
-
   const sessionCookie = cookieStore.get("session")?.value;
   if (!sessionCookie) return null;
 
   try {
-    const decodedClaims = await auth.verifySessionCookie(sessionCookie, true);
+    const { payload } = await jwtVerify(sessionCookie, JWT_SECRET);
+    if (!payload.uid) return null;
 
-    // get user info from db
-    const userRecord = await db
-      .collection("users")
-      .doc(decodedClaims.uid)
-      .get();
-    if (!userRecord.exists) return null;
+    const client = await clientPromise;
+    const mongoDb = client.db();
+
+    const userRecord = await mongoDb.collection("users").findOne({ uid: payload.uid });
+    if (!userRecord) return null;
 
     return {
-      ...userRecord.data(),
-      id: userRecord.id,
+      id: userRecord.uid,
+      uid: userRecord.uid,
+      name: userRecord.name,
+      email: userRecord.email,
     } as User;
   } catch (error) {
-    console.log(error);
-    // Invalid or expired session
+    console.log("Session verification failed", error);
     return null;
   }
 }
 
-// Check if user is authenticated
 export async function isAuthenticated() {
   const user = await getCurrentUser();
   return !!user;

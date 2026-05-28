@@ -5,11 +5,13 @@ export const metadata = {
 
 export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
 
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
 
 export default async function AboutPage() {
-  const snapshot = await db.collection('content').get();
-  const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const client = await clientPromise;
+  const db = client.db();
+  const docs = await db.collection('content').find({}).toArray();
+  const items = docs.map(doc => ({ ...doc, id: doc._id.toString(), _id: undefined }));
 
   const heroBanner = items.find(i => i.title === 'about_banner') || {};
   const mainSec = items.find(i => i.title === 'about_main') || {};

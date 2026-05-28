@@ -50,7 +50,12 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
         setSubscribed(true);
         setEmail('');
       } else {
-        const errorData = await res.json();
+        let errorData = {};
+        try {
+          errorData = await res.json();
+        } catch (e) {
+          errorData = { error: 'Server error (HTML response)' };
+        }
         setEmailError(errorData.error || 'Failed to subscribe. Please try again.');
       }
     } catch (e) {

@@ -1,6 +1,7 @@
 import { adminOnly } from '@/lib/middleware/auth';
 import { uploadAsset } from '@/lib/cloudinary';
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 import os from 'os';
@@ -19,9 +20,11 @@ async function runMiddleware(req, res, fn) {
 
 export async function GET(req) {
   try {
-    const snapshot = await db.collection('content').orderBy('order', 'asc').get();
-    const items = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    return new Response(JSON.stringify(items), { status: 200 });
+    const client = await clientPromise;
+    const db = client.db();
+    const items = await db.collection('content').find({}).sort({ order: 1 }).toArray();
+    const formattedItems = items.map(doc => ({ ...doc, id: doc._id.toString(), _id: undefined }));
+    return new Response(JSON.stringify(formattedItems), { status: 200 });
   } catch (error) {
     console.error('Error fetching content:', error);
     return new Response(JSON.stringify({ error: 'Failed to fetch content' }), { status: 500 });
@@ -80,7 +83,9 @@ export async function POST(req) {
   }
 
   try {
-    const docRef = await db.collection('content').add({
+    const client = await clientPromise;
+    const db = client.db();
+    const result = await db.collection('content').insertOne({
       type,
       title: title || null,
       description: description || null,
@@ -92,8 +97,8 @@ export async function POST(req) {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    const newDoc = await docRef.get();
-    return new Response(JSON.stringify({ id: docRef.id, ...newDoc.data() }), { status: 201 });
+    const newDoc = await db.collection('content').findOne({ _id: result.insertedId });
+    return new Response(JSON.stringify({ ...newDoc, id: newDoc._id.toString(), _id: undefined }), { status: 201 });
   } catch (e) {
     console.error('Firestore add error', e);
     return new Response(JSON.stringify({ error: 'Failed to store content' }), { status: 500 });

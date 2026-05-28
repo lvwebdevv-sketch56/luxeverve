@@ -1,4 +1,4 @@
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
 import { adminOnly } from '@/lib/middleware/auth';
 
 async function runMiddleware(req, res, fn) {
@@ -18,13 +18,15 @@ export async function GET(req) {
   }
 
   try {
-    const snapshot = await db.collection('newsletter_subscribers').orderBy('createdAt', 'desc').get();
-    const subscribers = snapshot.docs.map(doc => {
-      const data = doc.data();
+    const client = await clientPromise;
+    const db = client.db();
+    const snapshot = await db.collection('newsletter_subscribers').find({}).sort({ createdAt: -1 }).toArray();
+    const subscribers = snapshot.map(doc => {
       return {
-        id: doc.id,
-        ...data,
-        createdAt: data.createdAt ? data.createdAt.toDate().toISOString() : null
+        ...doc,
+        id: doc._id.toString(),
+        _id: undefined,
+        createdAt: doc.createdAt ? new Date(doc.createdAt).toISOString() : null
       };
     });
     return new Response(JSON.stringify(subscribers), { status: 200 });
@@ -43,18 +45,21 @@ export async function POST(req) {
       return new Response(JSON.stringify({ error: 'Missing email' }), { status: 400 });
     }
 
+    const client = await clientPromise;
+    const db = client.db();
+
     // Check if email already exists
-    const existing = await db.collection('newsletter_subscribers').where('email', '==', email).get();
-    if (!existing.empty) {
+    const existing = await db.collection('newsletter_subscribers').findOne({ email });
+    if (existing) {
       return new Response(JSON.stringify({ error: 'Email already subscribed' }), { status: 400 });
     }
 
-    const docRef = await db.collection('newsletter_subscribers').add({
+    const docRef = await db.collection('newsletter_subscribers').insertOne({
       email,
       createdAt: new Date(),
     });
 
-    return new Response(JSON.stringify({ success: true, id: docRef.id }), { status: 201 });
+    return new Response(JSON.stringify({ success: true, id: docRef.insertedId.toString() }), { status: 201 });
   } catch (error) {
     console.error('Error submitting newsletter:', error);
     return new Response(JSON.stringify({ error: 'Failed to subscribe' }), { status: 500 });

@@ -1,4 +1,5 @@
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 import { adminOnly } from '@/lib/middleware/auth';
 
 async function runMiddleware(req, res, fn) {
@@ -21,7 +22,11 @@ export async function DELETE(req, { params }) {
     const { id } = params;
     if (!id) return new Response(JSON.stringify({ error: 'Missing ID' }), { status: 400 });
 
-    await db.collection('newsletter_subscribers').doc(id).delete();
+    const client = await clientPromise;
+    const db = client.db();
+    if (!ObjectId.isValid(id)) return new Response(JSON.stringify({ error: 'Invalid ID' }), { status: 400 });
+
+    await db.collection('newsletter_subscribers').deleteOne({ _id: new ObjectId(id) });
     return new Response(JSON.stringify({ success: true }), { status: 200 });
   } catch (error) {
     console.error('Error deleting subscriber:', error);

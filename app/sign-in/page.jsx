@@ -7,8 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
 import { toast } from "sonner";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase/client";
+
 import { signIn } from "@/lib/actions/auth.action";
 import "../auth.css";
 
@@ -47,32 +46,14 @@ function SignInContent() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    if (!auth) {
-      toast.error("Firebase Auth is not initialized. Please configure your credentials in the .env file first.", {
-        id: "firebase-not-configured",
-      });
-      setLoading(false);
-      return;
-    }
     try {
       const { email, password } = data;
 
-      // 1. Sign in with Firebase Client SDK
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-      // 2. Obtain the ID Token
-      const idToken = await userCredential.user.getIdToken();
-      if (!idToken) {
-        toast.error("Sign in failed. Please try again.");
-        setLoading(false);
-        return;
-      }
-
-      // 3. Authenticate with next-cookie-session (Server Action)
-      const result = await signIn({ email, idToken });
+      // Authenticate directly via Server Action
+      const result = await signIn({ email, password });
 
       if (result && !result.success) {
-        toast.error(result.message || "Failed to set session. Try again.");
+        toast.error(result.message || "Failed to log in. Try again.");
         setLoading(false);
         return;
       }
@@ -81,13 +62,7 @@ function SignInContent() {
       router.push("/admin");
     } catch (error) {
       console.error("Sign-in error:", error);
-      let errorMsg = "Incorrect email or password. Please try again.";
-      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
-        errorMsg = "Invalid credentials. Please verify your email and password.";
-      } else if (error.code === "auth/invalid-credential") {
-        errorMsg = "Invalid credentials. Please check and try again.";
-      }
-      toast.error(errorMsg);
+      toast.error("Incorrect email or password. Please try again.");
     } finally {
       setLoading(false);
     }

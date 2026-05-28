@@ -1,6 +1,7 @@
 import { adminOnly } from '@/lib/middleware/auth';
 import { uploadAsset, deleteAsset } from '@/lib/cloudinary';
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
 import os from 'os';
@@ -41,11 +42,12 @@ export async function PATCH(req, { params }) {
   const reqPublicId = formData.get('publicId');
   const file = formData.get('file');
 
-  const docRef = db.collection('content').doc(id);
-  const snap = await docRef.get();
-  if (!snap.exists) return new Response(JSON.stringify({ error: 'Content not found' }), { status: 404 });
+  const client = await clientPromise;
+  const db = client.db();
   
-  const existing = snap.data();
+  if (!ObjectId.isValid(id)) return new Response(JSON.stringify({ error: 'Invalid ID' }), { status: 400 });
+  const existing = await db.collection('content').findOne({ _id: new ObjectId(id) });
+  if (!existing) return new Response(JSON.stringify({ error: 'Content not found' }), { status: 404 });
 
   const updates = {
     title: title ?? existing.title,
@@ -91,9 +93,9 @@ export async function PATCH(req, { params }) {
   }
 
   try {
-    await docRef.update(updates);
-    const updatedSnap = await docRef.get();
-    return new Response(JSON.stringify({ id, ...updatedSnap.data() }), { status: 200 });
+    await db.collection('content').updateOne({ _id: new ObjectId(id) }, { $set: updates });
+    const updatedSnap = await db.collection('content').findOne({ _id: new ObjectId(id) });
+    return new Response(JSON.stringify({ ...updatedSnap, id, _id: undefined }), { status: 200 });
   } catch (e) {
     console.error('Firestore update error', e);
     return new Response(JSON.stringify({ error: 'Failed to update content' }), { status: 500 });
@@ -110,11 +112,12 @@ export async function DELETE(req, { params }) {
     return new Response(JSON.stringify({ error: 'Unauthorized', details: e.message }), { status: 401 });
   }
 
-  const docRef = db.collection('content').doc(id);
-  const snap = await docRef.get();
-  if (!snap.exists) return new Response(JSON.stringify({ error: 'Content not found' }), { status: 404 });
-  
-  const data = snap.data();
+  const client = await clientPromise;
+  const db = client.db();
+
+  if (!ObjectId.isValid(id)) return new Response(JSON.stringify({ error: 'Invalid ID' }), { status: 400 });
+  const data = await db.collection('content').findOne({ _id: new ObjectId(id) });
+  if (!data) return new Response(JSON.stringify({ error: 'Content not found' }), { status: 404 });
   if (data.publicId) {
     try {
       await deleteAsset(data.publicId, data.type);
@@ -123,7 +126,7 @@ export async function DELETE(req, { params }) {
     }
   }
   
-  await docRef.delete();
+  await db.collection('content').deleteOne({ _id: new ObjectId(id) });
   return new Response(null, { status: 204 });
 }
 

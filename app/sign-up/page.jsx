@@ -7,8 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
 import { toast } from "sonner";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase/client";
+
 import { signUp } from "@/lib/actions/auth.action";
 import "../auth.css";
 
@@ -44,25 +43,11 @@ export default function SignUpPage() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    if (!auth) {
-      toast.error("Firebase Auth is not initialized. Please configure your credentials in the .env file first.", {
-        id: "firebase-not-configured",
-      });
-      setLoading(false);
-      return;
-    }
     try {
       const { name, email, password } = data;
 
-      // 1. Create user with Firebase Auth Client SDK
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-      // 2. Save user profile records to Firestore via Server Action
-      const result = await signUp({
-        uid: userCredential.user.uid,
-        name,
-        email,
-      });
+      // Save user profile records to MongoDB via Server Action
+      const result = await signUp({ name, email, password });
 
       if (!result.success) {
         toast.error(result.message || "Sign up failed. Please try again.");
@@ -74,13 +59,7 @@ export default function SignUpPage() {
       router.push("/sign-in");
     } catch (error) {
       console.error("Sign-up error:", error);
-      let errorMsg = "Failed to create account. Please try again.";
-      if (error.code === "auth/email-already-in-use") {
-        errorMsg = "This email address is already in use.";
-      } else if (error.code === "auth/invalid-email") {
-        errorMsg = "The email address is invalid.";
-      }
-      toast.error(errorMsg);
+      toast.error("Failed to create account. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -38,7 +38,15 @@ const Footer = () => {
 
   useEffect(() => {
     fetch('/api/content')
-      .then(res => res.json())
+      .then(async res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        const text = await res.text();
+        try {
+          return JSON.parse(text);
+        } catch (e) {
+          throw new Error("Invalid JSON returned: " + text.slice(0, 50));
+        }
+      })
       .then(items => {
         if (!Array.isArray(items)) {
           console.error("API returned non-array:", items);
@@ -58,7 +66,7 @@ const Footer = () => {
           } catch (e) { console.error(e); }
         }
       })
-      .catch(e => console.error(e));
+      .catch(e => console.warn("Could not load footer data:", e.message));
   }, []);
 
   return (

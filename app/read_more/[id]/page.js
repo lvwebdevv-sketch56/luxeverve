@@ -1,4 +1,4 @@
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
 import { posts as fallbackPosts } from '@/lib/blogData';
 import Link from 'next/link';
 
@@ -8,12 +8,14 @@ export async function generateMetadata({ params }) {
   const { id } = await params;
   let dynamicPosts = [];
   try {
-    const snapshot = await db.collection('content').where('type', '==', 'blog_post').get();
-    dynamicPosts = snapshot.docs.map(doc => {
-      const data = doc.data();
+    const client = await clientPromise;
+    const db = client.db();
+    const items = await db.collection('content').find({ type: 'blog_post' }).toArray();
+    dynamicPosts = items.map(doc => {
+      const data = doc;
       let extra = {};
       try { if (data.text) extra = JSON.parse(data.text); } catch (e) {}
-      return { id: doc.id, title: data.description || data.title, img: data.url, excerpt: extra.excerpt || '' };
+      return { id: doc._id.toString(), title: data.description || data.title, img: data.url, excerpt: extra.excerpt || '' };
     });
   } catch(e) {}
   
@@ -39,15 +41,17 @@ export default async function ReadMorePage({ params }) {
 
   let dynamicPosts = [];
   try {
-    const snapshot = await db.collection('content').where('type', '==', 'blog_post').get();
-    dynamicPosts = snapshot.docs.map(doc => {
+    const client = await clientPromise;
+    const db = client.db();
+    const items = await db.collection('content').find({ type: 'blog_post' }).toArray();
+    dynamicPosts = items.map(doc => {
       let extra = {};
-      const data = doc.data();
+      const data = doc;
       try {
         if (data.text) extra = JSON.parse(data.text);
       } catch (e) {}
       return {
-        id: doc.id,
+        id: doc._id.toString(),
         title: data.description || data.title,
         img: data.url,
         tag: extra.tag || 'Design Trends',

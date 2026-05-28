@@ -36,14 +36,16 @@ export const revalidate = 0; // Force Next.js to always fetch fresh data from Fi
 
 import CatalogueFlipbooks from '../../components/CatalogueFlipbooks';
 import CollectionSlider from '../../components/CollectionSlider';
-import { db } from '../../lib/firebaseAdmin';
+import clientPromise from '../../lib/mongodb';
 
 export default async function CollectionPage() {
-  const snapshot = await db.collection('content').get();
-  const content = snapshot.docs.map(doc => {
-    const data = doc.data();
+  const client = await clientPromise;
+  const db = client.db();
+  const docs = await db.collection('content').find({}).toArray();
+  const content = docs.map(doc => {
+    const data = doc;
     return {
-      id: doc.id,
+      id: doc._id.toString(),
       title: data.title || null,
       url: data.url || null,
       description: data.description || null,

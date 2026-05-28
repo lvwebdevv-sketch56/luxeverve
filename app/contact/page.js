@@ -3,14 +3,16 @@ export const metadata = {
   description: 'Get in touch with Luxe Verve for bespoke luxury door consultations.',
 };
 
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
 import ContactForm from '@/components/ContactForm';
 
 export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
 
 export default async function ContactPage() {
-  const snapshot = await db.collection('content').get();
-  const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const client = await clientPromise;
+  const db = client.db();
+  const docs = await db.collection('content').find({}).toArray();
+  const items = docs.map(doc => ({ ...doc, id: doc._id.toString(), _id: undefined }));
 
   const banner = items.find(i => i.title === 'contact_banner') || {};
   const detailsItem = items.find(i => i.title === 'contact_details') || {};

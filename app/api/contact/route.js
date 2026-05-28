@@ -1,4 +1,4 @@
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
 import { adminOnly } from '@/lib/middleware/auth';
 
 // Helper to run middleware in App Router (for auth)
@@ -20,13 +20,15 @@ export async function GET(req) {
   }
 
   try {
-    const snapshot = await db.collection('inquiries').orderBy('createdAt', 'desc').get();
-    const inquiries = snapshot.docs.map(doc => {
-      const data = doc.data();
+    const client = await clientPromise;
+    const db = client.db();
+    const snapshot = await db.collection('inquiries').find({}).sort({ createdAt: -1 }).toArray();
+    const inquiries = snapshot.map(doc => {
       return {
-        id: doc.id,
-        ...data,
-        createdAt: data.createdAt ? data.createdAt.toDate().toISOString() : null
+        ...doc,
+        id: doc._id.toString(),
+        _id: undefined,
+        createdAt: doc.createdAt ? new Date(doc.createdAt).toISOString() : null
       };
     });
     return new Response(JSON.stringify(inquiries), { status: 200 });
@@ -46,7 +48,9 @@ export async function POST(req) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
     }
 
-    const docRef = await db.collection('inquiries').add({
+    const client = await clientPromise;
+    const db = client.db();
+    const docRef = await db.collection('inquiries').insertOne({
       name,
       email,
       phone: phone || '',
@@ -54,7 +58,7 @@ export async function POST(req) {
       createdAt: new Date(),
     });
 
-    return new Response(JSON.stringify({ success: true, id: docRef.id }), { status: 201 });
+    return new Response(JSON.stringify({ success: true, id: docRef.insertedId.toString() }), { status: 201 });
   } catch (error) {
     console.error('Error submitting inquiry:', error);
     return new Response(JSON.stringify({ error: 'Failed to submit inquiry' }), { status: 500 });

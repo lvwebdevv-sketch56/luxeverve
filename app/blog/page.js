@@ -1,4 +1,4 @@
-import { db } from '@/lib/firebaseAdmin';
+import clientPromise from '@/lib/mongodb';
 import BlogContent from '@/components/BlogContent';
 import { posts as fallbackPosts } from '@/lib/blogData';
 
@@ -12,18 +12,19 @@ export const revalidate = 0; // Force Next.js to always fetch fresh data from Fi
 export default async function BlogPage() {
   let content = [];
   try {
-    const snapshot = await db.collection('content').get();
-    content = snapshot.docs.map(doc => {
-      const data = doc.data();
-      // Next.js Server Components cannot pass Firestore Timestamps to Client Components
+    const client = await clientPromise;
+    const db = client.db();
+    const items = await db.collection('content').find({}).toArray();
+    content = items.map(doc => {
+      const data = doc;
       const serializedData = { ...data };
-      if (serializedData.createdAt && typeof serializedData.createdAt.toDate === 'function') {
-        serializedData.createdAt = serializedData.createdAt.toDate().toISOString();
+      if (serializedData.createdAt) {
+        serializedData.createdAt = new Date(serializedData.createdAt).toISOString();
       }
-      if (serializedData.updatedAt && typeof serializedData.updatedAt.toDate === 'function') {
-        serializedData.updatedAt = serializedData.updatedAt.toDate().toISOString();
+      if (serializedData.updatedAt) {
+        serializedData.updatedAt = new Date(serializedData.updatedAt).toISOString();
       }
-      return { id: doc.id, ...serializedData };
+      return { ...serializedData, id: doc._id.toString(), _id: undefined };
     });
   } catch (error) {
     console.error("Error fetching blog content", error);

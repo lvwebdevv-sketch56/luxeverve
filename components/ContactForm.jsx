@@ -30,7 +30,12 @@ export default function ContactForm() {
         setStatus({ type: "success", message: "Your message has been sent successfully. We will get back to you soon." });
         setFormData({ name: "", email: "", phone: "", message: "" });
       } else {
-        const errorData = await res.json();
+        let errorData = {};
+        try {
+          errorData = await res.json();
+        } catch (e) {
+          errorData = { error: 'Server error (HTML response)' };
+        }
         setStatus({ type: "error", message: errorData.error || "Failed to send message. Please try again." });
       }
     } catch (error) {
