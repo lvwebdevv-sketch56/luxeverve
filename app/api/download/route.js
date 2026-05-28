@@ -24,8 +24,9 @@ export async function GET(request) {
       }
     });
     if (!response.ok) {
-      const errText = await response.text();
-      console.error('Download Proxy Fetch Failed:', response.status, url, errText);
+      if (response.status === 401) {
+        return new NextResponse(`Cloudinary Security Block: Your Cloudinary account currently restricts PDF delivery. Please go to Cloudinary Settings -> Security -> Restricted media types, and uncheck "PDF delivery".`, { status: 401 });
+      }
       throw new Error(`Failed to fetch file (Status: ${response.status})`);
     }
 
