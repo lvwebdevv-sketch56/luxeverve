@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import './Footer.css';
 
@@ -8,18 +7,13 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   const [data, setData] = useState({
-    brandStatement: "Crafted For Those Who Demand Excellence",
-    wordmark: "LUXE VERVE",
-    subtitle: "Luxury Architectural Doors · Est. in Excellence",
-    contactHeading: "Get In Touch",
-    contactPhone: "+91 98714 71161",
-    contactEmail: "info@luxe-verve.com",
-    contactShowroom: "Block A, 22 Sector-9\nNoida, Uttar Pradesh",
+    logoText: "Luxe Verve.",
+    brandDescription: "We design exclusive luxury architect doors that move beyond conventional solutions — every piece is a bespoke architectural statement.",
+    socialInstagram: "https://www.instagram.com/luxe_verve?igsh=MW5xZDFka3BjeHpmeg==",
     socialPinterest: "https://pin.it/5esGKiEm3",
     socialFacebook: "https://www.facebook.com/profile.php?id=61586562659611#",
     socialYoutube: "https://g.page/r/CaNjSoPDd436EBM/review",
-    socialInstagram: " https://www.instagram.com/luxe_verve?igsh=MW5xZDFka3BjeHpmeg==",
-    copyright: `© ${year} Luxe Verve. All rights reserved.`,
+    navHeading: "Explore",
     navLinks: [
       { href: '/home', label: 'Home' },
       { href: '/collection', label: 'Collection' },
@@ -27,13 +21,28 @@ const Footer = () => {
       { href: '/contact', label: 'Contact Us' },
       { href: '/blog', label: 'Blog' },
     ],
+    servicesHeading: "Services",
     services: [
       'Luxury Entrance Doors',
       'Pivot Door Systems',
       'Custom Wood Panels',
       'Commercial Projects',
       'Design Consultation',
-    ]
+    ],
+    contactHeading: "Get In Touch",
+    showroomLabel: "Showroom",
+    contactShowroom: "Block A, 22 Sector-9\nNoida, Uttar Pradesh",
+    phoneLabel: "Phone",
+    contactPhone: "+91 98714 71161",
+    emailLabel: "Email",
+    contactEmail: "info@luxe-verve.com",
+    hoursLabel: "Hours",
+    contactHours: "Mon–Sat: 10am – 7pm",
+    copyright: `© ${year} Luxe Verve. All rights reserved.`,
+    badge1: "Premium Quality",
+    badge2: "Custom Crafted",
+    badge3: "Architectural Excellence",
+    bottomRightText: "Crafted with precision & elegance."
   });
 
   useEffect(() => {
@@ -72,7 +81,6 @@ const Footer = () => {
   return (
     <footer className="footer">
 
-
       {/* ── Main Grid ── */}
       <div className="footer-main">
         <div className="container footer-grid">
@@ -80,11 +88,10 @@ const Footer = () => {
           {/* Column 1 — Brand */}
           <div className="footer-col footer-col--brand">
             <Link href="/home" aria-label="Luxe Verve Home" className="footer-logo-link" style={{ textDecoration: 'none' }}>
-              <h3 style={{ fontFamily: 'var(--font-knockout)', fontSize: '2rem', color: '#E9D7C3', margin: 0, letterSpacing: '2px', fontWeight: 500 }}>Luxe Verve.</h3>
+              <h3 style={{ fontFamily: 'var(--font-knockout)', fontSize: '2rem', color: '#E9D7C3', margin: 0, letterSpacing: '2px', fontWeight: 500 }}>{data.logoText}</h3>
             </Link>
             <p className="footer-brand-desc">
-              We design exclusive luxury architect doors that move beyond conventional solutions —
-              every piece is a bespoke architectural statement.
+              {data.brandDescription}
             </p>
 
             {/* Social Icons */}
@@ -152,7 +159,7 @@ const Footer = () => {
 
           {/* Column 2 — Navigation */}
           <div className="footer-col">
-            <h4 className="footer-col-heading">Explore</h4>
+            <h4 className="footer-col-heading">{data.navHeading}</h4>
             <ul className="footer-link-list">
               {data.navLinks.map((link) => (
                 <li key={link.href}>
@@ -167,7 +174,7 @@ const Footer = () => {
 
           {/* Column 3 — Services */}
           <div className="footer-col">
-            <h4 className="footer-col-heading">Services</h4>
+            <h4 className="footer-col-heading">{data.servicesHeading}</h4>
             <ul className="footer-link-list">
               {data.services.map((s, index) => (
                 <li key={index}>
@@ -191,7 +198,7 @@ const Footer = () => {
                   </svg>
                 </span>
                 <div>
-                  <span className="footer-contact-label">Showroom</span>
+                  <span className="footer-contact-label">{data.showroomLabel}</span>
                   <span className="footer-contact-value" style={{ whiteSpace: 'pre-line' }}>{data.contactShowroom}</span>
                 </div>
               </li>
@@ -202,7 +209,7 @@ const Footer = () => {
                   </svg>
                 </span>
                 <div>
-                  <span className="footer-contact-label">Phone</span>
+                  <span className="footer-contact-label">{data.phoneLabel}</span>
                   <a href={`tel:${data.contactPhone.replace(/\s/g, '')}`} className="footer-contact-value footer-contact-link">{data.contactPhone}</a>
                 </div>
               </li>
@@ -213,7 +220,7 @@ const Footer = () => {
                   </svg>
                 </span>
                 <div>
-                  <span className="footer-contact-label">Email</span>
+                  <span className="footer-contact-label">{data.emailLabel}</span>
                   <a href={`mailto:${data.contactEmail}`} className="footer-contact-value footer-contact-link">{data.contactEmail}</a>
                 </div>
               </li>
@@ -224,8 +231,8 @@ const Footer = () => {
                   </svg>
                 </span>
                 <div>
-                  <span className="footer-contact-label">Hours</span>
-                  <span className="footer-contact-value">Mon–Sat: 10am – 7pm</span>
+                  <span className="footer-contact-label">{data.hoursLabel}</span>
+                  <span className="footer-contact-value">{data.contactHours}</span>
                 </div>
               </li>
             </ul>
@@ -246,13 +253,13 @@ const Footer = () => {
         <div className="container footer-bottom-inner">
           <p className="footer-copy">{data.copyright}</p>
           <div className="footer-bottom-badges">
-            <span className="footer-badge">Premium Quality</span>
+            <span className="footer-badge">{data.badge1}</span>
             <span className="footer-badge-dot">·</span>
-            <span className="footer-badge">Custom Crafted</span>
+            <span className="footer-badge">{data.badge2}</span>
             <span className="footer-badge-dot">·</span>
-            <span className="footer-badge">Architectural Excellence</span>
+            <span className="footer-badge">{data.badge3}</span>
           </div>
-          <p className="footer-copy footer-copy--right">Crafted with precision &amp; elegance.</p>
+          <p className="footer-copy footer-copy--right">{data.bottomRightText}</p>
         </div>
       </div>
 

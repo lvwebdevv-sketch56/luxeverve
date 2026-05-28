@@ -1,23 +1,19 @@
 "use client";
 import { fetchWithCloudinary } from "@/lib/clientFetch";
-
 import React, { useState, useEffect } from "react";
 
 export default function AdminFooter({ expanded, onToggle }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
-    brandStatement: "Crafted For Those Who Demand Excellence",
-    wordmark: "LUXE VERVE",
-    subtitle: "Luxury Architectural Doors · Est. in Excellence",
-    contactHeading: "Get In Touch",
-    contactPhone: "+91 98714 71161",
-    contactEmail: "INFO@LUXE-VERVE.COM",
-    contactShowroom: "Block A, 22 Sector-9\nNoida, Uttar Pradesh",
+    logoText: "Luxe Verve.",
+    brandDescription: "We design exclusive luxury architect doors that move beyond conventional solutions — every piece is a bespoke architectural statement.",
+    
+    socialInstagram: "https://www.instagram.com/luxe_verve?igsh=MW5xZDFka3BjeHpmeg==",
     socialPinterest: "https://pin.it/5esGKiEm3",
     socialFacebook: "https://www.facebook.com/profile.php?id=61586562659611#",
     socialYoutube: "https://g.page/r/CaNjSoPDd436EBM/review",
-    socialInstagram: "https://www.instagram.com/luxe_verve?igsh=MW5xZDFka3BjeHpmeg==",
-    copyright: "© 2024 Luxe Verve. All Rights Reserved.",
+    
+    navHeading: "Explore",
     navLinks: JSON.stringify([
       { label: 'Home', href: '/home' },
       { label: 'Collection', href: '/collection' },
@@ -25,13 +21,31 @@ export default function AdminFooter({ expanded, onToggle }) {
       { label: 'Contact Us', href: '/contact' },
       { label: 'Blog', href: '/blog' }
     ], null, 2),
+    
+    servicesHeading: "Services",
     services: JSON.stringify([
       'Luxury Entrance Doors',
       'Pivot Door Systems',
       'Custom Wood Panels',
       'Commercial Projects',
       'Design Consultation'
-    ], null, 2)
+    ], null, 2),
+    
+    contactHeading: "Get In Touch",
+    showroomLabel: "Showroom",
+    contactShowroom: "Block A, 22 Sector-9\nNoida, Uttar Pradesh",
+    phoneLabel: "Phone",
+    contactPhone: "+91 98714 71161",
+    emailLabel: "Email",
+    contactEmail: "info@luxe-verve.com",
+    hoursLabel: "Hours",
+    contactHours: "Mon–Sat: 10am – 7pm",
+    
+    copyright: "© 2024 Luxe Verve. All rights reserved.",
+    badge1: "Premium Quality",
+    badge2: "Custom Crafted",
+    badge3: "Architectural Excellence",
+    bottomRightText: "Crafted with precision & elegance."
   });
 
   useEffect(() => {
@@ -50,22 +64,12 @@ export default function AdminFooter({ expanded, onToggle }) {
         if (footerDoc && footerDoc.text) {
           try {
             const parsed = JSON.parse(footerDoc.text);
-            setData({
-              brandStatement: parsed.brandStatement || "Crafted For Those Who Demand Excellence",
-              wordmark: parsed.wordmark || "LUXE VERVE",
-              subtitle: parsed.subtitle || "Luxury Architectural Doors · Est. in Excellence",
-              contactHeading: parsed.contactHeading || "Get In Touch",
-              contactPhone: parsed.contactPhone || "+91 98714 71161",
-              contactEmail: parsed.contactEmail || "INFO@LUXE-VERVE.COM",
-              contactShowroom: parsed.contactShowroom || "Block A, 22 Sector-9\nNoida, Uttar Pradesh",
-              socialPinterest: parsed.socialPinterest || "https://pin.it/5esGKiEm3",
-              socialFacebook: parsed.socialFacebook || "https://www.facebook.com/profile.php?id=61586562659611#",
-              socialYoutube: parsed.socialYoutube || "https://g.page/r/CaNjSoPDd436EBM/review",
-              socialInstagram: parsed.socialInstagram || "https://www.instagram.com/luxe_verve?igsh=MW5xZDFka3BjeHpmeg==",
-              copyright: parsed.copyright || "© 2024 Luxe Verve. All Rights Reserved.",
-              navLinks: typeof parsed.navLinks === 'string' ? parsed.navLinks : JSON.stringify(parsed.navLinks || [], null, 2),
-              services: typeof parsed.services === 'string' ? parsed.services : JSON.stringify(parsed.services || [], null, 2)
-            });
+            setData(prev => ({
+              ...prev,
+              ...parsed,
+              navLinks: typeof parsed.navLinks === 'string' ? parsed.navLinks : JSON.stringify(parsed.navLinks || prev.navLinks, null, 2),
+              services: typeof parsed.services === 'string' ? parsed.services : JSON.stringify(parsed.services || prev.services, null, 2)
+            }));
           } catch(e) { console.error(e); }
         }
       })
@@ -117,36 +121,14 @@ export default function AdminFooter({ expanded, onToggle }) {
         <div className="subsection-body">
           <div className="form-grid">
             
-            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Brand Display</label></div>
+            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Brand Section (Column 1)</label></div>
             <div className="input-group">
-              <label className="input-label">Top Statement</label>
-              <input type="text" name="brandStatement" value={data.brandStatement} onChange={handleChange} className="text-input" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Wordmark</label>
-              <input type="text" name="wordmark" value={data.wordmark} onChange={handleChange} className="text-input" />
+              <label className="input-label">Logo Text</label>
+              <input type="text" name="logoText" value={data.logoText} onChange={handleChange} className="text-input" />
             </div>
             <div className="input-group form-full-width">
-              <label className="input-label">Subtitle</label>
-              <input type="text" name="subtitle" value={data.subtitle} onChange={handleChange} className="text-input" />
-            </div>
-
-            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Contact Details</label></div>
-            <div className="input-group">
-              <label className="input-label">Contact Heading</label>
-              <input type="text" name="contactHeading" value={data.contactHeading} onChange={handleChange} className="text-input" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Phone</label>
-              <input type="text" name="contactPhone" value={data.contactPhone} onChange={handleChange} className="text-input" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Email</label>
-              <input type="text" name="contactEmail" value={data.contactEmail} onChange={handleChange} className="text-input" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Showroom Address</label>
-              <textarea name="contactShowroom" value={data.contactShowroom} onChange={handleChange} className="text-input" rows="2" />
+              <label className="input-label">Brand Description</label>
+              <textarea name="brandDescription" value={data.brandDescription} onChange={handleChange} className="text-input" rows="2" />
             </div>
 
             <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Social Links</label></div>
@@ -167,20 +149,86 @@ export default function AdminFooter({ expanded, onToggle }) {
               <input type="text" name="socialYoutube" value={data.socialYoutube} onChange={handleChange} className="text-input" />
             </div>
 
-            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Menu & Services (JSON Format)</label></div>
+            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Navigation & Services (Columns 2 & 3)</label></div>
+            <div className="input-group">
+              <label className="input-label">Navigation Heading</label>
+              <input type="text" name="navHeading" value={data.navHeading} onChange={handleChange} className="text-input" />
+            </div>
             <div className="input-group">
               <label className="input-label">Navigation Links (JSON)</label>
               <textarea name="navLinks" value={data.navLinks} onChange={handleChange} className="text-input textarea-input" style={{fontFamily: 'monospace', fontSize: '0.8rem'}} />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Services Heading</label>
+              <input type="text" name="servicesHeading" value={data.servicesHeading} onChange={handleChange} className="text-input" />
             </div>
             <div className="input-group">
               <label className="input-label">Services List (JSON Strings)</label>
               <textarea name="services" value={data.services} onChange={handleChange} className="text-input textarea-input" style={{fontFamily: 'monospace', fontSize: '0.8rem'}} />
             </div>
 
-            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Footer Bottom</label></div>
+            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Contact Section (Column 4)</label></div>
             <div className="input-group form-full-width">
+              <label className="input-label">Contact Heading</label>
+              <input type="text" name="contactHeading" value={data.contactHeading} onChange={handleChange} className="text-input" />
+            </div>
+            
+            <div className="input-group">
+              <label className="input-label">Showroom Label</label>
+              <input type="text" name="showroomLabel" value={data.showroomLabel} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Showroom Address</label>
+              <textarea name="contactShowroom" value={data.contactShowroom} onChange={handleChange} className="text-input" rows="2" />
+            </div>
+
+            <div className="input-group">
+              <label className="input-label">Phone Label</label>
+              <input type="text" name="phoneLabel" value={data.phoneLabel} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Phone Number</label>
+              <input type="text" name="contactPhone" value={data.contactPhone} onChange={handleChange} className="text-input" />
+            </div>
+
+            <div className="input-group">
+              <label className="input-label">Email Label</label>
+              <input type="text" name="emailLabel" value={data.emailLabel} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Email Address</label>
+              <input type="text" name="contactEmail" value={data.contactEmail} onChange={handleChange} className="text-input" />
+            </div>
+
+            <div className="input-group">
+              <label className="input-label">Hours Label</label>
+              <input type="text" name="hoursLabel" value={data.hoursLabel} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Hours Text</label>
+              <input type="text" name="contactHours" value={data.contactHours} onChange={handleChange} className="text-input" />
+            </div>
+
+            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Footer Bottom</label></div>
+            <div className="input-group">
               <label className="input-label">Copyright Text</label>
               <input type="text" name="copyright" value={data.copyright} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Bottom Right Text</label>
+              <input type="text" name="bottomRightText" value={data.bottomRightText} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Badge 1</label>
+              <input type="text" name="badge1" value={data.badge1} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Badge 2</label>
+              <input type="text" name="badge2" value={data.badge2} onChange={handleChange} className="text-input" />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Badge 3</label>
+              <input type="text" name="badge3" value={data.badge3} onChange={handleChange} className="text-input" />
             </div>
 
           </div>
