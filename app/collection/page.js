@@ -180,11 +180,11 @@ export default async function CollectionPage() {
         }} className="collection-flex-container">
           
           {/* Image */}
-          <div style={{ flex: '1', width: '100%' }} className="collection-image-wrapper">
+          <div style={{ flex: '1', position: 'relative', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(74,42,27,0.08)', aspectRatio: '4/3' }} className="collection-image-wrapper">
             <img 
               src={sec2.url || "/images/collection_2.png"} 
               alt="Engineered Wood" 
-              style={{ width: '100%', height: 'auto', borderRadius: '4px', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }} 
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '20px' }} 
             />
           </div>
 

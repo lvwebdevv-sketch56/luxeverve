@@ -198,11 +198,11 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="hover-3d-wrapper" style={{ flex: '1 1 400px', maxWidth: '600px' }}>
-            <div className="hover-3d" style={{ borderRadius: '8px', overflow: 'hidden', backgroundColor: '#2A160D', border: '1px solid rgba(207, 160, 82, 0.3)', padding: '60px', display: 'flex', justifyContent: 'center', alignItems: 'center', aspectRatio: '4/5' }}>
+            <div className="hover-3d" style={{ borderRadius: '8px', overflow: 'hidden', backgroundColor: 'transparent', padding: '0', display: 'flex', justifyContent: 'center', alignItems: 'center', aspectRatio: '4/5' }}>
               <img
                 src={sec3.url || "/images/logo.png"}
                 alt={sec3.text || "Luxe Verve Logo Story"}
-                style={{ maxWidth: '80%', maxHeight: '80%', objectFit: 'contain' }}
+                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
               />
             </div>
           </div>

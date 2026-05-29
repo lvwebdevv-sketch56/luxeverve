@@ -190,10 +190,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
                         {/* 3D Notebook binding strip on mobile */}
                         <div style={{
                           position: 'absolute',
-                          top: 0, bottom: 0, left: 0, width: '15px',
-                          background: 'linear-gradient(to right, #3a2318 0%, #6e442a 20%, #8c5a3b 50%, #4a2a1a 80%, #2a160d 100%)',
-                          boxShadow: 'inset -2px 0 5px rgba(0,0,0,0.4)',
-                          borderRight: '1px solid rgba(0,0,0,0.6)',
+                          top: 0, bottom: 0, left: 0, width: '2px',
+                          background: '#000000',
+                          boxShadow: 'none',
+                          borderRight: 'none',
                           zIndex: 10
                         }}></div>
                       </div>
