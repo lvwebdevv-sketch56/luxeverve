@@ -6,7 +6,7 @@ export default function AdminSection4({ expanded, onToggle }) {
   const [data, setData] = useState({ 
     title: "home_section4",
     url: "/images/logo.png" 
-  });
+  , altText: "" });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -21,7 +21,8 @@ export default function AdminSection4({ expanded, onToggle }) {
         setData({
           id: sectionItem.id,
           title: sectionItem.title,
-          url: sectionItem.url || data.url
+          url: sectionItem.url || data.url,
+          altText: sectionItem.altText || data.altText || "",
         });
       }
       setAllMedia(items.filter(i => i.type === 'image'));
@@ -81,7 +82,11 @@ export default function AdminSection4({ expanded, onToggle }) {
               <input type="text" className="text-input" value={data.url} onChange={e => setData({...data, url: e.target.value})} />
             </div>
             <div className="input-group form-full-width">
-              <label className="input-label">Upload New Logo to Cloudinary</label>
+              <div className="input-group" style={{marginBottom: "15px"}}>
+              <label className="input-label">Image Alt Text (SEO)</label>
+              <input type="text" className="text-input" placeholder="e.g. Modern Luxury Wooden Door" value={data.altText} onChange={e => setData({...data, altText: e.target.value})} />
+            </div>
+            <label className="input-label">Upload New Logo to Cloudinary</label>
               <div className="media-upload-zone" onClick={() => fileInputRef.current?.click()}>
                 <span className="upload-icon">💠</span>
                 <span className="upload-text">

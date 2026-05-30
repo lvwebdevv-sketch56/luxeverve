@@ -8,7 +8,7 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 import './CollectionSlider.css';
 
-export default function CollectionSlider({ id, title, text, images }) {
+export default function CollectionSlider({ id, title, text, images, altTexts = [] }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Unique ID for navigation to avoid conflict between multiple sliders
@@ -44,7 +44,7 @@ export default function CollectionSlider({ id, title, text, images }) {
             {images && images.filter(img => img).map((imgUrl, index) => (
               <SwiperSlide key={index} className="swiper-slide-3d">
                 <div className="swiper-img-wrapper">
-                  <img src={imgUrl} alt={`${title} ${index + 1}`} />
+                  <img src={imgUrl} alt={altTexts[index] || `${title} ${index + 1}`} />
                 </div>
               </SwiperSlide>
             ))}

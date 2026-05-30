@@ -48,7 +48,8 @@ export default function AdminHeroCardsSection({ expanded, onToggle }) {
     form.append("type", "image");
     form.append("title", editingCard.title);
     form.append("text", editingCard.text); // Used for Card Title
-    form.append("description", editingCard.description); // Used for Card Desc
+    form.append("description", editingCard.description);
+    form.append("altText", editingCard.altText || "");
     form.append("order", editingCard.order);
     
     if (editingCard.newFile) {
@@ -118,7 +119,11 @@ export default function AdminHeroCardsSection({ expanded, onToggle }) {
                   <label className="input-label">Card Description</label>
                   <input type="text" className="text-input" value={editingCard.description} onChange={e => setEditingCard({...editingCard, description: e.target.value})} />
                 </div>
-                <div className="input-group form-full-width">
+                <div className="input-group">
+              <label className="input-label">Image Alt Text (SEO)</label>
+              <input type="text" className="text-input" placeholder="e.g. Modern Luxury Wooden Door" value={editingCard.altText || ""} onChange={e => setEditingCard({...editingCard, altText: e.target.value})} />
+            </div>
+            <div className="input-group form-full-width">
                   <label className="input-label">Upload Custom Image (Optional)</label>
                   <div className="media-upload-zone" onClick={() => fileInputRef.current?.click()} style={{ padding: '12px' }}>
                     <span className="upload-icon" style={{ fontSize: '1.2rem' }}>🖼️</span>

@@ -4,7 +4,7 @@ import { fetchWithCloudinary } from "@/lib/clientFetch";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function AdminCollectionBanner({ expanded, onToggle }) {
-  const [data, setData] = useState({ title: "Luxury Collections", subtitle: "Architectural Statements of Distinction", text: "", url: "/images/bgimg1.webp" });
+  const [data, setData] = useState({ title: "Luxury Collections", subtitle: "Architectural Statements of Distinction", text: "", url: "/images/bgimg1.webp" , altText: "" });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -21,6 +21,7 @@ export default function AdminCollectionBanner({ expanded, onToggle }) {
           title: bannerItem.description || "Luxury Collections", // Map appropriately
           subtitle: bannerItem.text || "Architectural Statements of Distinction",
           url: bannerItem.url || "/images/bgimg1.webp",
+          altText: bannerItem.altText || "",
         });
       }
       setAllMedia(items.filter(i => i.type === 'image'));
@@ -36,7 +37,8 @@ export default function AdminCollectionBanner({ expanded, onToggle }) {
     const form = new FormData();
     form.append("type", "image");
     form.append("title", "coll_banner");
-    form.append("description", data.title); // We save Heading in description
+    form.append("description", data.title);
+    form.append("altText", data.altText || ""); // We save Heading in description
     form.append("text", data.subtitle); // We save Subheading in text
 
     if (file) {
@@ -83,6 +85,10 @@ export default function AdminCollectionBanner({ expanded, onToggle }) {
             <div className="input-group">
               <label className="input-label">Banner Subheading/Paragraph</label>
               <input type="text" className="text-input" value={data.subtitle} onChange={e => setData({...data, subtitle: e.target.value})} />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Image Alt Text (SEO)</label>
+              <input type="text" className="text-input" placeholder="e.g. Modern Luxury Wooden Door" value={data.altText} onChange={e => setData({...data, altText: e.target.value})} />
             </div>
             <div className="input-group form-full-width">
               <label className="input-label">Upload Banner Image to Cloudinary</label>

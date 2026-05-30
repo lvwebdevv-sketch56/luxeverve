@@ -1,14 +1,11 @@
 "use client";
 import { fetchWithCloudinary } from "@/lib/clientFetch";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function AdminCollectionSec2({ expanded, onToggle }) {
-  const [data, setData] = useState({ title: "Our Philosophy of Bespoke Entrance Architecture", text: "...", url: "/images/collection_2.png" });
-  const [file, setFile] = useState(null);
+  const [data, setData] = useState({ title: "Our Philosophy of Bespoke Entrance Architecture", text: "..." , altText: "" });
   const [isUploading, setIsUploading] = useState(false);
-  const [allMedia, setAllMedia] = useState([]);
-  const fileInputRef = useRef(null);
 
   const fetchData = async () => {
     const res = await fetchWithCloudinary("/api/content");
@@ -20,10 +17,8 @@ export default function AdminCollectionSec2({ expanded, onToggle }) {
           id: secItem.id,
           title: secItem.description || data.title, 
           text: secItem.text || data.text,
-          url: secItem.url || "/images/collection_2.png"
         });
       }
-      setAllMedia(items.filter(i => i.type === 'image'));
     }
   };
 
@@ -34,18 +29,12 @@ export default function AdminCollectionSec2({ expanded, onToggle }) {
   const handleSave = async () => {
     setIsUploading(true);
     const form = new FormData();
-    form.append("type", "image");
+    form.append("type", "text");
     form.append("title", "coll_sec2");
     form.append("description", data.title);
     form.append("text", data.text);
     
-    if (file) {
-      form.append("file", file);
-    } else if (data.url) {
-      form.append("url", data.url);
-    }
-
-    const method = data.id && file ? "PATCH" : "POST";
+    const method = data.id ? "PATCH" : "POST";
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
 
     try {
@@ -82,39 +71,6 @@ export default function AdminCollectionSec2({ expanded, onToggle }) {
             <div className="input-group form-full-width">
               <label className="input-label">Intro Description Paragraph</label>
               <textarea className="text-input textarea-input" value={data.text} onChange={e => setData({...data, text: e.target.value})} />
-            </div>
-            <div className="input-group form-full-width">
-              <label className="input-label">Upload Section Image</label>
-              <div className="media-upload-zone" onClick={() => fileInputRef.current?.click()}>
-                <span className="upload-icon">🖼️</span>
-                <span className="upload-text">
-                  {file ? file.name : "Upload new image for this section"}
-                </span>
-                <input 
-                  type="file" 
-                  ref={fileInputRef}
-                  style={{ display: 'none' }} 
-                  accept="image/*" 
-                  onChange={e => setFile(e.target.files[0])} 
-                />
-              </div>
-            </div>
-            
-            <div className="input-group form-full-width">
-              <label className="input-label">Select existing Image from Media Library</label>
-              <select 
-                className="text-input" 
-                value={data.url} 
-                onChange={e => {
-                  setData({ ...data, url: e.target.value });
-                  setFile(null);
-                }}
-              >
-                <option value="/images/collection_2.png">-- Select existing image --</option>
-                {allMedia.map(m => (
-                  <option key={m.id} value={m.url}>{m.title || "Unnamed Image"}</option>
-                ))}
-              </select>
             </div>
           </div>
           <div className="subsection-actions">

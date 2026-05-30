@@ -153,7 +153,7 @@ export default async function AboutPage() {
             <div className="hover-3d" style={{ borderRadius: '8px', overflow: 'hidden' }}>
               <img
                 src={sec2.url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop"}
-                alt={sec2.text || "Once Upon a Time"}
+                alt={sec2.altText || sec2.text || "Once Upon a Time"}
                 style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover', aspectRatio: '1/1' }}
               />
             </div>
@@ -201,7 +201,7 @@ export default async function AboutPage() {
             <div className="hover-3d" style={{ borderRadius: '8px', overflow: 'hidden', backgroundColor: 'transparent', padding: '0', display: 'flex', justifyContent: 'center', alignItems: 'center', aspectRatio: '4/5' }}>
               <img
                 src={sec3.url || "/images/logo.png"}
-                alt={sec3.text || "Luxe Verve Logo Story"}
+                alt={sec3.altText || sec3.text || "Luxe Verve Logo Story"}
                 style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
               />
             </div>
@@ -250,15 +250,7 @@ export default async function AboutPage() {
           }
         }
         .hover-3d-wrapper {
-          perspective: 1000px;
           cursor: pointer;
-        }
-        .hover-3d {
-          transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-        .hover-3d-wrapper:hover .hover-3d {
-          transform: rotateX(5deg) rotateY(5deg) scale(1.03);
-          box-shadow: -10px 20px 40px rgba(0,0,0,0.4);
         }
       `}} />
     </div>

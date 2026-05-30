@@ -57,40 +57,40 @@ const Navbar = () => {
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         {/* ── Desktop Layout ── */}
-      <div className="nav-area nav-left">
-        <Link href="/" className="nav-logo" aria-label="Luxe Verve Home">
-          <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
-        </Link>
-      </div>
+        <div className="nav-area nav-left">
+          <Link href="/" className="nav-logo" aria-label="Luxe Verve Home">
+            <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
+          </Link>
+        </div>
 
-      <div className="nav-area nav-right">
-        <ul className="nav-links">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a 
-                href={link.href} 
-                className={`nav-link no-click-sound ${pathname === link.href ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (typeof window !== 'undefined' && window.playPageFlipSound) {
-                    window.playPageFlipSound();
-                  }
-                  window.dispatchEvent(new CustomEvent('custom-nav', { detail: { route: link.href, soundPlayed: true } }));
-                }}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+        <div className="nav-area nav-right">
+          <ul className="nav-links">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className={`nav-link no-click-sound ${pathname === link.href ? 'active' : ''}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (typeof window !== 'undefined' && window.playPageFlipSound) {
+                      window.playPageFlipSound();
+                    }
+                    window.dispatchEvent(new CustomEvent('custom-nav', { detail: { route: link.href, soundPlayed: true } }));
+                  }}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* ── Mobile Layout ── */}
-      <div className="mobile-bar">
-        <Link href="/" className="nav-logo mobile-logo" aria-label="Luxe Verve Home">
-          <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
-        </Link>
-      </div>
+        {/* ── Mobile Layout ── */}
+        <div className="mobile-bar">
+          <Link href="/" className="nav-logo mobile-logo" aria-label="Luxe Verve Home">
+            <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
+          </Link>
+        </div>
 
       </nav>
 

@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { uploadToCloudinaryClient } from "@/lib/clientCloudinary";
 
 export default function AdminBannerSection({ expanded, onToggle }) {
-  const [data, setData] = useState({ title: "LUXE VERVE", subtitle: "Beyond the Threshold", url: "/videos/banner.mp4", thumbnailUrl: "/images/banner1img.jpeg" });
+  const [data, setData] = useState({ title: "LUXE VERVE", subtitle: "Beyond the Threshold", url: "/videos/banner.mp4", thumbnailUrl: "/images/banner1img.jpeg", altText: "" });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -22,7 +22,8 @@ export default function AdminBannerSection({ expanded, onToggle }) {
           title: bannerItem.text || "LUXE VERVE", // Using text for title in this context
           subtitle: bannerItem.description || "Beyond the Threshold",
           url: bannerItem.url || "/videos/banner.mp4",
-          thumbnailUrl: bannerItem.thumbnailUrl || "/images/banner1img.jpeg"
+          thumbnailUrl: bannerItem.thumbnailUrl || "/images/banner1img.jpeg",
+          altText: bannerItem.altText || "",
         });
       }
       setAllMedia(items.filter(i => i.title !== "hero_banner" && !i.title?.startsWith("hero_card")));
@@ -57,6 +58,7 @@ export default function AdminBannerSection({ expanded, onToggle }) {
     form.append("type", "video");
     form.append("title", "hero_banner");
     form.append("description", data.subtitle);
+    form.append("altText", data.altText || "");
     form.append("text", data.title);
     form.append("url", currentUrl);
     
@@ -114,6 +116,10 @@ export default function AdminBannerSection({ expanded, onToggle }) {
             <div className="input-group">
               <label className="input-label">Hero Subtitle</label>
               <input type="text" className="text-input" value={data.subtitle} onChange={e => setData({...data, subtitle: e.target.value})} />
+            </div>
+            <div className="input-group">
+              <label className="input-label">Image Alt Text (SEO)</label>
+              <input type="text" className="text-input" placeholder="e.g. Modern Luxury Wooden Door" value={data.altText} onChange={e => setData({...data, altText: e.target.value})} />
             </div>
             <div className="input-group form-full-width">
               <label className="input-label">Upload Video to Cloudinary</label>

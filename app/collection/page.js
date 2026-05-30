@@ -61,8 +61,10 @@ export default async function CollectionPage() {
     const data = content.find(i => i.title === id);
     if (data) {
       let imgs = ["", "", "", "", "", ""];
+      let altTexts = ["", "", "", "", "", ""];
       try { imgs = JSON.parse(data.url); } catch(e) {}
-      return { title: data.description || defaultTitle, text: data.text || defaultText, images: imgs };
+      try { if (data.altText) altTexts = JSON.parse(data.altText); } catch(e) {}
+      return { title: data.description || defaultTitle, text: data.text || defaultText, images: imgs, altTexts };
     }
     // Default placeholders
     const defaultImages = [
@@ -73,7 +75,7 @@ export default async function CollectionPage() {
       "/images/door_stone_texture_1776844837858.png",
       "/images/collection_2.png"
     ];
-    return { title: defaultTitle, text: defaultText, images: defaultImages };
+    return { title: defaultTitle, text: defaultText, images: defaultImages, altTexts: [] };
   };
 
   const slider1 = getSlider('coll_slider1', "Thread Line Door", "The THREADLINE DOOR is a bold expression of contemporary luxury door design...");
@@ -179,14 +181,7 @@ export default async function CollectionPage() {
           boxShadow: '0 10px 40px rgba(74,42,27,0.05)'
         }} className="collection-flex-container">
           
-          {/* Image */}
-          <div style={{ flex: '1', position: 'relative', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 40px rgba(74,42,27,0.08)', aspectRatio: '4/3' }} className="collection-image-wrapper">
-            <img 
-              src={sec2.url || "/images/collection_2.png"} 
-              alt="Engineered Wood" 
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block', borderRadius: '20px' }} 
-            />
-          </div>
+
 
           {/* Text */}
             <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '20px' }} className="collection-text-wrapper">
@@ -200,9 +195,9 @@ export default async function CollectionPage() {
           </div>
         </section>
 
-        <CollectionSlider id="slider1" title={slider1.title} text={slider1.text} images={slider1.images} />
-        <CollectionSlider id="slider2" title={slider2.title} text={slider2.text} images={slider2.images} />
-        <CollectionSlider id="slider3" title={slider3.title} text={slider3.text} images={slider3.images} />
+        <CollectionSlider id="slider1" title={slider1.title} text={slider1.text} images={slider1.images} altTexts={slider1.altTexts} />
+        <CollectionSlider id="slider2" title={slider2.title} text={slider2.text} images={slider2.images} altTexts={slider2.altTexts} />
+        <CollectionSlider id="slider3" title={slider3.title} text={slider3.text} images={slider3.images} altTexts={slider3.altTexts} />
 
         <CatalogueFlipbooks content={content} />
 

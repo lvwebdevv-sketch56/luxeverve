@@ -4,7 +4,7 @@ import { fetchWithCloudinary } from "@/lib/clientFetch";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function AdminBlogBanner({ expanded, onToggle }) {
-  const [data, setData] = useState({ id: null, title: "The Luxe Journal", text: "Exploring architecture, luxury design trends, and woodworking crafts", url: "" });
+  const [data, setData] = useState({ id: null, title: "The Luxe Journal", text: "Exploring architecture, luxury design trends, and woodworking crafts", url: "", altText: "" });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -21,6 +21,7 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
           title: item.description || "The Luxe Journal", 
           text: item.text || "Exploring architecture, luxury design trends, and woodworking crafts",
           url: item.url || "",
+          altText: item.altText || "",
         });
       }
       setAllMedia(items.filter(i => i.type === 'image'));
@@ -37,6 +38,7 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
     form.append("type", "image");
     form.append("title", "blog_banner");
     form.append("description", data.title);
+    form.append("altText", data.altText || "");
     form.append("text", data.text);
 
     if (file) {
@@ -84,6 +86,10 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
               <input type="text" className="text-input" value={data.text} onChange={e => setData({...data, text: e.target.value})} />
             </div>
             
+            <div className="input-group">
+              <label className="input-label">Image Alt Text (SEO)</label>
+              <input type="text" className="text-input" placeholder="e.g. Modern Luxury Wooden Door" value={data.altText} onChange={e => setData({...data, altText: e.target.value})} />
+            </div>
             <div className="input-group form-full-width">
               <label className="input-label">Journal Cover Header Image (Cloudinary)</label>
               <div className="media-upload-zone" onClick={() => fileInputRef.current?.click()}>

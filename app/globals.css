@@ -126,25 +126,20 @@ button:hover {
 .delay-2 { animation-delay: 0.4s; }
 .delay-3 { animation-delay: 0.6s; }
 
-/* Reusable 3D Hover Effect */
+/* Reusable Zoom Hover Effect */
 .hover-3d-wrapper {
-  perspective: 1000px;
+  overflow: hidden;
 }
 
 .hover-3d {
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
-  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform;
+  display: block;
 }
 
+.hover-3d-wrapper:hover .hover-3d,
 .hover-3d:hover {
-  transform: rotateY(8deg) rotateX(4deg) scale(1.03);
-  box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.6);
-}
-
-.hover-3d.reverse:hover {
-  transform: rotateY(-8deg) rotateX(4deg) scale(1.03);
-  box-shadow: 15px 15px 30px rgba(0, 0, 0, 0.6);
+  transform: scale(1.07);
 }
 
 /* ── Scroll Reveal ── */

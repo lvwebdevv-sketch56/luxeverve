@@ -29,6 +29,7 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
       id: post.id,
       title: post.description || post.title || "",
       url: post.url || "",
+      altText: post.altText || "",
       tag: parsed.tag || "",
       excerpt: parsed.excerpt || "",
       date: parsed.date || new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
@@ -45,6 +46,7 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
       id: null,
       title: "",
       url: "",
+      altText: "",
       tag: "Design Trends",
       excerpt: "",
       date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
@@ -72,7 +74,8 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
     setIsUploading(true);
     const form = new FormData();
     form.append("type", "blog_post");
-    form.append("title", editingPost.title); // We'll store title in description too for safety, but title is fine
+    form.append("title", editingPost.title);
+    form.append("altText", editingPost.altText || ""); // We'll store title in description too for safety, but title is fine
     form.append("description", editingPost.title);
     
     // Parse contentRaw into blocks
@@ -163,6 +166,10 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
               <div className="input-group">
                 <label className="input-label">Category / Tag</label>
                 <input type="text" className="text-input" value={editingPost.tag} onChange={e => setEditingPost({...editingPost, tag: e.target.value})} />
+              </div>
+              <div className="input-group">
+                <label className="input-label">Image Alt Text (SEO)</label>
+                <input type="text" className="text-input" value={editingPost.altText || ""} onChange={e => setEditingPost({...editingPost, altText: e.target.value})} placeholder="e.g. Modern Wooden Door" />
               </div>
               <div className="input-group form-full-width">
                 <label className="input-label">Cover Image (Cloudinary)</label>

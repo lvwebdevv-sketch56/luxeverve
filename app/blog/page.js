@@ -59,6 +59,7 @@ export default async function BlogPage() {
         readTime: extra.readTime || '',
         author: extra.author || '',
         content: extra.content || [],
+        altText: i.altText || '',
       };
     });
 

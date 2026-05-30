@@ -52,6 +52,7 @@ export async function POST(req) {
   const order = formData.get('order');
   const reqUrl = formData.get('url');
   const file = formData.get('file');
+  const altText = formData.get('altText');
 
   if (!type) return new Response(JSON.stringify({ error: 'Missing type' }), { status: 400 });
 
@@ -93,6 +94,7 @@ export async function POST(req) {
       thumbnailUrl,
       publicId,
       text: text || null,
+      altText: altText || null,
       order: Number(order) || 0,
       createdAt: new Date(),
       updatedAt: new Date(),

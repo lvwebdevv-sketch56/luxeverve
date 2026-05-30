@@ -9,7 +9,7 @@ export default function AdminSection1({ expanded, onToggle }) {
     text: "Discover doors conceived for those who value distinction...", 
     url: "/videos/demo.mp4", 
     thumbnailUrl: "/images/door_grand_pivot_1776844794720.png" 
-  });
+  , altText: "" });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -42,7 +42,8 @@ export default function AdminSection1({ expanded, onToggle }) {
     const form = new FormData();
     form.append("title", "home_section1");
     form.append("text", data.title); 
-    form.append("description", data.text); 
+    form.append("description", data.text);
+    form.append("altText", data.altText || ""); 
     
     if (file) {
       form.append("type", "video");

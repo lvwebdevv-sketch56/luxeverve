@@ -192,7 +192,7 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
               <div style={{ overflow: 'hidden', minHeight: '380px' }}>
                 <img
                   src={featuredPost.img}
-                  alt={featuredPost.title}
+                  alt={featuredPost.altText || featuredPost.title}
                   className="blog-featured-img"
                   style={{
                     width: '100%', height: '100%',
@@ -270,7 +270,7 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
                 <div style={{ position: 'relative', overflow: 'hidden', height: '230px' }}>
                   <img
                     src={post.img}
-                    alt={post.title}
+                    alt={post.altText || post.title}
                     className="blog-card-img"
                     style={{
                       width: '100%', height: '100%',

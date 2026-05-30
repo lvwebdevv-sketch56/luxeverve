@@ -3,11 +3,12 @@ import { fetchWithCloudinary } from "@/lib/clientFetch";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function AdminSection2({ expanded, onToggle }) {
-  const [data, setData] = useState({ 
-    title: "Personal Note", 
-    text: "At Luxe-Verve, we design exclusive luxury architect doors that move beyond conventional or standard door solutions. Each door is conceived with a distinct design philosophy, using carefully selected premium materials that set our work apart from ordinary wooden or mass-produced doors.", 
-    url: "/images/showcase.jpg", 
-    thumbnailUrl: "/images/showcase.jpg" 
+  const [data, setData] = useState({
+    title: "Personal Note",
+    text: "At Luxe-Verve, we design exclusive luxury architect doors that move beyond conventional or standard door solutions. Each door is conceived with a distinct design philosophy, using carefully selected premium materials that set our work apart from ordinary wooden or mass-produced doors.",
+    url: "/images/showcase.jpg",
+    thumbnailUrl: "/images/showcase.jpg"
+    , altText: ""
   });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -40,9 +41,10 @@ export default function AdminSection2({ expanded, onToggle }) {
     setIsUploading(true);
     const form = new FormData();
     form.append("title", "home_section2");
-    form.append("text", data.title); 
-    form.append("description", data.text); 
-    
+    form.append("text", data.title);
+    form.append("description", data.text);
+    form.append("altText", data.altText || "");
+
     if (file) {
       form.append("type", "image");
       form.append("file", file);
@@ -51,9 +53,9 @@ export default function AdminSection2({ expanded, onToggle }) {
       if (data.url) form.append("url", data.url);
     }
 
-    const method = data.id ? "PATCH" : "POST"; 
+    const method = data.id ? "PATCH" : "POST";
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
-    
+
     try {
       const res = await fetchWithCloudinary(url, { method: method, body: form });
       if (res.ok) {
@@ -84,13 +86,13 @@ export default function AdminSection2({ expanded, onToggle }) {
           <div className="form-grid">
             <div className="input-group form-full-width">
               <label className="input-label">Section Heading</label>
-              <input type="text" className="text-input" value={data.title} onChange={e => setData({...data, title: e.target.value})} />
+              <input type="text" className="text-input" value={data.title} onChange={e => setData({ ...data, title: e.target.value })} />
             </div>
             <div className="input-group form-full-width">
               <label className="input-label">Body Text paragraph</label>
-              <textarea className="text-input textarea-input" value={data.text} onChange={e => setData({...data, text: e.target.value})} />
+              <textarea className="text-input textarea-input" value={data.text} onChange={e => setData({ ...data, text: e.target.value })} />
             </div>
-            
+
             <div className="input-group form-full-width">
               <label className="input-label">Upload Showcase Image</label>
               <div className="media-upload-zone" onClick={() => fileInputRef.current?.click()}>
@@ -99,21 +101,21 @@ export default function AdminSection2({ expanded, onToggle }) {
                   {file ? file.name : "Select or drag storefront showcase image"}
                 </span>
                 <span className="upload-subtext">Recommended: JPG, PNG, WEBP (ratio 16:10 or 4:3)</span>
-                <input 
-                  type="file" 
+                <input
+                  type="file"
                   ref={fileInputRef}
-                  style={{ display: 'none' }} 
-                  accept="image/*" 
-                  onChange={e => setFile(e.target.files[0])} 
+                  style={{ display: 'none' }}
+                  accept="image/*"
+                  onChange={e => setFile(e.target.files[0])}
                 />
               </div>
             </div>
 
             <div className="input-group form-full-width">
               <label className="input-label">Select existing Image from Media Library</label>
-              <select 
-                className="text-input" 
-                value={file ? "" : data.url} 
+              <select
+                className="text-input"
+                value={file ? "" : data.url}
                 onChange={e => {
                   const selected = allMedia.find(m => m.url === e.target.value);
                   if (selected) {
@@ -127,6 +129,17 @@ export default function AdminSection2({ expanded, onToggle }) {
                   <option key={m.id} value={m.url}>{m.title || "Unnamed Image"}</option>
                 ))}
               </select>
+            </div>
+
+            <div className="input-group form-full-width">
+              <label className="input-label">Image Alt Text (SEO)</label>
+              <input 
+                type="text" 
+                className="text-input" 
+                placeholder="e.g. Modern Luxury Wooden Door"
+                value={data.altText || ""} 
+                onChange={e => setData({...data, altText: e.target.value})} 
+              />
             </div>
           </div>
           <div className="subsection-actions">

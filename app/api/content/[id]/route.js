@@ -41,6 +41,7 @@ export async function PATCH(req, { params }) {
   const reqThumbnailUrl = formData.get('thumbnailUrl');
   const reqPublicId = formData.get('publicId');
   const file = formData.get('file');
+  const altText = formData.get('altText');
 
   const client = await clientPromise;
   const db = client.db();
@@ -55,6 +56,7 @@ export async function PATCH(req, { params }) {
     text: text ?? existing.text,
     order: order !== null && order !== undefined ? Number(order) : existing.order,
     url: reqUrl ?? existing.url,
+    altText: altText !== null ? altText : existing.altText,
     updatedAt: new Date(),
   };
 

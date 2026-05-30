@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const routes = ['/home', '/collection', '/about', '/contact', '/blog'];
+const routes = ['/home', '/blog', '/collection', '/contact', '/about'];
 
 import { LayoutRouterContext } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 

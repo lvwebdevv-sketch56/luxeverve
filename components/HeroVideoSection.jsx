@@ -33,7 +33,8 @@ const HeroVideoSection = ({ content = [] }) => {
   const [cards, setCards] = useState(mergedCards.map(c => ({
     img: c.url || '/images/door_sculpted_wood_1776844667211.png',
     title: c.text,
-    desc: c.description
+    desc: c.description,
+    altText: c.altText || '',
   })));
 
   useEffect(() => {
@@ -131,7 +132,7 @@ const HeroVideoSection = ({ content = [] }) => {
                     style={{ transitionDelay: `${index * 0.2}s` }}
                   >
                     <div className="rolex-card-img-wrapper hover-3d-wrapper">
-                      <img src={card.img} alt={card.title} className="rolex-card-img hover-3d" />
+                      <img src={card.img} alt={card.altText || card.title} className="rolex-card-img hover-3d" />
                       <div className="rolex-card-overlay">
                         <p className="rolex-card-subtitle">{card.title}</p>
                         <h3 className="rolex-card-title">{card.desc}</h3>

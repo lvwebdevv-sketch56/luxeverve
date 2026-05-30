@@ -24,11 +24,13 @@ const HomeSections = ({ content = [] }) => {
     title: sec2?.text || "Personal Note",
     text: sec2?.description || "At Luxe-Verve, we design exclusive luxury architect doors that move beyond conventional or standard door solutions. Each door is conceived with a distinct design philosophy, using carefully selected premium materials that set our work apart from ordinary wooden or mass-produced doors.\n\nEvery Luxe-Verve door is custom-crafted to deliver modern aesthetics, architectural precision, and refined luxury. Designed for high-end residences and premium spaces, our doors ensure your entrance stands apart with a bold, sophisticated identity—reflecting contemporary living, timeless design, and elevated craftsmanship.",
     url: sec2?.url || "/images/luxury_storefront_1776848163085.png",
+    altText: sec2?.altText || "Luxe Verve Storefront",
   });
 
   const sec4 = content.find(i => i.title === 'home_section4');
   const [section4, setSection4] = useState({
     url: sec4?.url || "/images/logo.png",
+    altText: sec4?.altText || "Luxe Verve Logo",
   });
 
   const videoRefs = useRef([]);
@@ -85,7 +87,7 @@ const HomeSections = ({ content = [] }) => {
       <section className="home-section bg-alt">
         <div className="home-section-container">
           <div className="home-section-media left-media hover-3d-wrapper">
-            <img src={section2.url} alt="Luxe Verve Storefront" className="static-media hover-3d" />
+            <img src={section2.url} alt={section2.altText} className="static-media hover-3d" />
           </div>
           <div className="home-section-content right-content">
             <h2 className="section-heading">{section2.title}</h2>
@@ -121,7 +123,7 @@ const HomeSections = ({ content = [] }) => {
       {/* Section 4: Luxe Details Header */}
       <section className="home-section luxe-details-header">
         <div className="container" style={{ textAlign: 'center' }}>
-          <img src={section4.url} alt="Luxe Verve Logo" className="luxe-header-logo" />
+          <img src={section4.url} alt={section4.altText} className="luxe-header-logo" />
 
         </div>
       </section>

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
       const data = doc;
       let extra = {};
       try { if (data.text) extra = JSON.parse(data.text); } catch (e) {}
-      return { id: doc._id.toString(), title: data.description || data.title, img: data.url, excerpt: extra.excerpt || '' };
+      return { id: doc._id.toString(), title: data.description || data.title, img: data.url, excerpt: extra.excerpt || '', altText: data.altText || '' };
     });
   } catch(e) {}
   
@@ -61,6 +61,7 @@ export default async function ReadMorePage({ params }) {
         author: extra.author || '',
         authorRole: extra.authorRole || '',
         content: extra.content || [],
+        altText: data.altText || '',
       };
     });
   } catch(e) {}
@@ -115,7 +116,7 @@ export default async function ReadMorePage({ params }) {
       }}>
         <img
           src={post.img}
-          alt={post.title}
+          alt={post.altText || post.title}
           style={{
             position: 'absolute', inset: 0,
             width: '100%', height: '100%',
@@ -315,7 +316,7 @@ export default async function ReadMorePage({ params }) {
                     <div style={{ height: '200px', overflow: 'hidden' }}>
                       <img
                         src={related.img}
-                        alt={related.title}
+                        alt={related.altText || related.title}
                         className="related-img"
                         style={{
                           width: '100%', height: '100%',

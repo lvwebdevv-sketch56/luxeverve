@@ -4,7 +4,7 @@ import { fetchWithCloudinary } from "@/lib/clientFetch";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function AdminContactBanner({ expanded, onToggle }) {
-  const [data, setData] = useState({ id: null, title: "", text: "", url: "" });
+  const [data, setData] = useState({ id: null, title: "", text: "", url: "", altText: "" });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -21,6 +21,7 @@ export default function AdminContactBanner({ expanded, onToggle }) {
           title: item.text || "", 
           text: item.description || "",
           url: item.url || "",
+          altText: item.altText || "",
         });
       }
       setAllMedia(items.filter(i => i.type === 'image'));
@@ -38,6 +39,7 @@ export default function AdminContactBanner({ expanded, onToggle }) {
     form.append("title", "contact_banner");
     form.append("text", data.title);
     form.append("description", data.text);
+    form.append("altText", data.altText || "");
 
     if (file) {
       form.append("file", file);
@@ -84,6 +86,10 @@ export default function AdminContactBanner({ expanded, onToggle }) {
               <input type="text" className="text-input" value={data.text} onChange={e => setData({...data, text: e.target.value})} />
             </div>
             
+            <div className="input-group">
+              <label className="input-label">Image Alt Text (SEO)</label>
+              <input type="text" className="text-input" placeholder="e.g. Modern Luxury Wooden Door" value={data.altText} onChange={e => setData({...data, altText: e.target.value})} />
+            </div>
             <div className="input-group form-full-width">
               <label className="input-label">Banner Image (Cloudinary)</label>
               <div className="media-upload-zone" onClick={() => fileInputRef.current?.click()}>

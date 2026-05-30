@@ -25,6 +25,7 @@ export default async function HomePage() {
         thumbnailUrl: data.thumbnailUrl || null,
         description: data.description || null,
         text: data.text || null,
+        altText: data.altText || null,
         order: data.order || 0
       };
     });

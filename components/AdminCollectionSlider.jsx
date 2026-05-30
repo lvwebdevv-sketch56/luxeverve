@@ -4,7 +4,7 @@ import { fetchWithCloudinary } from "@/lib/clientFetch";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function AdminCollectionSlider({ sliderId, sectionTitle, subsectionNumber, expanded, onToggle }) {
-  const [data, setData] = useState({ title: "", text: "", images: ["", "", "", "", "", ""] });
+  const [data, setData] = useState({ title: "", text: "", images: ["", "", "", "", "", ""], altTexts: ["", "", "", "", "", ""] });
   const [files, setFiles] = useState([null, null, null, null, null, null]);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -21,12 +21,20 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
           if (sliderItem.url) imgs = JSON.parse(sliderItem.url);
         } catch(e) {}
         
+        
+        let altTxts = ["", "", "", "", "", ""];
+        try {
+          if (sliderItem.altText) altTxts = JSON.parse(sliderItem.altText);
+        } catch(e) {}
+        
         setData({
           id: sliderItem.id,
           title: sliderItem.description || "", 
           text: sliderItem.text || "",
           images: imgs,
+          altTexts: altTxts,
         });
+
       }
       setAllMedia(items.filter(i => i.type === 'image'));
     }
@@ -40,6 +48,12 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
     const newImages = [...data.images];
     newImages[index] = value;
     setData({ ...data, images: newImages });
+  };
+
+  const handleAltTextChange = (index, value) => {
+    const newAltTexts = [...data.altTexts];
+    newAltTexts[index] = value;
+    setData({ ...data, altTexts: newAltTexts });
   };
 
   const handleFileChange = (index, file) => {
@@ -78,7 +92,8 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
     form.append("title", sliderId);
     form.append("description", data.title); // Heading
     form.append("text", data.text); // Paragraph
-    form.append("url", JSON.stringify(finalImages)); // Store all 6 image URLs as JSON string in url field
+    form.append("url", JSON.stringify(finalImages));
+    form.append("altText", JSON.stringify(data.altTexts)); // Store all 6 image URLs as JSON string in url field
 
     const method = data.id ? "PATCH" : "POST";
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
@@ -141,6 +156,14 @@ export default function AdminCollectionSlider({ sliderId, sectionTitle, subsecti
                     onChange={e => handleFileChange(i, e.target.files[0])} 
                   />
                 </div>
+                <input 
+                  type="text" 
+                  className="text-input" 
+                  placeholder="Alt Text for SEO" 
+                  value={data.altTexts[i] || ""} 
+                  onChange={e => handleAltTextChange(i, e.target.value)} 
+                  style={{ fontSize: "0.8rem", padding: "8px", marginBottom: "8px" }}
+                />
                 
                 <select 
                   className="text-input" 
