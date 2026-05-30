@@ -109,7 +109,7 @@
   display: none;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .mobile-logo { display: flex; align-items: center; }
@@ -159,7 +159,8 @@
     background: transparent;
     border-top: 1px solid transparent;
     justify-content: space-between;
-    padding: 14px 15px 28px 15px; /* Extra bottom padding for safe area on iPhones */
+    padding: 15px 15px 0 15px;
+    margin: 0;
     z-index: 2000;
     transition: all var(--transition-fast);
   }

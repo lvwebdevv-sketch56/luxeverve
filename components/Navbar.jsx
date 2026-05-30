@@ -37,10 +37,10 @@ const BlogIcon = () => (
 
 const navLinks = [
   { href: '/home', label: 'Home', icon: <HomeIcon /> },
-  { href: '/collection', label: 'Collection', icon: <CollectionIcon /> },
-  { href: '/about', label: 'About', icon: <AboutIcon /> },
-  { href: '/contact', label: 'Contact', icon: <ContactIcon /> },
   { href: '/blog', label: 'Blog', icon: <BlogIcon /> },
+  { href: '/collection', label: 'Collection', icon: <CollectionIcon /> },
+  { href: '/contact', label: 'Contact', icon: <ContactIcon /> },
+  { href: '/about', label: 'About', icon: <AboutIcon /> },
 ];
 
 const Navbar = () => {
@@ -90,7 +90,6 @@ const Navbar = () => {
         <Link href="/" className="nav-logo mobile-logo" aria-label="Luxe Verve Home">
           <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
         </Link>
-        <div className="mobile-brand-name">Luxe Verve</div>
       </div>
 
       </nav>

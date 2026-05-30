@@ -1,5 +1,4 @@
 "use client";
-import { fetchWithCloudinary } from "@/lib/clientFetch";
 
 import React, { useState } from "react";
 import AdminBannerSection from "./AdminBannerSection";
@@ -93,7 +92,8 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
   return (
     <div className="dashboard-wrapper">
       {/* CSS Styles */}
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
         .dashboard-wrapper {
@@ -635,7 +635,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         <div>
           <div className="sidebar-header">
             <span className="sidebar-logo">Luxe Verve</span>
-            <span className="sidebar-tagline">Console Administrateur</span>
+            <span className="sidebar-tagline">Admin Pannel</span>
           </div>
 
           <nav className="sidebar-nav">
@@ -691,41 +691,41 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         {/* Tab 1: Home Page Subsections */}
         {activeTab === "home" && (
           <div className="subsections-list">
-            
+
             {/* 1.1 Banner Video */}
-            <AdminBannerSection 
-              expanded={expandedSubsections.home_banner} 
-              onToggle={() => toggleSubsection("home_banner")} 
+            <AdminBannerSection
+              expanded={expandedSubsections.home_banner}
+              onToggle={() => toggleSubsection("home_banner")}
             />
 
             {/* 1.2 Hero Cards */}
-            <AdminHeroCardsSection 
-              expanded={expandedSubsections.home_cards} 
-              onToggle={() => toggleSubsection("home_cards")} 
+            <AdminHeroCardsSection
+              expanded={expandedSubsections.home_cards}
+              onToggle={() => toggleSubsection("home_cards")}
             />
 
             {/* 1.3 Section 1 */}
-            <AdminSection1 
-              expanded={expandedSubsections.home_section1} 
-              onToggle={() => toggleSubsection("home_section1")} 
+            <AdminSection1
+              expanded={expandedSubsections.home_section1}
+              onToggle={() => toggleSubsection("home_section1")}
             />
 
             {/* 1.4 Section 2 */}
-            <AdminSection2 
-              expanded={expandedSubsections.home_section2} 
-              onToggle={() => toggleSubsection("home_section2")} 
+            <AdminSection2
+              expanded={expandedSubsections.home_section2}
+              onToggle={() => toggleSubsection("home_section2")}
             />
 
             {/* 1.5 Section 3 */}
-            <AdminSection3 
-              expanded={expandedSubsections.home_section3} 
-              onToggle={() => toggleSubsection("home_section3")} 
+            <AdminSection3
+              expanded={expandedSubsections.home_section3}
+              onToggle={() => toggleSubsection("home_section3")}
             />
 
             {/* 1.6 Section 4 */}
-            <AdminSection4 
-              expanded={expandedSubsections.home_section4} 
-              onToggle={() => toggleSubsection("home_section4")} 
+            <AdminSection4
+              expanded={expandedSubsections.home_section4}
+              onToggle={() => toggleSubsection("home_section4")}
             />
 
           </div>
@@ -734,7 +734,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         {/* Tab 2: Collection Subsections */}
         {activeTab === "collection" && (
           <div className="subsections-list">
-            
+
             <AdminCollectionBanner
               expanded={expandedSubsections.coll_banner}
               onToggle={() => toggleSubsection("coll_banner")}
@@ -752,7 +752,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
               expanded={expandedSubsections.coll_slider1}
               onToggle={() => toggleSubsection("coll_slider1")}
             />
-            
+
             <AdminCollectionSlider
               sliderId="coll_slider2"
               sectionTitle="Slider 2 (e.g. MORPHIC DOOR)"
@@ -760,7 +760,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
               expanded={expandedSubsections.coll_slider2}
               onToggle={() => toggleSubsection("coll_slider2")}
             />
-            
+
             <AdminCollectionSlider
               sliderId="coll_slider3"
               sectionTitle="Slider 3 (e.g. CUBIX DOOR)"
@@ -791,7 +791,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         {/* Tab 3: About Us Subsections */}
         {activeTab === "about" && (
           <div className="subsections-list">
-            
+
             <AdminAboutBanner
               expanded={expandedSubsections.about_hero}
               onToggle={() => toggleSubsection("about_hero")}
@@ -829,7 +829,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         {/* Tab 4: Blog Editorial Subsections */}
         {activeTab === "blog" && (
           <div className="subsections-list">
-            
+
             <AdminBlogBanner
               expanded={expandedSubsections.blog_hero}
               onToggle={() => toggleSubsection("blog_hero")}
@@ -856,7 +856,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         {/* Tab 5: Contact Subsections */}
         {activeTab === "contact" && (
           <div className="subsections-list">
-            
+
             <AdminContactBanner
               expanded={expandedSubsections.contact_hero}
               onToggle={() => toggleSubsection("contact_hero")}
@@ -878,7 +878,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         {/* Tab 6: User Inquiries */}
         {activeTab === "users" && (
           <div className="subsections-list">
-            
+
             <AdminInquiries
               expanded={expandedSubsections.user_inquiries}
               onToggle={() => toggleSubsection("user_inquiries")}
@@ -895,9 +895,9 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
         {/* Tab 7: Global Footer */}
         {activeTab === "footer" && (
           <div className="subsections-list">
-            <AdminFooter 
-              expanded={expandedSubsections.footer_config} 
-              onToggle={() => toggleSubsection("footer_config")} 
+            <AdminFooter
+              expanded={expandedSubsections.footer_config}
+              onToggle={() => toggleSubsection("footer_config")}
             />
           </div>
         )}
