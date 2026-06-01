@@ -47,7 +47,7 @@ export default function AdminCollectionBanner({ expanded, onToggle }) {
       form.append("url", data.url);
     }
 
-    const method = data.id && file ? "PATCH" : "POST";
+    const method = data.id ? "PATCH" : "POST";
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
 
     try {

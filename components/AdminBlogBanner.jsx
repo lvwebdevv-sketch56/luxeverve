@@ -4,7 +4,7 @@ import { fetchWithCloudinary } from "@/lib/clientFetch";
 import React, { useState, useEffect, useRef } from "react";
 
 export default function AdminBlogBanner({ expanded, onToggle }) {
-  const [data, setData] = useState({ id: null, title: "The Luxe Journal", text: "Exploring architecture, luxury design trends, and woodworking crafts", url: "", altText: "" });
+  const [data, setData] = useState({ id: null, title: "The Luxe Journal", text: "Exploring architecture, luxury design trends, and woodworking crafts", topText: "Insights & Stories", url: "", altText: "" });
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [allMedia, setAllMedia] = useState([]);
@@ -16,10 +16,20 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
       const items = await res.json();
       const item = items.find(i => i.title === "blog_banner");
       if (item) {
+        let introText = "Exploring architecture, luxury design trends, and woodworking crafts";
+        let topText = "Insights & Stories";
+        try {
+          const parsed = JSON.parse(item.text);
+          if (parsed.intro) introText = parsed.intro;
+          if (parsed.topText) topText = parsed.topText;
+        } catch (e) {
+          if (item.text) introText = item.text;
+        }
         setData({
           id: item.id,
           title: item.description || "The Luxe Journal", 
-          text: item.text || "Exploring architecture, luxury design trends, and woodworking crafts",
+          text: introText,
+          topText: topText,
           url: item.url || "",
           altText: item.altText || "",
         });
@@ -39,7 +49,7 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
     form.append("title", "blog_banner");
     form.append("description", data.title);
     form.append("altText", data.altText || "");
-    form.append("text", data.text);
+    form.append("text", JSON.stringify({ intro: data.text, topText: data.topText }));
 
     if (file) {
       form.append("file", file);
@@ -49,7 +59,7 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
        form.append("reqUrl", data.url); 
     }
 
-    const method = data.id && (file || data.url) ? "PATCH" : "POST";
+    const method = data.id ? "PATCH" : "POST";
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
 
     try {
@@ -77,6 +87,10 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
       {expanded && (
         <div className="subsection-body">
           <div className="form-grid">
+            <div className="input-group">
+              <label className="input-label">Top Subtitle (e.g. Insights & Stories)</label>
+              <input type="text" className="text-input" value={data.topText} onChange={e => setData({...data, topText: e.target.value})} />
+            </div>
             <div className="input-group">
               <label className="input-label">Main Heading</label>
               <input type="text" className="text-input" value={data.title} onChange={e => setData({...data, title: e.target.value})} />

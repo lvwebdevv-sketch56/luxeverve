@@ -47,7 +47,7 @@ export default function AdminAboutBanner({ expanded, onToggle }) {
        form.append("reqUrl", data.url); 
     }
 
-    const method = data.id && (file || data.url) ? "PATCH" : "POST";
+    const method = data.id ? "PATCH" : "POST";
     const url = data.id ? `/api/content/${data.id}` : "/api/content";
 
     try {

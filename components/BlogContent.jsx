@@ -63,6 +63,14 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
     }
   };
 
+  let topText = 'Insights & Stories';
+  let introText = banner.text || 'Explore the world of luxury architectural design, material innovation, and bespoke craftsmanship.';
+  try {
+    const parsed = typeof banner.text === 'string' ? JSON.parse(banner.text) : banner.text;
+    if (parsed.intro) introText = parsed.intro;
+    if (parsed.topText) topText = parsed.topText;
+  } catch (e) {}
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark-solid)', paddingTop: '0px', overflowX: 'hidden', width: '100%', maxWidth: '100%' }}>
 
@@ -96,7 +104,7 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
             color: '#d4af37', textTransform: 'uppercase',
             marginBottom: '18px', fontFamily: 'var(--font-sans)',
           }}>
-            {banner.description || 'Insights & Stories'}
+            {topText}
           </p>
           <h1 style={{
             fontFamily: 'Playfair Display, serif',
@@ -106,11 +114,7 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
             marginBottom: '20px',
             wordWrap: 'break-word', overflowWrap: 'break-word', maxWidth: '100%'
           }}>
-            {banner.title ? (
-              <span dangerouslySetInnerHTML={{ __html: banner.title.replace('Blog', '<em style="color: #d4af37; font-style: italic;">Blog</em>') }} />
-            ) : (
-              <>The&nbsp;<em style={{ color: '#d4af37', fontStyle: 'italic' }}>Blog</em></>
-            )}
+            {banner.description || 'The Luxe Journal'}
           </h1>
           <div style={{ width: '60px', height: '2px', background: 'var(--primary-color)', margin: '0 auto 20px' }} />
           <p style={{
@@ -118,7 +122,7 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
             maxWidth: '500px', lineHeight: 1.7,
             fontFamily: 'var(--font-sans)', fontWeight: 300,
           }}>
-            {banner.text || 'Explore the world of luxury architectural design, material innovation, and bespoke craftsmanship.'}
+            {introText}
           </p>
         </div>
       </section>
@@ -186,10 +190,10 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
                 borderRadius: '24px',
                 overflow: 'hidden',
                 boxShadow: '0 20px 60px rgba(42, 22, 13, 0.12)',
-                minHeight: '340px',
+                minHeight: '230px',
               }}
             >
-              <div style={{ overflow: 'hidden', minHeight: '380px' }}>
+              <div style={{ overflow: 'hidden', aspectRatio: '1/1', width: '100%', height: '100%', minHeight: '300px' }}>
                 <img
                   src={featuredPost.img}
                   alt={featuredPost.altText || featuredPost.title}
@@ -202,11 +206,11 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
                 />
               </div>
               <div style={{
-                padding: 'clamp(24px, 4vw, 55px) clamp(20px, 4vw, 48px)',
+                padding: '30px 40px',
                 display: 'flex', flexDirection: 'column', justifyContent: 'center',
                 backgroundColor: 'var(--bg-dark-solid)',
               }}>
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '16px' }}>
                   <span style={{
                     fontSize: '0.68rem', letterSpacing: '2.5px',
                     color: '#fff', backgroundColor: 'var(--primary-color)',
@@ -221,19 +225,20 @@ export default function BlogContent({ postsData = [], banner = {}, categoriesIte
                 </div>
                 <h2 style={{
                   fontFamily: 'Playfair Display, serif',
-                  fontSize: 'clamp(1.1rem, 2vw, 2.1rem)',
+                  fontSize: 'clamp(1.1rem, 2vw, 1.8rem)',
                   fontWeight: 400, color: '#2A160D',
-                  lineHeight: 1.3, marginBottom: '16px',
+                  lineHeight: 1.3, marginBottom: '12px',
                   wordWrap: 'break-word', overflowWrap: 'break-word'
                 }}>
                   {featuredPost.title}
                 </h2>
-                <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--primary-color)', marginBottom: '20px' }} />
+                <div style={{ width: '40px', height: '2px', backgroundColor: 'var(--primary-color)', marginBottom: '16px' }} />
                 <p style={{
-                  fontSize: 'clamp(0.78rem, 1.3vw, 0.97rem)', color: 'rgba(42, 22, 13, 0.65)',
-                  lineHeight: 1.75, marginBottom: '28px',
+                  fontSize: 'clamp(0.78rem, 1.3vw, 0.9rem)', color: 'rgba(42, 22, 13, 0.65)',
+                  lineHeight: 1.6, marginBottom: '20px',
                   fontFamily: 'var(--font-sans)', fontWeight: 300,
-                  wordWrap: 'break-word', overflowWrap: 'break-word'
+                  wordWrap: 'break-word', overflowWrap: 'break-word',
+                  display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden'
                 }}>
                   {featuredPost.excerpt}
                 </p>

@@ -16,7 +16,7 @@ const PrevPageIcon = () => (
   </svg>
 );
 
-const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
+const FlipbookSection = ({ title, pagesData = [], pdfUrl, isTransparent = false }) => {
   const [currentLeaf, setCurrentLeaf] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -24,6 +24,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
   // Pad pages for desktop so we have an even number of pages
   const paddedPages = [...pagesData];
   if (paddedPages.length % 2 !== 0) {
+    paddedPages.push({ type: 'blank', img: '' });
+  }
+  // Guarantee a minimum thickness so it always looks like a 3D book
+  while (paddedPages.length < 8) {
     paddedPages.push({ type: 'blank', img: '' });
   }
   const totalLeaves = paddedPages.length / 2;
@@ -62,6 +66,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
     const isLeft = pageNum % 2 !== 0;
     const isCover = pageNum === 0 || pageNum === paddedPages.length - 1;
 
+    if (data.type === 'blank') {
+      return <div style={{ width: '100%', height: '100%', backgroundColor: '#ffffff' }}></div>;
+    }
+
     const pageStyle = {
       width: '100%', height: '100%', position: 'relative',
       backgroundColor: '#ffffff',
@@ -93,10 +101,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
             right: isLeft ? 0 : 'auto',
             width: '8%', // slightly narrower for a sharper strip effect
             background: isLeft 
-              ? 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.4) 95%, rgba(0,0,0,0.8) 100%)' 
-              : 'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 60%, rgba(0,0,0,0.4) 95%, rgba(0,0,0,0.8) 100%)',
-            borderRight: isLeft ? '1px solid rgba(0,0,0,0.5)' : 'none',
-            borderLeft: !isLeft ? '1px solid rgba(0,0,0,0.5)' : 'none',
+              ? 'linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.02) 60%, rgba(0,0,0,0.1) 95%, rgba(0,0,0,0.2) 100%)' 
+              : 'linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.02) 60%, rgba(0,0,0,0.1) 95%, rgba(0,0,0,0.2) 100%)',
+            borderRight: isLeft ? '1px solid rgba(0,0,0,0.1)' : 'none',
+            borderLeft: !isLeft ? '1px solid rgba(0,0,0,0.1)' : 'none',
             zIndex: 1,
             pointerEvents: 'none'
           }}></div>
@@ -121,10 +129,10 @@ const FlipbookSection = ({ title, pagesData = [], pdfUrl }) => {
       width: isMobile ? '100%' : '90%',
       maxWidth: isMobile ? '100vw' : '1440px',
       margin: '0 auto 100px auto',
-      background: isMobile ? 'transparent' : 'var(--bg-sec)',
+      background: isMobile ? 'transparent' : (isTransparent ? 'transparent' : 'var(--bg-sec)'),
       borderRadius: isMobile ? '0' : '40px',
       padding: isMobile ? '10px 0' : '60px 40px',
-      boxShadow: isMobile ? 'none' : '0 10px 40px rgba(74,42,27,0.05)',
+      boxShadow: isMobile ? 'none' : (isTransparent ? 'none' : '0 10px 40px rgba(74,42,27,0.05)'),
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -371,7 +379,16 @@ export default function CatalogueFlipbooks({ content = [] }) {
     if (back) allPages.push({ type: 'full_image', img: back.url });
 
     if (allPages.length === 0) {
-      allPages = Array.from({ length: 10 }, () => ({ type: 'full_image', img: '/images/catalogue_bg.jpg' }));
+      allPages = [
+        { type: 'full_image', img: '/images/door_grand_pivot_1776844794720.png' },
+        { type: 'full_image', img: '/images/door_sculpted_wood_1776844667211.png' },
+        { type: 'full_image', img: '/images/door_minimal_metal_1776844703459.png' },
+        { type: 'full_image', img: '/images/door_classic_glass_1776844734600.png' },
+        { type: 'full_image', img: '/images/door_grand_pivot_1776844794720.png' },
+        { type: 'full_image', img: '/images/door_sculpted_wood_1776844667211.png' },
+        { type: 'full_image', img: '/images/door_minimal_metal_1776844703459.png' },
+        { type: 'full_image', img: '/images/door_classic_glass_1776844734600.png' },
+      ];
     }
     
     return {
@@ -395,10 +412,6 @@ export default function CatalogueFlipbooks({ content = [] }) {
       overflow: 'hidden',
       width: '100%'
     }}>
-
-      {/* 3D Modern Background Elements */}
-      <div style={{ position: 'absolute', top: '10%', left: '5%', width: '40%', height: '50%', background: 'radial-gradient(circle, rgba(110, 68, 42,0.1) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(60px)', zIndex: 0, pointerEvents: 'none' }}></div>
-      <div style={{ position: 'absolute', bottom: '5%', right: '5%', width: '50%', height: '60%', background: 'radial-gradient(circle, rgba(110, 68, 42,0.05) 0%, rgba(0,0,0,0) 70%)', filter: 'blur(80px)', zIndex: 0, pointerEvents: 'none' }}></div>
 
       {/* Audio is handled globally by the Web Audio API engine in PageTransition.jsx */}
 
