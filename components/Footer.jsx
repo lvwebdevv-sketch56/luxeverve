@@ -172,20 +172,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 3 — Services */}
-          <div className="footer-col">
-            <h4 className="footer-col-heading">{data.servicesHeading}</h4>
-            <ul className="footer-link-list">
-              {data.services.map((s, index) => (
-                <li key={index}>
-                  <span className="footer-service-item">
-                    <span className="footer-link-arrow">→</span>
-                    {s}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
 
           {/* Column 4 — Contact */}
           <div className="footer-col">

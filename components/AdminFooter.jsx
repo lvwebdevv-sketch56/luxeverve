@@ -23,15 +23,6 @@ export default function AdminFooter({ expanded, onToggle }) {
       { label: 'Blog', href: '/blog' }
     ], null, 2),
     
-    servicesHeading: "Services",
-    services: JSON.stringify([
-      'Luxury Entrance Doors',
-      'Pivot Door Systems',
-      'Custom Wood Panels',
-      'Commercial Projects',
-      'Design Consultation'
-    ], null, 2),
-    
     contactHeading: "Get In Touch",
     showroomLabel: "Showroom",
     contactShowroom: "Block A, 22 Sector-9\nNoida, Uttar Pradesh",
@@ -70,8 +61,7 @@ export default function AdminFooter({ expanded, onToggle }) {
             setData(prev => ({
               ...prev,
               ...parsed,
-              navLinks: typeof parsed.navLinks === 'string' ? parsed.navLinks : JSON.stringify(parsed.navLinks || prev.navLinks, null, 2),
-              services: typeof parsed.services === 'string' ? parsed.services : JSON.stringify(parsed.services || prev.services, null, 2)
+              navLinks: typeof parsed.navLinks === 'string' ? parsed.navLinks : JSON.stringify(parsed.navLinks || prev.navLinks, null, 2)
             }));
             } catch(e) { console.error(e); }
           }
@@ -90,9 +80,8 @@ export default function AdminFooter({ expanded, onToggle }) {
       const payload = { ...data };
       try {
         payload.navLinks = JSON.parse(data.navLinks);
-        payload.services = JSON.parse(data.services);
       } catch(e) {
-        alert("Invalid JSON format in Links or Services");
+        alert("Invalid JSON format in Links");
         setLoading(false);
         return;
       }
@@ -160,7 +149,7 @@ export default function AdminFooter({ expanded, onToggle }) {
               <input type="text" name="socialYoutube" value={data.socialYoutube} onChange={handleChange} className="text-input" />
             </div>
 
-            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Navigation & Services (Columns 2 & 3)</label></div>
+            <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Navigation (Column 2)</label></div>
             <div className="input-group">
               <label className="input-label">Navigation Heading</label>
               <input type="text" name="navHeading" value={data.navHeading} onChange={handleChange} className="text-input" />
@@ -168,14 +157,6 @@ export default function AdminFooter({ expanded, onToggle }) {
             <div className="input-group">
               <label className="input-label">Navigation Links (JSON)</label>
               <textarea name="navLinks" value={data.navLinks} onChange={handleChange} className="text-input textarea-input" style={{fontFamily: 'monospace', fontSize: '0.8rem'}} />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Services Heading</label>
-              <input type="text" name="servicesHeading" value={data.servicesHeading} onChange={handleChange} className="text-input" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Services List (JSON Strings)</label>
-              <textarea name="services" value={data.services} onChange={handleChange} className="text-input textarea-input" style={{fontFamily: 'monospace', fontSize: '0.8rem'}} />
             </div>
 
             <div className="input-group form-full-width"><label className="input-label" style={{color: '#ebdcb9'}}>Contact Section (Column 4)</label></div>

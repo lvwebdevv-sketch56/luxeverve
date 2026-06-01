@@ -25,6 +25,7 @@ import AdminBlogPosts from "./AdminBlogPosts";
 import AdminInquiries from "./AdminInquiries";
 import AdminSubscribers from "./AdminSubscribers";
 import AdminFooter from "./AdminFooter";
+import AdminNavbarLogo from "./AdminNavbarLogo";
 
 export default function AdminDashboard({ user, handleSignOutAction }) {
   const [activeTab, setActiveTab] = useState("home");
@@ -70,6 +71,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
     "user_subscribers": false,
     // Footer subsection
     "footer_config": true,
+    "navbar_logo": false,
   });
 
   const toggleSubsection = (id) => {
@@ -86,7 +88,7 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
     { id: "blog", label: "Blog Editorial", icon: "✍️" },
     { id: "contact", label: "Contact Info", icon: "✉️" },
     { id: "users", label: "User Inquiries", icon: "👥" },
-    { id: "footer", label: "Global Footer", icon: "⬇️" },
+    { id: "footer", label: "Global Settings", icon: "⚙️" },
   ];
 
   return (
@@ -892,9 +894,13 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
           </div>
         )}
 
-        {/* Tab 7: Global Footer */}
+        {/* Tab 7: Global Settings */}
         {activeTab === "footer" && (
           <div className="subsections-list">
+            <AdminNavbarLogo
+              expanded={expandedSubsections.navbar_logo}
+              onToggle={() => toggleSubsection("navbar_logo")}
+            />
             <AdminFooter
               expanded={expandedSubsections.footer_config}
               onToggle={() => toggleSubsection("footer_config")}

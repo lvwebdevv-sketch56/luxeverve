@@ -45,9 +45,20 @@ const navLinks = [
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [logo, setLogo] = useState({ url: "", altText: "Luxe Verve Logo" });
   const pathname = usePathname();
 
   useEffect(() => {
+    fetch('/api/content')
+      .then(res => res.json())
+      .then(items => {
+        const logoItem = items.find(i => i.title === 'navbar_logo');
+        if (logoItem && logoItem.url) {
+          setLogo({ url: logoItem.url, altText: logoItem.altText || "Luxe Verve Logo" });
+        }
+      })
+      .catch(e => console.warn("Failed to load navbar logo:", e));
+
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -58,9 +69,13 @@ const Navbar = () => {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         {/* ── Desktop Layout ── */}
         <div className="nav-area nav-left">
-          <Link href="/" className="nav-logo" aria-label="Luxe Verve Home">
-            <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
-          </Link>
+          <div className="nav-logo" aria-label="Luxe Verve Home" style={{ cursor: 'default' }}>
+            {logo.url ? (
+              <img src={logo.url} alt={logo.altText} className="navbar-logo-img" />
+            ) : (
+              <span style={{fontFamily: 'Cinzel', fontSize: '1.5rem', color: '#ebdcb9', fontWeight: 'bold'}}>Luxe Verve</span>
+            )}
+          </div>
         </div>
 
         <div className="nav-area nav-right">
@@ -87,9 +102,13 @@ const Navbar = () => {
 
         {/* ── Mobile Layout ── */}
         <div className="mobile-bar">
-          <Link href="/" className="nav-logo mobile-logo" aria-label="Luxe Verve Home">
-            <img src="/images/logo.png" alt="Luxe Verve Logo" className="navbar-logo-img" />
-          </Link>
+          <div className="nav-logo mobile-logo" aria-label="Luxe Verve Home" style={{ cursor: 'default' }}>
+            {logo.url ? (
+              <img src={logo.url} alt={logo.altText} className="navbar-logo-img" />
+            ) : (
+              <span style={{fontFamily: 'Cinzel', fontSize: '1.3rem', color: '#ebdcb9', fontWeight: 'bold'}}>Luxe Verve</span>
+            )}
+          </div>
         </div>
 
       </nav>

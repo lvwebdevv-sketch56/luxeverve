@@ -64,7 +64,7 @@ export default async function BlogPage() {
     });
 
   // Sort dynamic posts by date or order if needed, assuming they're in correct order for now.
-  const postsData = [...dynamicPosts, ...fallbackPosts];
+  const postsData = [...dynamicPosts];
 
   return (
     <BlogContent 
