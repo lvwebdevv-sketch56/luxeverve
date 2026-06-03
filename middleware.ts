@@ -3,8 +3,8 @@ import { NextResponse } from 'next/server';
 export function middleware(request) {
   const session = request.cookies.get('session');
 
-  // If trying to access /admin and no session cookie is present
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  // If trying to access /adminpixy and no session cookie is present
+  if (request.nextUrl.pathname.startsWith('/adminpixy')) {
     if (!session) {
       // Redirect to sign-in page with a specific error message parameter
       return NextResponse.redirect(new URL('/sign-in?error=signin_first', request.url));
@@ -16,5 +16,5 @@ export function middleware(request) {
 
 // Ensure the middleware only runs for specific paths
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/adminpixy/:path*'],
 };

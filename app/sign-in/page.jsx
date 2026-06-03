@@ -59,7 +59,7 @@ function SignInContent() {
       }
 
       toast.success("Signed in successfully.");
-      router.push("/admin");
+      router.push("/adminpixy");
     } catch (error) {
       console.error("Sign-in error:", error);
       toast.error("Incorrect email or password. Please try again.");
@@ -142,9 +142,9 @@ function SignInContent() {
 
         <div className="auth-footer">
           <span>Don&apos;t have an account yet?</span>
-          <Link href="/sign-up" className="auth-link">
+          <a href="#" onClick={(e) => e.preventDefault()} className="auth-link" style={{ cursor: 'not-allowed', opacity: 0.6 }}>
             Sign Up
-          </Link>
+          </a>
         </div>
       </div>
     </div>

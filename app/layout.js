@@ -14,7 +14,7 @@ export const metadata = {
   openGraph: {
     title: 'Luxe Verve | Premium Designer Doors',
     description: 'Transform your space with ultra-luxury entrance and interior doors.',
-    url: 'https://luxeverve.com', // To be updated later
+    url: 'https://luxe-verve.com', // Domain updated
     siteName: 'Luxe Verve',
     type: 'website',
   },
@@ -31,8 +31,8 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Luxe Verve',
-  url: 'https://luxeverve.com',
-  logo: 'https://luxeverve.com/logo.png', // Update when domain is live
+  url: 'https://luxe-verve.com',
+  logo: 'https://luxe-verve.com/logo.png', // Update when logo is ready
   description: 'Premium manufacturer of luxury designer wooden and CNC doors in Noida, Delhi NCR.',
   address: {
     '@type': 'PostalAddress',
