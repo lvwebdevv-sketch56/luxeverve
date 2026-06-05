@@ -7,7 +7,7 @@ export const metadata = {
   description: 'Explore premium luxury wooden doors by Luxe Verve. Customized designer entrance, interior, and CNC doors for villas, apartments, and luxury spaces in Noida & Delhi NCR.',
 };
 
-export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+export const revalidate = 3600; // Cache for 1 hour, revalidated on demand
 
 
 export default async function HomePage() {

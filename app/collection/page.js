@@ -32,7 +32,7 @@ const collectionSchema = {
   ]
 };
 
-export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+export const revalidate = 3600; // Cache for 1 hour, revalidated on demand
 
 import CatalogueFlipbooks from '../../components/CatalogueFlipbooks';
 import CollectionSlider from '../../components/CollectionSlider';
@@ -91,29 +91,24 @@ export default async function CollectionPage() {
       {/* First Section (Hero) */}
       <section style={{
         position: 'relative',
-        height: '130vh',
-        width: '100%',
+        width: '100vw',
+        backgroundImage: `url(${banner.url})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed', // Parallax effect
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden'
       }} className="collection-hero-wrapper">
+        
+        {/* Subtle full overlay to keep text readable */}
         <div style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          width: '100%',
-          backgroundImage: `url(${banner.url})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center', // Align content to the center
-          overflow: 'hidden'
-        }} className="collection-hero-bg">
-          {/* Subtle full overlay to keep text readable */}
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'rgba(0, 0, 0, 0.4)',
-            zIndex: 1
-          }} className="collection-hero-shadow"></div>
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%)',
+          zIndex: 1
+        }} className="collection-hero-shadow"></div>
 
           {/* Content */}
           <div style={{
@@ -163,7 +158,6 @@ export default async function CollectionPage() {
               "At Luxe Verve, we design doors as architectural statements where form, material, and craftsmanship come together to create entrances that feel refined, timeless, and unmistakably luxurious."
             </p>
           </div>
-        </div>
       </section>
 
       {/* Second Section (Image Left, Text Right) */}
@@ -203,12 +197,13 @@ export default async function CollectionPage() {
 
       <style dangerouslySetInnerHTML={{
         __html: `
+        .collection-hero-wrapper {
+          height: 100vh;
+        }
         @media (max-width: 900px) {
           .collection-hero-wrapper {
             height: 50vh !important;
-          }
-          .collection-hero-bg {
-            height: 50vh !important;
+            min-height: auto !important;
           }
           .collection-hero-content {
             max-width: 90vw !important;

@@ -56,7 +56,7 @@ export default function AdminBlogBanner({ expanded, onToggle }) {
     } else if (data.url && !data.id) {
       form.append("url", data.url);
     } else if (data.id && data.url) {
-       form.append("reqUrl", data.url); 
+       form.append("url", data.url); 
     }
 
     const method = data.id ? "PATCH" : "POST";

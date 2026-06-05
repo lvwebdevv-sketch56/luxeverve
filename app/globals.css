@@ -60,21 +60,22 @@ ul {
 }
 
 button {
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
   cursor: pointer;
-  background-color: transparent;
-  color: var(--text-main);
-  border: 2px solid var(--text-main);
-  border-radius: 9999px;
-  padding: 4.2px 32px;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 4px;
   transition: all var(--transition-fast);
+  font-weight: 500;
+  font-family: inherit;
 }
 
 button:hover {
-  background-color: var(--primary-color);
-  color: #ffffff;
+  background: var(--primary-color);
+  color: var(--bg-dark-solid);
   border-color: var(--primary-color);
 }
 

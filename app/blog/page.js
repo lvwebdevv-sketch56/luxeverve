@@ -7,7 +7,7 @@ export const metadata = {
   description: 'Explore the latest trends in luxury home entrances, modern wooden doors, and premium architectural design inspiration at The Luxe Journal by Luxe Verve.',
 };
 
-export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+export const revalidate = 3600; // Cache for 1 hour, revalidated on demand
 
 export default async function BlogPage() {
   let content = [];

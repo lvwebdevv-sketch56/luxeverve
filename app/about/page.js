@@ -3,9 +3,10 @@ export const metadata = {
   description: 'Learn about Luxe Verve – our story, vision, and commitment to luxury architectural design.',
 };
 
-export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+export const revalidate = 3600; // Cache for 1 hour, revalidated on demand
 
 import clientPromise from '@/lib/mongodb';
+import ExpandableText from '@/components/ExpandableText';
 
 export default async function AboutPage() {
   const client = await clientPromise;
@@ -130,11 +131,10 @@ export default async function AboutPage() {
             {mainSec.description || 'Our Philosophy'}
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', textAlign: 'justify', maxWidth: '1200px', margin: '0 auto' }}>
-            {mainParagraphs.map((para, i) => (
-              <p key={i} style={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--text-muted)', fontWeight: 400, textAlign: 'justify' }}>
-                {para}
-              </p>
-            ))}
+            <ExpandableText 
+              paragraphs={mainParagraphs} 
+              textStyle={{ fontSize: '1.1rem', lineHeight: 1.8, color: 'var(--text-muted)', fontWeight: 400, textAlign: 'justify' }} 
+            />
           </div>
         </section>
 
@@ -164,11 +164,10 @@ export default async function AboutPage() {
               {sec2.text || 'Once Upon a Time'}
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', textAlign: 'justify' }}>
-              {sec2Paragraphs.map((para, i) => (
-                <p key={i} style={{ fontSize: '1rem', lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: '16px', fontWeight: 400, textAlign: 'justify' }}>
-                  {para}
-                </p>
-              ))}
+              <ExpandableText 
+                paragraphs={sec2Paragraphs} 
+                textStyle={{ fontSize: '1rem', lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: '16px', fontWeight: 400, textAlign: 'justify' }} 
+              />
             </div>
           </div>
         </section>
@@ -190,11 +189,10 @@ export default async function AboutPage() {
               {sec3.text || 'A Logo That Represents the Story of Luxe-Verve'}
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', textAlign: 'justify' }}>
-              {sec3Paragraphs.map((para, i) => (
-                <p key={i} style={{ fontSize: '1rem', lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: '16px', fontWeight: 400, textAlign: 'justify' }}>
-                  {para}
-                </p>
-              ))}
+              <ExpandableText 
+                paragraphs={sec3Paragraphs} 
+                textStyle={{ fontSize: '1rem', lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: '16px', fontWeight: 400, textAlign: 'justify' }} 
+              />
             </div>
           </div>
           <div className="hover-3d-wrapper" style={{ flex: '1 1 400px', maxWidth: '600px' }}>
@@ -210,7 +208,7 @@ export default async function AboutPage() {
 
         {/* Stats Section */}
         <section style={{ 
-          background: '#000000', 
+          background: '#2A160D', 
           padding: '80px 20px', 
           borderRadius: '40px',
           boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
@@ -227,8 +225,8 @@ export default async function AboutPage() {
           }}>
             {stats.map((stat, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-                <p style={{ fontFamily: 'var(--font-knockout)', fontSize: '4.5rem', fontWeight: 400, color: '#ffffff', lineHeight: 1 }}>{stat.number}</p>
-                <p style={{ marginTop: '16px', color: '#ffffff', fontSize: '1rem', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 500 }}>{stat.label}</p>
+                <p style={{ fontFamily: 'var(--font-knockout)', fontSize: '4.5rem', fontWeight: 400, color: '#E9D7C3', lineHeight: 1 }}>{stat.number}</p>
+                <p style={{ marginTop: '16px', color: '#E9D7C3', fontSize: '1rem', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 500 }}>{stat.label}</p>
               </div>
             ))}
           </div>

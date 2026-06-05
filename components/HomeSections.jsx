@@ -1,6 +1,7 @@
 "use client";
 import './HomeSections.css';
 import { useState, useEffect, useRef } from 'react';
+import ExpandableText from './ExpandableText';
 
 const HomeSections = ({ content = [] }) => {
   const sec1 = content.find(i => i.title === 'home_section1');
@@ -69,9 +70,7 @@ const HomeSections = ({ content = [] }) => {
           <div className="home-section-content left-content">
             <h2 className="section-heading">{section1.title}</h2>
             <div className="section-text">
-              {section1.text.split('\n').filter(p => p.trim()).map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
+              <ExpandableText paragraphs={section1.text.split('\n').filter(p => p.trim())} />
             </div>
           </div>
           <div className="home-section-media right-media">
@@ -92,9 +91,7 @@ const HomeSections = ({ content = [] }) => {
           <div className="home-section-content right-content">
             <h2 className="section-heading">{section2.title}</h2>
             <div className="section-text">
-              {section2.text.split('\n').filter(p => p.trim()).map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
+              <ExpandableText paragraphs={section2.text.split('\n').filter(p => p.trim())} />
             </div>
           </div>
         </div>
@@ -106,9 +103,7 @@ const HomeSections = ({ content = [] }) => {
           <div className="home-section-content left-content">
             <h2 className="section-heading">{section3.title}</h2>
             <div className="section-text">
-              {section3.text.split('\n').filter(p => p.trim()).map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
+              <ExpandableText paragraphs={section3.text.split('\n').filter(p => p.trim())} />
             </div>
           </div>
           <div className="home-section-media right-media">

@@ -69,10 +69,28 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
     // Users subsections
     "user_inquiries": true,
     "user_subscribers": false,
-    // Footer subsection
-    "footer_config": true,
+    // Footer subsections
     "navbar_logo": false,
+    "footer_config": false
   });
+
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  const handlePublish = async () => {
+    setIsPublishing(true);
+    try {
+      const res = await fetch('/api/revalidate', { method: 'POST' });
+      if (res.ok) {
+        alert("Changes published successfully & website regenerated across global edge nodes!");
+      } else {
+        alert("Failed to publish changes.");
+      }
+    } catch (e) {
+      alert("Error occurred while publishing changes.");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
 
   const toggleSubsection = (id) => {
     setExpandedSubsections(prev => ({
@@ -685,8 +703,8 @@ export default function AdminDashboard({ user, handleSignOutAction }) {
             <h2>{tabs.find(t => t.id === activeTab)?.label} Settings</h2>
             <p>Customize and manage the elements of the {activeTab} layout.</p>
           </div>
-          <button className="publish-btn" onClick={() => alert("Changes published successfully & regenerated website via ISR!")}>
-            Publish Live
+          <button className="publish-btn" onClick={handlePublish} disabled={isPublishing} style={{ opacity: isPublishing ? 0.7 : 1 }}>
+            {isPublishing ? 'Publishing...' : 'Publish Live'}
           </button>
         </div>
 

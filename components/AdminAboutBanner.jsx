@@ -44,7 +44,7 @@ export default function AdminAboutBanner({ expanded, onToggle }) {
     if (file) {
       form.append("file", file);
     } else if (data.url) {
-       form.append("reqUrl", data.url); 
+       form.append("url", data.url); 
     }
 
     const method = data.id ? "PATCH" : "POST";

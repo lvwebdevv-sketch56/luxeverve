@@ -101,7 +101,7 @@ export default function AdminBlogPosts({ expanded, onToggle }) {
       form.append("file", editingPost.file);
     } else if (editingPost.url) {
       form.append("url", editingPost.url);
-      if(editingPost.id) form.append("reqUrl", editingPost.url);
+      if(editingPost.id) form.append("url", editingPost.url);
     }
 
     const method = editingPost.id ? "PATCH" : "POST";

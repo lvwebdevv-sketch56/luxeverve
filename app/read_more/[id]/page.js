@@ -2,7 +2,7 @@ import clientPromise from '@/lib/mongodb';
 import { posts as fallbackPosts } from '@/lib/blogData';
 import Link from 'next/link';
 
-export const revalidate = 0; // Force Next.js to always fetch fresh data from Firestore
+export const revalidate = 3600; // Cache for 1 hour, revalidated on demand
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
