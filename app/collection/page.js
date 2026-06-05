@@ -202,7 +202,7 @@ export default async function CollectionPage() {
         }
         @media (max-width: 900px) {
           .collection-hero-wrapper {
-            height: 50vh !important;
+            height: 90vh !important;
             min-height: auto !important;
           }
           .collection-hero-content {
