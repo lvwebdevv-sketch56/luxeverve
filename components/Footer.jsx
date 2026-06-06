@@ -158,7 +158,7 @@ const Footer = () => {
           </div>
 
           {/* Column 2 — Navigation */}
-          <div className="footer-col">
+          <div className="footer-col footer-col--nav">
             <h4 className="footer-col-heading">{data.navHeading}</h4>
             <ul className="footer-link-list">
               {data.navLinks.map((link) => (
@@ -173,8 +173,8 @@ const Footer = () => {
           </div>
 
 
-          {/* Column 4 — Contact */}
-          <div className="footer-col">
+          {/* Column 3 — Contact */}
+          <div className="footer-col footer-col--contact">
             <h4 className="footer-col-heading">{data.contactHeading}</h4>
             <ul className="footer-contact-list">
               <li className="footer-contact-item">

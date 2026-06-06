@@ -162,6 +162,17 @@
   flex-direction: column;
 }
 
+/* ── Nav Column Spacing ── */
+.footer-col--nav {
+  margin: 0 auto;
+}
+
+/* ── Contact Column Spacing ── */
+.footer-col--contact {
+  margin-left: 2rem;
+  padding-left: 1rem;
+}
+
 .footer-col-heading {
   font-family: var(--font-nav);
   font-size: 0.68rem;

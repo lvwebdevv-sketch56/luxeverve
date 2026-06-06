@@ -91,7 +91,7 @@ export default async function CollectionPage() {
       {/* First Section (Hero) */}
       <section style={{
         position: 'relative',
-        width: '100vw',
+        width: '100%',
         backgroundImage: `url(${banner.url})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -199,11 +199,12 @@ export default async function CollectionPage() {
         __html: `
         .collection-hero-wrapper {
           height: 100vh;
+          width: 100%;
         }
         @media (max-width: 900px) {
           .collection-hero-wrapper {
-            height: 90vh !important;
-            min-height: auto !important;
+            height: 100vh !important;
+            min-height: 100vh !important;
           }
           .collection-hero-content {
             max-width: 90vw !important;
