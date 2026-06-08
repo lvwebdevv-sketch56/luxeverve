@@ -41,14 +41,14 @@ const HomeSections = ({ content = [] }) => {
       entries.forEach(entry => {
         const video = entry.target;
         if (entry.isIntersecting) {
-          // Play video when 50% visible (with sound). Catch error if browser blocks autoplay.
+          // Play video when visible. Catch error if browser blocks autoplay.
           video.play().catch(e => console.log("Autoplay blocked by browser:", e));
         } else {
           // Pause when not visible
           video.pause();
         }
       });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.2 });
 
     videoRefs.current.forEach(video => {
       if (video) observer.observe(video);
@@ -74,7 +74,7 @@ const HomeSections = ({ content = [] }) => {
             </div>
           </div>
           <div className="home-section-media right-media">
-            <video key={section1.url} ref={el => videoRefs.current[0] = el} className="static-media" controls poster={section1.thumbnailUrl}>
+            <video key={section1.url} ref={el => videoRefs.current[0] = el} className="static-media" controls muted playsInline poster={section1.thumbnailUrl}>
               <source src={section1.url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
@@ -107,7 +107,7 @@ const HomeSections = ({ content = [] }) => {
             </div>
           </div>
           <div className="home-section-media right-media">
-            <video key={section3.url} ref={el => videoRefs.current[1] = el} className="static-media" controls poster={section3.thumbnailUrl}>
+            <video key={section3.url} ref={el => videoRefs.current[1] = el} className="static-media" controls muted playsInline poster={section3.thumbnailUrl}>
               <source src={section3.url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>

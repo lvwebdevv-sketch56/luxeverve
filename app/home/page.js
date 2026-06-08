@@ -3,7 +3,7 @@ import HomeSections from '@/components/HomeSections';
 import clientPromise from '@/lib/mongodb';
 
 export const metadata = {
-  title: 'Luxury Designer Doors in Noida | Premium Wooden Doors',
+  title: 'Doors You Deserve',
   description: 'Explore premium luxury wooden doors by Luxe Verve. Customized designer entrance, interior, and CNC doors for villas, apartments, and luxury spaces in Noida & Delhi NCR.',
 };
 
