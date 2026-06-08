@@ -9,11 +9,6 @@ export const metadata = {
     template: '%s | Luxe Verve',
     default: 'Doors You Deserve',
   },
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
-  },
   description: 'Explore premium luxury wooden doors by Luxe Verve. Customized designer entrance, interior, CNC, and exterior doors for villas, apartments, offices, and luxury spaces in Noida & Delhi NCR.',
   keywords: ['luxury doors Noida', 'premium wooden doors', 'designer CNC doors', 'custom entrance doors', 'modern luxury wooden doors', 'pivot doors India', 'Luxe Verve'],
   openGraph: {
