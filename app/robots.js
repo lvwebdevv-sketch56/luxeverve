@@ -5,7 +5,7 @@ export default function robots() {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/adminpixy/', '/api/', '/7a3b9f/'], // Block search engines from admin panel, APIs, and sign-up
+      disallow: ['/adminpixy/', '/api/', '/7a3b9f/', '/sign-in/'], // Block search engines from admin panel, APIs, sign-up, and sign-in
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   };
