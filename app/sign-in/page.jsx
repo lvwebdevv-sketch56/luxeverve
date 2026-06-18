@@ -59,7 +59,7 @@ function SignInContent() {
       }
 
       toast.success("Signed in successfully.");
-      router.push("/adminpixy");
+      router.push("/ops.admin");
     } catch (error) {
       console.error("Sign-in error:", error);
       toast.error("Incorrect email or password. Please try again.");
