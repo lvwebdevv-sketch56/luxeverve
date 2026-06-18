@@ -27,6 +27,11 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  verification: {
+    other: {
+      'msvalidate.01': ['AABB4757EF844B5782C83FA6ABEF00D9'],
+    },
   }
 };
 
