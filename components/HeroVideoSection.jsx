@@ -61,8 +61,12 @@ const HeroVideoSection = ({ content = [] }) => {
     }
 
     // Immediate check for cached video
-    if (videoRef.current && videoRef.current.readyState >= 3) {
-      setVideoLoaded(true);
+    if (videoRef.current) {
+      if (videoRef.current.readyState >= 3) {
+        setVideoLoaded(true);
+      }
+      // Force play programmatically for iOS devices that ignore the autoPlay attribute
+      videoRef.current.play().catch(e => console.log("Autoplay prevented:", e));
     }
 
     return () => {
